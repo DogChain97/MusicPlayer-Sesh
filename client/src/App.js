@@ -2,7 +2,7 @@ import Login from './login';
 import Register from './register';
 import Home from './home';
 import Genre from './genre';
-import Playlist from './playlist';
+import CreatePlaylist from './createPlaylist';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/home" element={<Home/>} />
         <Route path="/genre" element={<Genre/>} />
-        <Route path="/playlist" element={<Playlist/>} />
+        <Route path="/createPlaylist" element={<CreatePlaylist/>} />
       </Routes>
     </div>
   );
