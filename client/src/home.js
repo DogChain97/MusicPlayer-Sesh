@@ -16,10 +16,10 @@ function Home (){
     return (
         <div className={homeCSS.main}>
             <div className={homeCSS.leftPanel}>
-                <h1 className={homeCSS.brand}><img src={logo} />SESH</h1>
-                <h2 className={homeCSS.tabName}><a className={homeCSS.active} href='/home'><img className={homeCSS.tabs} src={home} />Home</a></h2>
-                <h2 className={homeCSS.tabName}><a href='/genre'><img className={homeCSS.tabs} src={genre} />Genre</a></h2>
-                <h2 className={homeCSS.tabName}><a href='/createPlaylist'><img className={homeCSS.tabs} src={playlist} />Create Playlist</a></h2>
+                <h1 className={homeCSS.brand}><img src={logo} alt='logo'/>SESH</h1>
+                <h2 className={homeCSS.tabName}><a className={homeCSS.active} href='/home'><img className={homeCSS.tabs} src={home} alt='home' />Home</a></h2>
+                <h2 className={homeCSS.tabName}><a href='/genre'><img className={homeCSS.tabs} src={genre} alt='genre'/>Genre</a></h2>
+                <h2 className={homeCSS.tabName}><a href='/createPlaylist'><img className={homeCSS.tabs} src={playlist} alt='create'/>Create Playlist</a></h2>
             </div>
 
             <div className={homeCSS.rightPanel}>
@@ -51,6 +51,9 @@ function Home (){
                                 <Col className={homeCSS.gridColumn}>
                                     <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
                                 </Col>
+                                <Col className={homeCSS.gridColumn}>
+                                    <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
+                                </Col>
                             </Row>
                             <Row >
                                 <Col className={homeCSS.gridColumn}>
@@ -61,6 +64,9 @@ function Home (){
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
                                     <SongCard img={jackboys} title='Song 3' artist='Artist 3' genre='Genre 3' />
+                                </Col>
+                                <Col className={homeCSS.gridColumn}>
+                                    <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
                                     <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
