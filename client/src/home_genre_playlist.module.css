@@ -52,7 +52,7 @@ a:hover {
 .searchBox {
     display: inline-block;
     position: relative;
-    left: 50px;
+    left: 30px;
     bottom: 10px;
 }
 
@@ -140,7 +140,6 @@ a:hover {
     width: 800px;
     position: relative;
     bottom: 120px;
-    left: 50px;
     font-size: 150px;
     font-weight: bold;
     background-color: transparent;
@@ -153,6 +152,7 @@ a:hover {
 /*///////////////////////////////CONTENT/////////////////////////////////////////////*/
 .playlistContentPanel {
     width: 100%;
+    height: 100%;
     position: absolute;
     top: 350px;
     color: white;
@@ -168,15 +168,13 @@ a:hover {
 }
 
 .contentTitle {
-    position: relative;
     width: 50%;
-    left: 30px;
-    padding: 50px 0 30px 0;
+    padding: 50px 0 30px 30px;
 }
 
 .welcomeText {
-    text-align: center;
-    padding-top: 20px;
+    text-align: left;
+    padding: 20px 0 0 30px;
 }
 
 .gridColumn {
@@ -188,18 +186,22 @@ a:hover {
 
 .card {
     background-color: #1B0025;
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
-    left: 60px;
+    left: 20px;
+    transition: 0.5s;
+}
+
+.card:hover {
+    background-color: #300658;
 }
 
 .cardImg {
-    height: 170px;
-    width: 170px;
-    position: relative;
-    right: 0px;
-    top: 10px;
-    border-radius: 10px;
+    height: 190px;
+    width: 190px;
+    margin: 22px 0 0 22px;
+    border-radius: 5px;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2), 0 15px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 p {

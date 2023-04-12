@@ -6,7 +6,7 @@ function SongCard (props) {
 
     return (
         <a>
-        <Card className={songCardCSS.card} style={{ width: '12rem' }}>
+        <Card className={songCardCSS.card} style={{ width: '14rem' }}>
             <Card.Img variant="top" src={props.img} className={songCardCSS.cardImg} />
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
