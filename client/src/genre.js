@@ -64,6 +64,7 @@ function Genre (){
                     </div>                
                 </div>
             </div>            
+            
         </div>
     )
 }
