@@ -6,13 +6,15 @@
 .logout {
     text-align: right;
     background-color: #7604A3;
+    margin: 0 0 50px 0;
 }
 
 .title {
     text-align: left;
     display: inline-block;
     position: relative;
-    right: 1170px;
+    right: 1140px;
+    top: 10px;
     font-size: 3rem;
     font-weight: bold;
 }
@@ -21,9 +23,13 @@
     background-color: #1B0025;
     position: relative;
     width: 100px;
-    right: 140px;
+    right: 120px;
 }
 
 .logout button:hover {
     color: #5A378C;
+}
+
+hr {
+    background-color: white;
 }

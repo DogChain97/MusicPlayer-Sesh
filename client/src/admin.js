@@ -19,6 +19,9 @@ function Admin(){
     const [songArtistID, setSongArtistID] = useState('');
     const [operation, setOperation] = useState('')
     const [loginStatus, setLoginStatus] = useState('');
+    const [artistOperationStatus, setArtistOperationStatus] = useState('')
+    const [genreOperationStatus, setGenreOperationStatus] = useState('')
+    const [songOperationStatus, setSongOperationStatus] = useState('')
 
     const navigate = useNavigate();
     Axios.defaults.withCredentials = true
@@ -32,7 +35,7 @@ function Admin(){
         artistName: artistName, 
         artistImage: artistImage
         }).then((response) => {
-            console.log(response.data.message)
+            setArtistOperationStatus(response.data.message)
         })
     }
 
@@ -45,7 +48,7 @@ function Admin(){
         artistName: artistName, 
         artistImage: artistImage
         }).then((response) => {
-            console.log(response.data.message)
+            setArtistOperationStatus(response.data.message)
         })
     }
 
@@ -57,7 +60,7 @@ function Admin(){
         operation: operation,
         artistName: artistName
         }).then((response) => {
-            console.log(response.data.message)
+            setArtistOperationStatus(response.data.message)
         })
     }
 
@@ -71,7 +74,7 @@ function Admin(){
         genreName: genreName, 
         genreImage: genreImage
         }).then((response) => {
-            console.log(response.data.message)
+            setGenreOperationStatus(response.data.message)
         })
     }
 
@@ -84,7 +87,7 @@ function Admin(){
         genreName: genreName, 
         genreImage: genreImage
         }).then((response) => {
-            console.log(response.data.message)
+            setGenreOperationStatus(response.data.message)
         })
     }
 
@@ -96,7 +99,7 @@ function Admin(){
         operation: operation,
         genreName: genreName
         }).then((response) => {
-            console.log(response.data.message)
+            setGenreOperationStatus(response.data.message)
         })
     }
 
@@ -113,7 +116,7 @@ function Admin(){
         songGenreID: songGenreID,
         songArtistID: songArtistID
         }).then((response) => {
-            console.log(response.data.message)
+            setSongOperationStatus(response.data.message)
         })
     }
 
@@ -127,7 +130,7 @@ function Admin(){
         songImage: songImage,
         songUrl: songUrl
         }).then((response) => {
-            console.log(response.data.message)
+            setSongOperationStatus(response.data.message)
         })
     }
 
@@ -139,10 +142,11 @@ function Admin(){
         operation: operation,
         songName: songName
         }).then((response) => {
-            console.log(response.data.message)
+            setSongOperationStatus(response.data.message)
         })
     }
 
+    // Logout Function
     const logout = () => {
         setLoginStatus(false)
         Axios.post('http://localhost:7000/admin', {
@@ -168,8 +172,10 @@ function Admin(){
             <button onClick={logout}>Logout</button>
          </div>
          <Container>
+            
             <Row>
             <h1>Artist</h1>
+            <br/><br/><br/>
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Add:</h2>
@@ -203,10 +209,16 @@ function Admin(){
                             <button onClick={deleteArtist}>Delete Artist</button>
                     </div>
                 </Col>
+                <h2>{artistOperationStatus}</h2>
+                <hr/>
             </Row>
+            
             <br/>
+            
             <Row>
+            <br/>
             <h1>Genre</h1>
+            <br/><br/><br/>
                 <Col>
                     <h2>Add:</h2>
                     <input type='text' placeholder='name' onChange={(e)=>{
@@ -235,10 +247,16 @@ function Admin(){
                     }}/><br/>
                     <button onClick={deleteGenre}>Delete Genre</button>
                 </Col>
+                <h2>{genreOperationStatus}</h2>
+                <hr/>
             </Row>
+
             <br/>
+            
             <Row>
+            <br/>
             <h1>Song</h1>
+            <br/><br/><br/>
                 <Col>
                     <h2>Add:</h2>
                     <input type='text' placeholder='name' onChange={(e)=>{
@@ -279,6 +297,7 @@ function Admin(){
                     }}/><br/>
                     <button onClick={deleteSong}>Delete Song</button>
                 </Col>
+                <h2>{songOperationStatus}</h2>
             </Row>
          </Container>
     </div>
