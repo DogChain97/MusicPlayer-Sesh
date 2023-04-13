@@ -1,0 +1,29 @@
+.main {
+    background-color: black;
+    color: white;
+}
+
+.logout {
+    text-align: right;
+    background-color: #7604A3;
+}
+
+.title {
+    text-align: left;
+    display: inline-block;
+    position: relative;
+    right: 1170px;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.logout button {
+    background-color: #1B0025;
+    position: relative;
+    width: 100px;
+    right: 140px;
+}
+
+.logout button:hover {
+    color: #5A378C;
+}

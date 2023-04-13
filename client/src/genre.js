@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import genreCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
@@ -8,11 +10,22 @@ import jackboys from './assets/jackboys.png';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
 import SongCard from './components/songCard';
 
 function Genre (){
+    const navigate = useNavigate();
+    const [user, setUser] = useState('')
 
+    Axios.defaults.withCredentials = true
+    useEffect(() => {
+        Axios.get('http://localhost:7000/genre').then((response) => {
+            if(response.data.loggedIn === true){
+                setUser(response.data.user[0].u_name)
+            }else{
+                navigate("/")
+            }
+        })
+    }, [])
     return (
         <div className={genreCSS.main}>
             <div className={genreCSS.leftPanel}>

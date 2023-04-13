@@ -3,6 +3,7 @@ import Register from './register';
 import Home from './home';
 import Genre from './genre';
 import CreatePlaylist from './createPlaylist';
+import Admin from './admin';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/home" element={<Home/>} />
         <Route path="/genre" element={<Genre/>} />
         <Route path="/createPlaylist" element={<CreatePlaylist/>} />
+        <Route path='/admin' element={<Admin/>}/>
       </Routes>
     </div>
   );

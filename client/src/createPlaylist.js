@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import createPlaylistCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
@@ -6,7 +8,19 @@ import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
 
 function CreatePlaylist (){
+    const navigate = useNavigate();
+    const [user, setUser] = useState('')
 
+    Axios.defaults.withCredentials = true
+    useEffect(() => {
+        Axios.get('http://localhost:7000/createPlaylist').then((response) => {
+            if(response.data.loggedIn === true){
+                setUser(response.data.user[0].u_name)
+            }else{
+                navigate("/")
+            }
+        })
+    }, [])
     return (
         <div className={createPlaylistCSS.main}>
             <div className={createPlaylistCSS.leftPanel}>

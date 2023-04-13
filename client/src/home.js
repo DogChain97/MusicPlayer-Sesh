@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import homeCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/homeActive.png';
@@ -12,6 +14,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 function Home (){
+    const navigate = useNavigate();
+    const [user, setUser] = useState('')
+
+    Axios.defaults.withCredentials = true
+    useEffect(() => {
+        Axios.get('http://localhost:7000/home').then((response) => {
+            if(response.data.loggedIn === true){
+                setUser(response.data.user[0].u_name)
+            }else{
+                navigate("/")
+            }
+        })
+    }, [])
 
     return (
         <div className={homeCSS.main}>
@@ -25,13 +40,13 @@ function Home (){
             <div className={homeCSS.rightPanel}>
                 <div className={homeCSS.searchPanel}>
                     <SearchBar/>
-                    <button className={homeCSS.logout}>A</button>
+                    <button className={homeCSS.logout}>{user.charAt(0)}</button>
                 </div>
 
                 <div className={homeCSS.contentPanel}>
                     
                     <div className={homeCSS.welcomeText}>
-                        <h1>Hello, Abhishek</h1>
+                        <h1>Hello, {user}</h1>
                         <p>Hope you have a good sesh!</p>
                     </div>
                 

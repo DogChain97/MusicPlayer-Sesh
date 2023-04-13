@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import loginCSS from './login_registration.module.css';
 import logo from './assets/sesh_white.png';
 
@@ -10,6 +11,8 @@ function Login(){
     const [toggle, setToggle] = useState('SHOW')
     const [loginStatus, setLoginStatus] = useState('');
 
+    const navigate = useNavigate();
+
     Axios.defaults.withCredentials = true
     const login = () => {
         Axios.post('http://localhost:7000/login', {
@@ -17,10 +20,15 @@ function Login(){
         password: password
         }).then((response) => {
             console.log(response.data)
-            if(response.data.message){
-                setLoginStatus(response.data.message);
+            if(response.data.admin){
+                navigate('/admin')
             }else{
-                setLoginStatus("Welcome "+response.data[0].u_name);
+                if(response.data.message){
+                    setLoginStatus(response.data.message);
+                }else{
+                    navigate("/home")
+                    setLoginStatus("Welcome "+response.data[0].u_name);
+                }
             }
         })
     }
