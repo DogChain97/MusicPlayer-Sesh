@@ -32,7 +32,7 @@ function CreatePlaylist (){
 
             <div className={createPlaylistCSS.rightPanel}>
                 <div className={createPlaylistCSS.createPlaylistSearchPanel}>
-                    <button className={createPlaylistCSS.createPlaylistLogout}>A</button>
+                    <button className={createPlaylistCSS.createPlaylistLogout}>{user.charAt(0)}</button>
                     <br/>
                     <button className={createPlaylistCSS.playlistName}>My Playlist</button>
                 </div>

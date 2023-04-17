@@ -6,7 +6,6 @@ import logo from './assets/sesh_white.png';
 import home from './assets/homeActive.png';
 import genre from './assets/menu.png';
 import playlist from './assets/playlist.png';
-import jackboys from './assets/jackboys.png';
 import SearchBar from './components/searchBar';
 import SongCard from './components/songCard';
 import Container from 'react-bootstrap/Container';
@@ -16,17 +15,32 @@ import Col from 'react-bootstrap/Col';
 function Home (){
     const navigate = useNavigate();
     const [user, setUser] = useState('')
+    const [images, setImages] = useState([])
+    const [songs, setSongs] = useState([])
+    const [artists, setArtists] = useState([])
+    const [genres, setGenres] = useState([])
+    const [currentSongImg, setCurrentSongImg] = useState()
+    const [isShown, setIsShown] = useState(false);
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
         Axios.get('http://localhost:7000/home').then((response) => {
             if(response.data.loggedIn === true){
                 setUser(response.data.user[0].u_name)
+                setImages(response.data.images)
+                setSongs(response.data.songs)
+                setArtists(response.data.artists)
+                setGenres(response.data.genres)
             }else{
                 navigate("/")
             }
         })
     }, [])
+
+    const songClicked = (e) => {
+        setIsShown(true);
+        setCurrentSongImg(e.target.src);
+    }
 
     return (
         <div className={homeCSS.main}>
@@ -55,42 +69,47 @@ function Home (){
                         <Container>
                             <Row >
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 1' artist='Artist 1' genre='Genre 1' />
+                                    <SongCard img={images[0]} title={songs[0]} artist={artists[0]} genre={genres[0]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 2' artist='Artist 2' genre='Genre 2' />
+                                    <SongCard img={images[9]} title={songs[9]} artist={artists[9]} genre={genres[9]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 3' artist='Artist 3' genre='Genre 3' />
+                                    <SongCard img={images[16]} title={songs[16]} artist={artists[16]} genre={genres[16]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
+                                    <SongCard img={images[7]} title={songs[7]} artist={artists[7]} genre={genres[7]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
+                                    <SongCard img={images[11]} title={songs[11]} artist={artists[11]} genre={genres[11]} onClick={songClicked}/>
                                 </Col>
                             </Row>
                             <Row >
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 1' artist='Artist 1' genre='Genre 1' />
+                                    <SongCard img={images[26]} title={songs[26]} artist={artists[26]} genre={genres[26]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 2' artist='Artist 2' genre='Genre 2' />
+                                    <SongCard img={images[34]} title={songs[34]} artist={artists[34]} genre={genres[34]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 3' artist='Artist 3' genre='Genre 3' />
+                                    <SongCard img={images[35]} title={songs[35]} artist={artists[35]} genre={genres[35]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
+                                    <SongCard img={images[21]} title={songs[21]} artist={artists[21]} genre={genres[21]} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Song 4' artist='Artist 4' genre='Genre 4' />
+                                    <SongCard img={images[19]} title={songs[19]} artist={artists[19]} genre={genres[19]} onClick={songClicked}/>
                                 </Col>
                             </Row>
                         </Container>
                     </div>                
                 </div>
-            </div>            
+            </div>   
+            {isShown && 
+            <div className={homeCSS.musicControls}>
+                <img className={homeCSS.currentSongImg} src={currentSongImg}/>
+            </div>  
+            }       
         </div>
     )
 }

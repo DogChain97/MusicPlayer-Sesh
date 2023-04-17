@@ -4,6 +4,8 @@ import Home from './home';
 import Genre from './genre';
 import CreatePlaylist from './createPlaylist';
 import Admin from './admin';
+import GenreSongs from './genreSongs';
+import ArtistSongs from './artistSongs';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/genre" element={<Genre/>} />
         <Route path="/createPlaylist" element={<CreatePlaylist/>} />
         <Route path='/admin' element={<Admin/>}/>
+        <Route path='/genre/:param' element={<GenreSongs/>} />
+        <Route path='/artist/:param' element={<ArtistSongs/>} />
       </Routes>
     </div>
   );

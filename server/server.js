@@ -159,8 +159,27 @@ app.post("/register", function(req, res){
 
 // Handling Home Page GET Request
 app.get("/home", function(req, res){
+    
+    const images = []
+    const songs = []
+    const artists = []
+    const genres = []
+
     if(req.session.user){
-        res.send({loggedIn: true, user: req.session.user})
+        db.query("SELECT s_img,s_name,a_name,g_name FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id ORDER BY s_name;", (err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                for(let i = 0; i < result.length; i++){
+                    images.push(result[i].s_img)
+                    songs.push(result[i].s_name)
+                    artists.push(result[i].a_name)
+                    genres.push(result[i].g_name)
+                }
+            }
+            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, artists: artists, genres: genres})
+        })
+        
     }else{
         res.send({loggedIn: false})
     }
@@ -168,8 +187,22 @@ app.get("/home", function(req, res){
 
 // Handling Genre Page GET Request
 app.get("/genre", function(req, res){
+    
+    const images = []
+    const genres = []
+    
     if(req.session.user){
-        res.send({loggedIn: true, user: req.session.user})
+        db.query("SELECT g_img, g_name FROM genre;", (err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                for(let i = 0; i < result.length; i++){
+                    images.push(result[i].g_img)
+                    genres.push(result[i].g_name)
+                }
+            }
+            res.send({loggedIn: true, user: req.session.user, images: images, genres: genres})
+        })
     }else{
         res.send({loggedIn: false})
     }
@@ -183,6 +216,61 @@ app.get("/createPlaylist", function(req, res){
         res.send({loggedIn: false})
     }
 })
+
+// Genre Songs Page GET Request
+app.get("/genre/:param", function(req, res){
+    const images = []
+    const songs = []
+    const artists = []
+    var genreImg = ''
+
+    const genre = req.params.param;
+    if(req.session.user){
+        db.query("SELECT s_img,s_name,a_name,g_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE g_name='"+genre+"' ORDER BY s_name;", (err, result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                for(let i = 0; i < result.length; i++){
+                    images.push(result[i].s_img)
+                    songs.push(result[i].s_name)
+                    artists.push(result[i].a_name)
+                }
+                genreImg = result[0].g_img
+            }
+            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, artists: artists, genreImg: genreImg})
+        })
+    }else{
+        res.send({loggedIn: false})
+    }
+})
+
+// Artist Songs Page GET Request
+app.get("/artist/:param", function(req, res){
+    const images = []
+    const songs = []
+    const genres = []
+    var artistImg = ''
+
+    const artist = req.params.param;
+    if(req.session.user){
+        db.query("SELECT s_img,s_name,g_name,a_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE a_name='"+artist+"' ORDER BY s_name;", (err, result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                for(let i = 0; i < result.length; i++){
+                    images.push(result[i].s_img)
+                    songs.push(result[i].s_name)
+                    genres.push(result[i].g_name)
+                }
+                artistImg = result[0].a_img
+            }
+            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, genres: genres, artistImg: artistImg})
+        })
+    }else{
+        res.send({loggedIn: false})
+    }
+})
+
 // ///////////////////////////////////////////////////ADMIN///////////////////////////////////////////////
 // Handling Admin POST Request
 app.post("/admin", function(req,res){
@@ -239,10 +327,10 @@ app.post("/admin", function(req,res){
             
         }
         else if(operation === 'delete'){
-            const artistName = req.body.artistName;
+            const artistID = req.body.artistID;
 
-            db.query("DELETE FROM artist WHERE a_name=?;",
-            artistName,
+            db.query("DELETE FROM artist WHERE a_id=?;",
+            artistID,
             (err, result)=>{
                 if(err){
                     res.send({message: "Artist doesn't exist"});
@@ -302,10 +390,10 @@ app.post("/admin", function(req,res){
             }
         }
         else if(operation === 'delete'){
-            const genreName = req.body.genreName;
+            const genreID = req.body.genreID;
 
-            db.query("DELETE FROM genre WHERE g_name=?;",
-            genreName,
+            db.query("DELETE FROM genre WHERE g_id=?;",
+            genreID,
             (err, result)=>{
                 if(err){
                     res.send({message: "Genre doesn't exist"});
@@ -369,10 +457,10 @@ app.post("/admin", function(req,res){
             }
         }
         else if(operation === 'delete'){
-            const songName = req.body.songName;
+            const songID = req.body.songID;
 
-            db.query("DELETE FROM song WHERE s_name=?;",
-            songName,
+            db.query("DELETE FROM song WHERE s_id=?;",
+            songID,
             (err, result)=>{
                 if(err){
                     res.send({message: "Song doesn't exist"});

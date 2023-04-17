@@ -22,6 +22,9 @@ function Admin(){
     const [artistOperationStatus, setArtistOperationStatus] = useState('')
     const [genreOperationStatus, setGenreOperationStatus] = useState('')
     const [songOperationStatus, setSongOperationStatus] = useState('')
+    const [genreID, setGenreID] = useState('')
+    const [artistID, setArtistID] = useState('')
+    const [songID, setSongID] = useState('')
 
     const navigate = useNavigate();
     Axios.defaults.withCredentials = true
@@ -58,7 +61,7 @@ function Admin(){
         Axios.post('http://localhost:7000/admin', {
         table: table,
         operation: operation,
-        artistName: artistName
+        artistID: artistID
         }).then((response) => {
             setArtistOperationStatus(response.data.message)
         })
@@ -97,7 +100,7 @@ function Admin(){
         Axios.post('http://localhost:7000/admin', {
         table: table,
         operation: operation,
-        genreName: genreName
+        genreID: genreID
         }).then((response) => {
             setGenreOperationStatus(response.data.message)
         })
@@ -140,7 +143,7 @@ function Admin(){
         Axios.post('http://localhost:7000/admin', {
         table: table,
         operation: operation,
-        songName: songName
+        songID: songID
         }).then((response) => {
             setSongOperationStatus(response.data.message)
         })
@@ -203,8 +206,8 @@ function Admin(){
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Delete:</h2>
-                            <input type='text' placeholder='name' onChange={(e)=>{
-                            setArtistName(e.target.value);
+                            <input type='text' placeholder='artist ID' onChange={(e)=>{
+                            setArtistID(e.target.value);
                             }}/><br/>
                             <button onClick={deleteArtist}>Delete Artist</button>
                     </div>
@@ -242,8 +245,8 @@ function Admin(){
                 </Col>
                 <Col>
                     <h2>Delete:</h2>
-                    <input type='text' placeholder='name' onChange={(e)=>{
-                    setGenreName(e.target.value);
+                    <input type='text' placeholder='genre ID' onChange={(e)=>{
+                    setGenreID(e.target.value);
                     }}/><br/>
                     <button onClick={deleteGenre}>Delete Genre</button>
                 </Col>
@@ -292,8 +295,8 @@ function Admin(){
                 </Col>
                 <Col>
                     <h2>Delete:</h2>
-                    <input type='text' placeholder='name' onChange={(e)=>{
-                    setSongName(e.target.value);
+                    <input type='text' placeholder='song ID' onChange={(e)=>{
+                    setSongID(e.target.value);
                     }}/><br/>
                     <button onClick={deleteSong}>Delete Song</button>
                 </Col>

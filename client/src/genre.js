@@ -6,7 +6,6 @@ import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
 import genre from './assets/menuActive.png';
 import playlist from './assets/playlist.png';
-import jackboys from './assets/jackboys.png';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,12 +14,16 @@ import SongCard from './components/songCard';
 function Genre (){
     const navigate = useNavigate();
     const [user, setUser] = useState('')
+    const [images, setImages] = useState([])
+    const [genres, setGenres] = useState([])
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
         Axios.get('http://localhost:7000/genre').then((response) => {
             if(response.data.loggedIn === true){
                 setUser(response.data.user[0].u_name)
+                setImages(response.data.images)
+                setGenres(response.data.genres)
             }else{
                 navigate("/")
             }
@@ -37,7 +40,7 @@ function Genre (){
 
             <div className={genreCSS.rightPanel}>
                 <div className={genreCSS.genreSearchPanel}>
-                    <button className={genreCSS.genreLogout}>A</button>
+                    <button className={genreCSS.genreLogout}>{user.charAt(0)}</button>
                 </div>
 
                 <div className={genreCSS.contentPanel}>
@@ -47,30 +50,30 @@ function Genre (){
                         <Container>
                             <Row >
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 1'/>
+                                    <SongCard img={images[0]} title={genres[0]} to={`/genre/${genres[0]}`}/>
                                 </Col>
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 2'/>
+                                    <SongCard img={images[1]} title={genres[1]} to={`/genre/${genres[1]}`}/>
                                 </Col>
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 3'/>
+                                    <SongCard img={images[2]} title={genres[2]} to={`/genre/${genres[2]}`}/>
                                 </Col>
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 4'/>
+                                    <SongCard img={images[3]} title={genres[3]} to={`/genre/${genres[3]}`}/>
                                 </Col>
                             </Row>
                             <Row >
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 5'/>
+                                    <SongCard img={images[4]} title={genres[4]} to={`/genre/${genres[4]}`}/>
                                 </Col>
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 6'/>
+                                    <SongCard img={images[5]} title={genres[5]} to={`/genre/${genres[5]}`}/>
                                 </Col>
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 7'/>
+                                    <SongCard img={images[6]} title={genres[6]} to={`/genre/${genres[6]}`}/>
                                 </Col>
                                 <Col className={genreCSS.gridColumn}>
-                                    <SongCard img={jackboys} title='Genre 8'/>
+                                    <SongCard img={images[7]} title={genres[7]} to={`/genre/${genres[7]}`}/>
                                 </Col>
                             </Row>
                         </Container>

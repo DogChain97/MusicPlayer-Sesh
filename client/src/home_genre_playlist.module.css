@@ -149,6 +149,23 @@ a:hover {
     color: white;
     background-color: transparent;
 }
+
+.genreImg {
+    height: 200px;
+    width: 200px;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2), 0 15px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 0 40px 0 40px;
+}
+
+.genreName {
+    display: inline-block;
+    color: white;
+    font-size: 7rem;
+    font-weight: bold;
+    position: relative;
+    top: 30px;
+    right: 20px;
+}
 /*///////////////////////////////CONTENT/////////////////////////////////////////////*/
 .playlistContentPanel {
     width: 100%;
@@ -207,4 +224,21 @@ a:hover {
 p {
     margin: 0;
 }
+/* //////////////////////////////////////////////MUSIC CONTROLS//////////////////////////////////////////////// */
+.musicControls {
+    background-color: #7604A3;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 5;
+}
 
+.currentSongImg {
+    height: 60px;
+    width: 60px;
+    position: relative;
+    top: 10px;
+    left: -1px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 10px 15px 0 rgba(0, 0, 0, 0.19);
+}

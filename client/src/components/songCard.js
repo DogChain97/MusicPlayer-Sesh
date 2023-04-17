@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import {Link} from 'react-router-dom';
 import songCardCSS from '../home_genre_playlist.module.css';
 import Card from 'react-bootstrap/Card';
 
 function SongCard (props) {
 
     return (
-        <a>
+        <Link to={props.to}>
         <Card className={songCardCSS.card} style={{ width: '14rem' }}>
-            <Card.Img variant="top" src={props.img} className={songCardCSS.cardImg} />
+            <Card.Img variant="top" src={props.img} className={songCardCSS.cardImg} onClick={props.onClick} />
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Text>
@@ -16,7 +17,7 @@ function SongCard (props) {
                 </Card.Text>
             </Card.Body>
         </Card>
-    </a>
+    </Link>
     )
 }
 
