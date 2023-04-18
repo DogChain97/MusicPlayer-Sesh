@@ -19,6 +19,7 @@ function GenreSongs (){
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
+
         Axios.get(`http://localhost:7000/genre/${param}`).then((response) => {
             if(response.data.loggedIn === true){
                 setUser(response.data.user[0].u_name)
@@ -26,6 +27,34 @@ function GenreSongs (){
                 setSongs(response.data.songs)
                 setArtists(response.data.artists)
                 setGenreImg(response.data.genreImg)
+
+                // var grid;
+                // var columns = [
+                //     {id: "#", name: "#", field: "no"},
+                //     {id: "song", name: "Song", field: "song"},
+                //     {id: "artist", name: "Artist", field: "artist"}
+                // ];
+
+                // var options = {
+                //     enableCellNavigation: true,
+                //     enableColumnReorder: false
+                // };
+
+                // console.log(songs)
+                // function s() {
+                //     var data = [];
+                //     for (var i = 0; i < 8; i++) {
+                //         data[i] = {
+                //             no: (i+1),
+                //             song: "song "+(i+1),
+                //             artist: "artist "+ (i+1)
+                //         };
+                //     }
+
+                //     grid = new Slick.Grid("#myGrid", data, columns, options);
+                // }
+
+                // s();
             }else{
                 navigate("/")
             }
@@ -50,7 +79,14 @@ function GenreSongs (){
                 </div>
 
                 <div className={genreSongsCSS.playlistContentPanel}>
-                      <h2>No songs here :/</h2>
+
+                    {/* <table width="100%">
+                        <tr>
+                            <td valign="top" width="50%">
+                                <div id="myGrid"></div>
+                            </td>
+                        </tr>
+                    </table> */}
                 </div>
             </div>            
         </div>
