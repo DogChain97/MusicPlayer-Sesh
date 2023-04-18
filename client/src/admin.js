@@ -8,23 +8,42 @@ import Col from 'react-bootstrap/Col';
 
 function Admin(){
     const [table, setTable] = useState('');
+    
+    const [operation, setOperation] = useState('')
+    const [loginStatus, setLoginStatus] = useState('');
+
+    const [artistID, setArtistID] = useState('')
     const [artistName, setArtistName] = useState('');
     const [artistImage, setArtistImage] = useState(''); 
+    const [artistOperationStatus, setArtistOperationStatus] = useState('')
+    // For Show
+    const [aID, setAID] = useState('')
+    const [aName, setAName] = useState('')
+    const [aImg, setAImg] = useState('')
+
     const [genreName, setGenreName] = useState('');
     const [genreImage, setGenreImage] = useState('');
+    const [genreID, setGenreID] = useState('')
+    const [genreOperationStatus, setGenreOperationStatus] = useState('')
+    // For Show
+    const [gID, setGID] = useState('')
+    const [gName, setGName] = useState('')
+    const [gImg, setGImg] = useState('')
+
+    const [songID, setSongID] = useState('')
     const [songName, setSongName] = useState('');
     const [songImage, setSongImage] = useState('');
     const [songUrl, setSongUrl] = useState('');
     const [songGenreID, setSongGenreID] = useState('');
     const [songArtistID, setSongArtistID] = useState('');
-    const [operation, setOperation] = useState('')
-    const [loginStatus, setLoginStatus] = useState('');
-    const [artistOperationStatus, setArtistOperationStatus] = useState('')
-    const [genreOperationStatus, setGenreOperationStatus] = useState('')
     const [songOperationStatus, setSongOperationStatus] = useState('')
-    const [genreID, setGenreID] = useState('')
-    const [artistID, setArtistID] = useState('')
-    const [songID, setSongID] = useState('')
+    // For Show
+    const [sID, setSID] = useState('')
+    const [sName, setSName] = useState('')
+    const [sImg, setSImg] = useState('')
+    const [sUrl, setSUrl] = useState('')
+    const [sGenreID, setSGenreID] = useState('')
+    const [sArtistID, setSArtistID] = useState('')
 
     const navigate = useNavigate();
     Axios.defaults.withCredentials = true
@@ -67,6 +86,30 @@ function Admin(){
         })
     }
 
+    const showArtist = () => {
+        setTable("artist")
+        setOperation("show")
+        Axios.post('http://localhost:7000/admin', {
+        table: table,
+        operation: operation
+        }).then((response) => {
+            setAID(response.data.artistID)
+            setAName(response.data.artistName)
+            setAImg(response.data.artistImage)
+            setArtistOperationStatus(response.data.message)
+        })
+    }
+
+    const artistData = [];
+    for(var i=0;i<aID.length;i++){
+        artistData.push({
+            id: aID[i],
+            name: aName[i],
+            image: aImg[i],
+        }
+        )
+    }    
+
     // GENRE FUNCTIONS
     const addGenre = () => {
         setTable("genre")
@@ -104,6 +147,30 @@ function Admin(){
         }).then((response) => {
             setGenreOperationStatus(response.data.message)
         })
+    }
+
+    const showGenre = () => {
+        setTable("genre")
+        setOperation("show")
+        Axios.post('http://localhost:7000/admin', {
+        table: table,
+        operation: operation
+        }).then((response) => {
+            setGID(response.data.genreID)
+            setGName(response.data.genreName)
+            setGImg(response.data.genreImage)
+            setGenreOperationStatus(response.data.message)
+        })
+    }
+
+    const genreData = [];
+    for(var i=0;i<gID.length;i++){
+        genreData.push({
+            id: gID[i],
+            name: gName[i],
+            image: gImg[i],
+        }
+        )
     }
 
     // SONG FUNCTIONS
@@ -149,6 +216,36 @@ function Admin(){
         })
     }
 
+    const showSong = () => {
+        setTable("song")
+        setOperation("show")
+        Axios.post('http://localhost:7000/admin', {
+        table: table,
+        operation: operation
+        }).then((response) => {
+            setSID(response.data.songID)
+            setSName(response.data.songName)
+            setSImg(response.data.songImage)
+            setSUrl(response.data.songUrl)
+            setSGenreID(response.data.songGenreID)
+            setSArtistID(response.data.songArtistID)
+            setSongOperationStatus(response.data.message)
+        })
+    }
+
+    const songData = [];
+    for(var i=0;i<sID.length;i++){
+        songData.push({
+            id: sID[i],
+            name: sName[i],
+            image: sImg[i],
+            url: sUrl[i],
+            genreid: sGenreID[i],
+            artistid: sArtistID[i]
+        }
+        )
+    }
+
     // Logout Function
     const logout = () => {
         setLoginStatus(false)
@@ -167,6 +264,8 @@ function Admin(){
             }
         })
     }, [])
+
+
 
     return (
         <div className={adminCSS.main}>
@@ -212,6 +311,29 @@ function Admin(){
                             <button onClick={deleteArtist}>Delete Artist</button>
                     </div>
                 </Col>
+                <Col>
+                    <div className={adminCSS.operation}>
+                        <h2>Show:</h2>
+                            <button onClick={showArtist}>Show Artist Table</button>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                            </tr>
+                            {artistData.map((val,key)=>{
+                                return(
+                                    <tr key={key}>
+                                        <td>{val.id}</td>
+                                        <td>{val.name}</td>
+                                        <td>{val.image}</td>
+                                    </tr>
+                                )
+                            })
+                            }
+                        </table>
+                    </div>
+                </Col>
                 <h2>{artistOperationStatus}</h2>
                 <hr/>
             </Row>
@@ -249,6 +371,29 @@ function Admin(){
                     setGenreID(e.target.value);
                     }}/><br/>
                     <button onClick={deleteGenre}>Delete Genre</button>
+                </Col>
+                <Col>
+                    <div className={adminCSS.operation}>
+                        <h2>Show:</h2>
+                            <button onClick={showGenre}>Show Genre Table</button>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                            </tr>
+                            {genreData.map((val,key)=>{
+                                return(
+                                    <tr key={key}>
+                                        <td>{val.id}</td>
+                                        <td>{val.name}</td>
+                                        <td>{val.image}</td>
+                                    </tr>
+                                )
+                            })
+                            }
+                        </table>
+                    </div>
                 </Col>
                 <h2>{genreOperationStatus}</h2>
                 <hr/>
@@ -299,6 +444,35 @@ function Admin(){
                     setSongID(e.target.value);
                     }}/><br/>
                     <button onClick={deleteSong}>Delete Song</button>
+                </Col>
+                <Col>
+                    <div className={adminCSS.operation}>
+                        <h2>Show:</h2>
+                            <button onClick={showSong}>Show Songs Table</button>
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                                <th>Url</th>
+                                <th>Genre ID</th>
+                                <th>Artist ID</th>
+                            </tr>
+                            {songData.map((val,key)=>{
+                                return(
+                                    <tr key={key}>
+                                        <td>{val.id}</td>
+                                        <td>{val.name}</td>
+                                        <td>{val.image}</td>
+                                        <td>{val.url}</td>
+                                        <td>{val.genreid}</td>
+                                        <td>{val.artistid}</td>
+                                    </tr>
+                                )
+                            })
+                            }
+                        </table>
+                    </div>
                 </Col>
                 <h2>{songOperationStatus}</h2>
             </Row>

@@ -226,6 +226,7 @@ p {
 }
 /* //////////////////////////////////////////////MUSIC CONTROLS//////////////////////////////////////////////// */
 .musicControls {
+    color: white;
     background-color: #7604A3;
     height: 80px;
     width: 100%;
@@ -241,4 +242,38 @@ p {
     top: 10px;
     left: -1px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 10px 15px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* /////////////////////////////////////////////////TABLE//////////////////////////////////////////////////////// */
+.tableImg {
+    position: relative;
+    top: 2px;
+    height: 50px;
+    width: 50px;
+}
+
+table {
+    margin: 0 0 0 40px;
+    width: 80%;
+}
+    
+th {
+    border-bottom: 1px solid white;
+    padding: 0 20px 0 0;
+}
+    
+td {
+    margin: 0;
+    padding: 0 20px 0 0;
+    text-align: left;
+}
+
+tr {
+    padding: 0 20px;
+    height: 70px;
+}
+
+tr:hover {
+    background-color: #7604A3;
+    border-radius: 50px;
 }

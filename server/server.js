@@ -164,20 +164,22 @@ app.get("/home", function(req, res){
     const songs = []
     const artists = []
     const genres = []
+    const urls = []
 
     if(req.session.user){
-        db.query("SELECT s_img,s_name,a_name,g_name FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id ORDER BY s_name;", (err,result)=>{
+        db.query("SELECT s_img,s_name,s_url,a_name,g_name FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id ORDER BY s_name;", (err,result)=>{
             if(err){
                 console.log(err);
             }else{
                 for(let i = 0; i < result.length; i++){
                     images.push(result[i].s_img)
                     songs.push(result[i].s_name)
+                    urls.push(result[i].s_url)
                     artists.push(result[i].a_name)
                     genres.push(result[i].g_name)
                 }
             }
-            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, artists: artists, genres: genres})
+            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres})
         })
         
     }else{
@@ -222,22 +224,24 @@ app.get("/genre/:param", function(req, res){
     const images = []
     const songs = []
     const artists = []
+    const urls = []
     var genreImg = ''
 
     const genre = req.params.param;
     if(req.session.user){
-        db.query("SELECT s_img,s_name,a_name,g_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE g_name='"+genre+"' ORDER BY s_name;", (err, result)=>{
+        db.query("SELECT s_img,s_name,s_url,a_name,g_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE g_name='"+genre+"' ORDER BY s_name;", (err, result)=>{
             if(err){
                 console.log(err);
             }else{
                 for(let i = 0; i < result.length; i++){
                     images.push(result[i].s_img)
                     songs.push(result[i].s_name)
+                    urls.push(result[i].s_url)
                     artists.push(result[i].a_name)
                 }
                 genreImg = result[0].g_img
             }
-            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, artists: artists, genreImg: genreImg})
+            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genreImg: genreImg})
         })
     }else{
         res.send({loggedIn: false})
@@ -344,6 +348,23 @@ app.post("/admin", function(req,res){
                 
             })
         }
+        else if(operation === 'show'){
+            const artistID = []
+            const artistName = []
+            const artistImg = []
+            db.query("SELECT * FROM artist;",(err, result)=>{
+                if(err){
+                    res.send({message: "Artist table doesn't exist"});
+                }else{
+                    for(let i=0;i<result.length;i++){
+                        artistID.push(result[i].a_id);
+                        artistName.push(result[i].a_name);
+                        artistImg.push(result[i].a_img);
+                    }
+                }
+                res.send({artistID:artistID, artistName:artistName, artistImage:artistImg})
+            })
+        }
     /////////////////////////////////////GENRE///////////////////////////////////////
     }else if(table === 'genre'){
         if(operation === "add"){
@@ -405,6 +426,23 @@ app.post("/admin", function(req,res){
                     }
                 }
                 
+            })
+        }
+        else if(operation === 'show'){
+            const genreID = []
+            const genreName = []
+            const genreImg = []
+            db.query("SELECT * FROM genre;",(err, result)=>{
+                if(err){
+                    res.send({message: "Song table doesn't exist"});
+                }else{
+                    for(let i=0;i<result.length;i++){
+                        genreID.push(result[i].g_id);
+                        genreName.push(result[i].g_name);
+                        genreImg.push(result[i].g_img);
+                    }
+                }
+                res.send({genreID:genreID, genreName:genreName, genreImage:genreImg})
             })
         }
     /////////////////////////////////////SONG///////////////////////////////////////
@@ -472,6 +510,29 @@ app.post("/admin", function(req,res){
                     }
                 }
                 
+            })
+        }
+        else if(operation === 'show'){
+            const songID = []
+            const songName = []
+            const songImg = []
+            const songUrl = []
+            const songGenreID = []
+            const songArtistID = []
+            db.query("SELECT * FROM song;",(err, result)=>{
+                if(err){
+                    res.send({message: "Song table doesn't exist"});
+                }else{
+                    for(let i=0;i<result.length;i++){
+                        songID.push(result[i].s_id);
+                        songName.push(result[i].s_name);
+                        songImg.push(result[i].s_img);
+                        songUrl.push(result[i].s_url);
+                        songGenreID.push(result[i].genre_id);
+                        songArtistID.push(result[i].artist_id);
+                    }
+                }
+                res.send({songID:songID, songName:songName, songImage:songImg, songUrl:songUrl, songGenreID:songGenreID, songArtistID:songArtistID})
             })
         }
     }

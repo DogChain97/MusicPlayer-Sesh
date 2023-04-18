@@ -14,8 +14,13 @@ function GenreSongs (){
     const {param} = useParams();
     const [images, setImages] = useState([])
     const [songs, setSongs] = useState([])
+    const [urls, setUrls] = useState([])
     const [artists, setArtists] = useState([])
     const [genreImg, setGenreImg] = useState('')
+    const [currentSongImg, setCurrentSongImg] = useState()
+    const [currentSongName, setCurrentSongName] = useState('')
+    const [currentSongUrl, setCurrentSongUrl] = useState('')
+    const [isShown, setIsShown] = useState(false);
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -25,6 +30,7 @@ function GenreSongs (){
                 setUser(response.data.user[0].u_name)
                 setImages(response.data.images)
                 setSongs(response.data.songs)
+                setUrls(response.data.urls)
                 setArtists(response.data.artists)
                 setGenreImg(response.data.genreImg)
 
@@ -61,6 +67,25 @@ function GenreSongs (){
         })
     }, [])
 
+    const data = [];
+    for(var i=0;i<images.length;i++){
+        data.push({
+            no: (i+1),
+            img: images[i],
+            song: songs[i],
+            url: urls[i],
+            artist: artists[i],
+        }
+        )
+    }
+
+    const songClicked = (e) => {
+        setIsShown(true);
+        setCurrentSongImg(e.target.src);
+        setCurrentSongName(e.target.dataset.name)
+        setCurrentSongUrl(e.target.dataset.url)
+    }
+
     return (
         <div className={genreSongsCSS.main}>
             <div className={genreSongsCSS.leftPanel}>
@@ -80,6 +105,26 @@ function GenreSongs (){
 
                 <div className={genreSongsCSS.playlistContentPanel}>
 
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Song</th>
+                            <th>Artist</th>
+                        </tr>
+                        {data.map((val,key)=>{
+                            return(
+                                <tr key={key} src={val.img} data-name={val.song} data-url="yes" onClick={songClicked}>
+                                    <td>{val.no}</td>
+                                    <td><img className={genreSongsCSS.tableImg} src={val.img} /></td>
+                                    <td>{val.song}</td>
+                                    <td>{val.artist}</td>
+                                </tr>
+                            )
+                        })
+                        }
+                    </table>
+
                     {/* <table width="100%">
                         <tr>
                             <td valign="top" width="50%">
@@ -88,7 +133,12 @@ function GenreSongs (){
                         </tr>
                     </table> */}
                 </div>
-            </div>            
+            </div>  
+            {isShown && 
+            <div className={genreSongsCSS.musicControls}>
+                <img className={genreSongsCSS.currentSongImg} src={currentSongImg}/>
+            </div>  
+            }          
         </div>
     )
 }

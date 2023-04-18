@@ -8,7 +8,7 @@ function SongCard (props) {
     return (
         <Link to={props.to}>
         <Card className={songCardCSS.card} style={{ width: '14rem' }}>
-            <Card.Img variant="top" src={props.img} className={songCardCSS.cardImg} onClick={props.onClick} />
+            <Card.Img variant="top" src={props.img} className={songCardCSS.cardImg} onClick={props.onClick} data-url={props.url}/>
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Text>
