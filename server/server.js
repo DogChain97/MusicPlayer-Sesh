@@ -221,6 +221,7 @@ app.get("/createPlaylist", function(req, res){
 
 // Genre Songs Page GET Request
 app.get("/genre/:param", function(req, res){
+
     const images = []
     const songs = []
     const artists = []

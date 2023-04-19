@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import genreSongsCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
+import song from './assets/songs/3_Peg.mp3'
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
 import { useParams } from "react-router-dom";
@@ -81,7 +82,7 @@ function GenreSongs (){
 
     const songClicked = (e) => {
         setIsShown(true);
-        setCurrentSongImg(e.target.src);
+        setCurrentSongImg(e.target.dataset.img);
         setCurrentSongName(e.target.dataset.name)
         setCurrentSongUrl(e.target.dataset.url)
     }
@@ -106,19 +107,22 @@ function GenreSongs (){
                 <div className={genreSongsCSS.playlistContentPanel}>
 
                     <table>
-                        <tr>
-                            <th>#</th>
+                        <tr className={genreSongsCSS.songsHeader}>
+                            
+                            <th className={genreSongsCSS.no}>#</th>
                             <th>Image</th>
                             <th>Song</th>
                             <th>Artist</th>
+                            <img className={genreSongsCSS.playSong} src={playlist}/>
                         </tr>
                         {data.map((val,key)=>{
                             return(
-                                <tr key={key} src={val.img} data-name={val.song} data-url="yes" onClick={songClicked}>
-                                    <td>{val.no}</td>
-                                    <td><img className={genreSongsCSS.tableImg} src={val.img} /></td>
-                                    <td>{val.song}</td>
-                                    <td>{val.artist}</td>
+                                <tr className={genreSongsCSS.songRow} key={key} >
+                                        <td className={genreSongsCSS.no}>{val.no}</td>
+                                        <td><img className={genreSongsCSS.tableImg} src={val.img} /></td>
+                                        <td>{val.song}</td>
+                                        <td>{val.artist}</td>
+                                        <img className={genreSongsCSS.playSong} src={playlist} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} />     
                                 </tr>
                             )
                         })

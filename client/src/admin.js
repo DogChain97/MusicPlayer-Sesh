@@ -86,16 +86,16 @@ function Admin(){
         })
     }
 
-    const showArtist = () => {
+    const showArtist = (e) => {
         setTable("artist")
         setOperation("show")
         Axios.post('http://localhost:7000/admin', {
         table: table,
         operation: operation
         }).then((response) => {
-            setAID(response.data.artistID)
-            setAName(response.data.artistName)
-            setAImg(response.data.artistImage)
+                setAID(response.data.artistID)
+                setAName(response.data.artistName)
+                setAImg(response.data.artistImage)
             setArtistOperationStatus(response.data.message)
         })
     }
@@ -281,9 +281,11 @@ function Admin(){
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Add:</h2>
+                            <label>Artist Name:</label>
                             <input type='text' placeholder='name' onChange={(e)=>{
                             setArtistName(e.target.value);
                             }}/><br/>
+                            <label>Artist Image URL:</label>
                             <input type='text' placeholder='image-url' onChange={(e)=>{
                             setArtistImage(e.target.value);
                             }}/><br/>
@@ -293,9 +295,11 @@ function Admin(){
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Update:</h2>
+                            <label>Artist Name:</label>
                             <input type='text' placeholder='name of artist to update' onChange={(e)=>{
                             setArtistName(e.target.value);
                             }}/><br/>
+                            <label>Artist Image URL:</label>
                             <input type='text' placeholder='new image-url' onChange={(e)=>{
                             setArtistImage(e.target.value);
                             }}/><br/>
@@ -305,17 +309,26 @@ function Admin(){
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Delete:</h2>
-                            <input type='text' placeholder='artist ID' onChange={(e)=>{
+                            <label>Artist ID:</label>
+                            <br/>
+                            <select name='select' onClick={showArtist} onChange={(e)=>{
                             setArtistID(e.target.value);
-                            }}/><br/>
+                            }}>
+                                    {artistData.map(item=>{
+                                        return(
+                                            <option key={item.id} value={item.id}>{item.id}</option>
+                                        )
+                                    })}
+                            </select>
+                            <br/>
                             <button onClick={deleteArtist}>Delete Artist</button>
                     </div>
                 </Col>
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Show:</h2>
-                            <button onClick={showArtist}>Show Artist Table</button>
-                        <table>
+                            <button name='button' onClick={showArtist}>Show Artist Table</button>
+                        <table className={adminCSS.admTable}>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
@@ -346,9 +359,11 @@ function Admin(){
             <br/><br/><br/>
                 <Col>
                     <h2>Add:</h2>
+                    <label>Genre Name:</label>
                     <input type='text' placeholder='name' onChange={(e)=>{
                     setGenreName(e.target.value);
                     }}/><br/>
+                    <label>Genre Image URL:</label>
                     <input type='text' placeholder='image-url' onChange={(e)=>{
                     setGenreImage(e.target.value);
                     }}/><br/>
@@ -357,19 +372,29 @@ function Admin(){
                 </Col>
                 <Col>
                     <h2>Update:</h2>
-                    <input type='text' placeholder='name of artist to update' onChange={(e)=>{
+                    <label>Genre Name:</label>
+                    <input type='text' placeholder='name of genre to update' onChange={(e)=>{
                     setGenreName(e.target.value);
                     }}/><br/>
-                    <input type='text' placeholder='new image-url' onChange={(e)=>{
+                    <label>Genre Image URL:</label>
+                    <input type='text' placeholder='new genre image-url' onChange={(e)=>{
                     setGenreImage(e.target.value);
                     }}/><br/>
                     <button onClick={updateGenre}>Update Genre Image</button>
                 </Col>
                 <Col>
                     <h2>Delete:</h2>
-                    <input type='text' placeholder='genre ID' onChange={(e)=>{
-                    setGenreID(e.target.value);
-                    }}/><br/>
+                    <label>Genre ID:</label>
+                    <br/>
+                    <select name='select' onClick={showGenre} onChange={(e)=>{
+                            setGenreID(e.target.value);
+                            }}>
+                                    {genreData.map(item=>{
+                                        return(
+                                            <option key={item.id} value={item.id}>{item.id}</option>
+                                        )
+                                    })}
+                            </select><br/>
                     <button onClick={deleteGenre}>Delete Genre</button>
                 </Col>
                 <Col>
@@ -407,18 +432,26 @@ function Admin(){
             <br/><br/><br/>
                 <Col>
                     <h2>Add:</h2>
+                    <label>Song Name:</label>
                     <input type='text' placeholder='name' onChange={(e)=>{
                     setSongName(e.target.value);
                     }}/><br/>
+                    <label>Song Image URL:</label>
                     <input type='text' placeholder='image-url' onChange={(e)=>{
                     setSongImage(e.target.value);
                     }}/><br/>
+                    <label>Song URL:</label>
+                    <br/>
                     <input type='text' placeholder='song-url' onChange={(e)=>{
                     setSongUrl(e.target.value);
                     }}/><br/>
+                    <label>Genre ID:</label>
+                    <br/>
                     <input type='number' placeholder='genre id' onChange={(e)=>{
                     setSongGenreID(e.target.value);
                     }}/><br/>
+                    <label>Artist ID:</label>
+                    <br/>
                     <input type='number' placeholder='artist id' onChange={(e)=>{
                     setSongArtistID(e.target.value);
                     }}/><br/>
@@ -427,12 +460,16 @@ function Admin(){
                 </Col>
                 <Col>
                     <h2>Update:</h2>
+                    <label>Song Name:</label>
                     <input type='text' placeholder='name of song to update' onChange={(e)=>{
                     setSongName(e.target.value);
                     }}/><br/>
+                    <label>Song Image URL:</label>
                     <input type='text' placeholder='new image-url' onChange={(e)=>{
                     setSongImage(e.target.value);
                     }}/><br/>
+                    <label>Song URL:</label>
+                    <br/>
                     <input type='text' placeholder='new song-url' onChange={(e)=>{
                     setSongUrl(e.target.value);
                     }}/><br/>
@@ -440,9 +477,17 @@ function Admin(){
                 </Col>
                 <Col>
                     <h2>Delete:</h2>
-                    <input type='text' placeholder='song ID' onChange={(e)=>{
-                    setSongID(e.target.value);
-                    }}/><br/>
+                    <label>Song ID:</label>
+                    <br/>
+                    <select name='select' onClick={showSong} onChange={(e)=>{
+                            setSongID(e.target.value);
+                            }}>
+                                    {songData.map(item=>{
+                                        return(
+                                            <option key={item.id} value={item.id}>{item.id}</option>
+                                        )
+                                    })}
+                            </select><br/>
                     <button onClick={deleteSong}>Delete Song</button>
                 </Col>
                 <Col>

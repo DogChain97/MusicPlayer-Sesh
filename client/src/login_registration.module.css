@@ -48,6 +48,20 @@ input:focus {
   outline: none;
 }
 
+select {
+  border-radius: 50px;
+  border: 0;
+  height: 45px;
+  width: 330px;
+  margin: 10px 0;
+  padding: 3px 15px;
+  text-decoration: none;
+}
+
+select:focus {
+  outline: none;
+}
+
 .toggle {
   position: relative;
   font-size: 10px;
