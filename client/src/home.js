@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import homeCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/homeActive.png';
@@ -24,6 +24,8 @@ function Home (){
     const [currentSongName, setCurrentSongName] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
     const [isShown, setIsShown] = useState(false);
+    const [clickedOptions, setClickedOptions] = useState(false)
+    
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -41,10 +43,36 @@ function Home (){
         })
     }, [])
 
+    // Search Functionality
+    const searchArtists = artists.filter((item, index)=>artists.indexOf(item)===index)
+    const searchArray = searchArtists.concat(songs)
+
     const songClicked = (e) => {
         setIsShown(true);
         setCurrentSongImg(e.target.src);
         setCurrentSongUrl(e.target.dataset.url);
+    }
+
+    const loadPage = (e)=>{
+        const clicked = e.target.innerHTML
+        console.log(clicked)
+        if(artists.includes(clicked)){
+            navigate(`/artist/${clicked}`)
+        }else if(songs.includes(clicked)){
+            var index = songs.indexOf(clicked)
+            setIsShown(true);
+            setCurrentSongImg(images[index]);
+            setCurrentSongUrl(urls[index]);
+        }
+    }
+
+    const showOptions = ()=>{
+        setClickedOptions(!clickedOptions);
+    }
+
+    const logout = () => {
+        Axios.post('http://localhost:7000/logout')
+        navigate("/")
     }
 
     return (
@@ -58,8 +86,16 @@ function Home (){
 
             <div className={homeCSS.rightPanel}>
                 <div className={homeCSS.searchPanel}>
-                    <SearchBar/>
-                    <button className={homeCSS.logout}>{user.charAt(0)}</button>
+                    <div className={homeCSS.searchPanelConents}>
+                        <SearchBar data={searchArray} onClick={loadPage}/>
+                        <button onClick={showOptions} className={homeCSS.logout}>{user.charAt(0)}</button>
+                        {clickedOptions && 
+                            <ul className={homeCSS.userOptions}>
+                                <li className={homeCSS.userLogout} onClick={logout}>Logout</li>
+                            </ul>
+                        }
+                        
+                    </div>
                 </div>
 
                 <div className={homeCSS.contentPanel}>

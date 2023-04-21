@@ -19,7 +19,6 @@ function Login(){
         username: username, 
         password: password
         }).then((response) => {
-            console.log(response.data)
             if(response.data.admin){
                 navigate('/admin')
             }else{

@@ -16,6 +16,7 @@ function Genre (){
     const [user, setUser] = useState('')
     const [images, setImages] = useState([])
     const [genres, setGenres] = useState([])
+    const [clickedOptions, setClickedOptions] = useState(false)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -29,6 +30,16 @@ function Genre (){
             }
         })
     }, [])
+
+    const showOptions = ()=>{
+        setClickedOptions(!clickedOptions);
+    }
+
+    const logout = () => {
+        Axios.post('http://localhost:7000/logout')
+        navigate("/")
+    }
+
     return (
         <div className={genreCSS.main}>
             <div className={genreCSS.leftPanel}>
@@ -40,7 +51,12 @@ function Genre (){
 
             <div className={genreCSS.rightPanel}>
                 <div className={genreCSS.genreSearchPanel}>
-                    <button className={genreCSS.genreLogout}>{user.charAt(0)}</button>
+                    <button onClick={showOptions} className={genreCSS.logout}>{user.charAt(0)}</button>
+                    {clickedOptions && 
+                        <ul className={genreCSS.userOptions}>
+                            <li className={genreCSS.userLogout} onClick={logout}>Logout</li>
+                        </ul>
+                    }
                 </div>
 
                 <div className={genreCSS.contentPanel}>

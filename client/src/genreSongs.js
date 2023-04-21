@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import genreSongsCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
-import song from './assets/songs/3_Peg.mp3'
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
 import { useParams } from "react-router-dom";
@@ -22,6 +21,7 @@ function GenreSongs (){
     const [currentSongName, setCurrentSongName] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
     const [isShown, setIsShown] = useState(false);
+    const [clickedOptions, setClickedOptions] = useState(false)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -80,11 +80,22 @@ function GenreSongs (){
         )
     }
 
+    console.log(data)
+
     const songClicked = (e) => {
         setIsShown(true);
         setCurrentSongImg(e.target.dataset.img);
         setCurrentSongName(e.target.dataset.name)
         setCurrentSongUrl(e.target.dataset.url)
+    }
+
+    const showOptions = ()=>{
+        setClickedOptions(!clickedOptions);
+    }
+
+    const logout = () => {
+        Axios.post('http://localhost:7000/logout')
+        navigate("/")
     }
 
     return (
@@ -98,10 +109,17 @@ function GenreSongs (){
 
             <div className={genreSongsCSS.rightPanel}>
                 <div className={genreSongsCSS.createPlaylistSearchPanel}>
-                    <button className={genreSongsCSS.createPlaylistLogout}>{user.charAt(0)}</button>
+                    <button onClick={showOptions} className={genreSongsCSS.logout}>{user.charAt(0)}</button>
+                    {clickedOptions && 
+                        <ul className={genreSongsCSS.userOptions}>
+                            <li className={genreSongsCSS.userLogout} onClick={logout}>Logout</li>
+                        </ul>
+                    }
                     <br/>
-                    <img className={genreSongsCSS.genreImg} src={genreImg}/>
-                    <h2 className={genreSongsCSS.genreName}>{param}</h2>
+                    <div className={genreSongsCSS.titleDetails}>
+                        <img className={genreSongsCSS.artist_genreImg} src={genreImg}/>
+                        <h2 className={genreSongsCSS.artist_genreName}>{param}</h2>
+                    </div>
                 </div>
 
                 <div className={genreSongsCSS.playlistContentPanel}>

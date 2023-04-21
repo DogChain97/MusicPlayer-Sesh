@@ -10,6 +10,7 @@ import playlist from './assets/playlistActive.png';
 function CreatePlaylist (){
     const navigate = useNavigate();
     const [user, setUser] = useState('')
+    const [clickedOptions, setClickedOptions] = useState(false)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -21,6 +22,16 @@ function CreatePlaylist (){
             }
         })
     }, [])
+
+    const showOptions = ()=>{
+        setClickedOptions(!clickedOptions);
+    }
+
+    const logout = () => {
+        Axios.post('http://localhost:7000/logout')
+        navigate("/")
+    }
+
     return (
         <div className={createPlaylistCSS.main}>
             <div className={createPlaylistCSS.leftPanel}>
@@ -32,7 +43,12 @@ function CreatePlaylist (){
 
             <div className={createPlaylistCSS.rightPanel}>
                 <div className={createPlaylistCSS.createPlaylistSearchPanel}>
-                    <button className={createPlaylistCSS.createPlaylistLogout}>{user.charAt(0)}</button>
+                    <button onClick={showOptions} className={createPlaylistCSS.logout}>{user.charAt(0)}</button>
+                    {clickedOptions && 
+                        <ul className={createPlaylistCSS.userOptions}>
+                            <li className={createPlaylistCSS.userLogout} onClick={logout}>Logout</li>
+                        </ul>
+                    }
                     <br/>
                     <button className={createPlaylistCSS.playlistName}>My Playlist</button>
                 </div>
