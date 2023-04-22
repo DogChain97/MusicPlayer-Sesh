@@ -11,6 +11,10 @@ import SongCard from './components/songCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import song from './assets/songs/Alone.mp3';
+import useSound from 'use-sound';
+import playButton from './assets/play.png'
+import pauseButton from './assets/pause.png'
 
 function Home (){
     const navigate = useNavigate();
@@ -24,8 +28,14 @@ function Home (){
     const [currentSongName, setCurrentSongName] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
     const [isShown, setIsShown] = useState(false);
+    const [isPlay, setIsPlay] = useState(false)
+    const [isPause, setIsPause] = useState(true)
     const [clickedOptions, setClickedOptions] = useState(false)
-    
+    var [play,{stop, pause, duration}] = useSound(song)
+    const [isPlaying, setIsPlaying] = useState(false)
+    var seconds = duration/1000
+    var minutes = Math.floor(seconds/60)
+    var remainingSeconds = Math.floor(seconds%60)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -51,6 +61,11 @@ function Home (){
         setIsShown(true);
         setCurrentSongImg(e.target.src);
         setCurrentSongUrl(e.target.dataset.url);
+        
+        console.log(minutes+":"+remainingSeconds)
+        setIsPlaying(true)
+        stop()
+        play()
     }
 
     const loadPage = (e)=>{
@@ -63,6 +78,10 @@ function Home (){
             setIsShown(true);
             setCurrentSongImg(images[index]);
             setCurrentSongUrl(urls[index]);
+
+            setIsPlaying(true)
+            stop()
+            play()
         }
     }
 
@@ -73,6 +92,18 @@ function Home (){
     const logout = () => {
         Axios.post('http://localhost:7000/logout')
         navigate("/")
+    }
+
+    const togglePlayPause = () => {
+        setIsPlay(!isPlay)
+        setIsPause(!isPause)
+        if(isPlaying) {
+            pause()
+            setIsPlaying(false)
+        }else{
+            play()
+            setIsPlaying(true)
+        }
     }
 
     return (
@@ -149,6 +180,17 @@ function Home (){
             {isShown && 
             <div className={homeCSS.musicControls}>
                 <img className={homeCSS.currentSongImg} src={currentSongImg}/>
+                {isPlay &&
+                    <img className={homeCSS.play} onClick={togglePlayPause} src={playButton}/>
+                }
+                {isPause &&
+                    <img className={homeCSS.pause} onClick={togglePlayPause} src={pauseButton}/>
+                }
+                <div className={homeCSS.progress}>
+                    <span className={`${homeCSS.current} ${homeCSS.time}`}>00:00</span>
+                    <input type="range" />
+                    <span className={`${homeCSS.time} ${homeCSS.duration}`}>0{minutes}:{remainingSeconds}</span>
+                </div>
             </div>  
             }       
         </div>
