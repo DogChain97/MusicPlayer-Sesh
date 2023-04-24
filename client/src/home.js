@@ -11,6 +11,7 @@ import SongCard from './components/songCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import MusicPlayer from './components/musicPlayer';
 
 function Home (){
     const navigate = useNavigate();
@@ -157,15 +158,7 @@ function Home (){
                 </div>
             </div>   
             {isShown && 
-            <div className={homeCSS.musicControls}>
-                <img className={homeCSS.currentSongImg} src={currentSongImg}/>
-                <span className={homeCSS.currentSongName}>{currentSongName}</span>
-                <br/>
-                <span className={homeCSS.currentSongArtist}>{currentSongArtist}</span>
-                <div className={homeCSS.audioBar}>
-                    <audio src = {currentSongUrl} autoPlay controls/>
-                </div>
-            </div>  
+              <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} url={currentSongUrl} />
             }       
         </div>
     )
