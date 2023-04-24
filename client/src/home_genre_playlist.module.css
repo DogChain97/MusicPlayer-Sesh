@@ -318,41 +318,23 @@ p {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 10px 15px 0 rgba(0, 0, 0, 0.19);
 }
 
-.play {
-    height: 50px;
-    width: 50px;
-    position: absolute;
-    left: 730px;
-    top: 5px;
-}
-
-.pause {
-    height: 50px;
-    width: 50px;
-    position: absolute;
-    left: 730px;
-    top: 5px;
-}
-
-.progress {
+.audioBar {
+    width: 300px;
     margin: auto;
-    width: 50%;
-}
-
-.time{
-    font-size: small;
-}
-
-.current {
     position: relative;
-    right: 40px;
-    bottom: 10px;
+    bottom: 70px;
 }
 
-.duration {
+.currentSongName {
     position: relative;
-    left: 773px;
-    bottom: 61px;
+    top: 5px;
+}
+
+.currentSongArtist {
+    position: relative;
+    left: 80px;
+    bottom: 20px;
+    font-size: x-small;
 }
 
 input[type="range"] {

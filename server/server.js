@@ -337,10 +337,10 @@ app.post("/admin", function(req,res){
             
         }
         else if(operation === 'delete'){
-            const artistID = req.body.artistID;
+            const artistName = req.body.artistName;
 
-            db.query("DELETE FROM artist WHERE a_id=?;",
-            artistID,
+            db.query("DELETE FROM artist WHERE a_name=?;",
+            artistName,
             (err, result)=>{
                 if(err){
                     res.send({message: "Artist doesn't exist"});
@@ -417,10 +417,10 @@ app.post("/admin", function(req,res){
             }
         }
         else if(operation === 'delete'){
-            const genreID = req.body.genreID;
+            const ganreName = req.body.genreName;
 
-            db.query("DELETE FROM genre WHERE g_id=?;",
-            genreID,
+            db.query("DELETE FROM genre WHERE g_name=?;",
+            genreName,
             (err, result)=>{
                 if(err){
                     res.send({message: "Genre doesn't exist"});
@@ -501,10 +501,10 @@ app.post("/admin", function(req,res){
             }
         }
         else if(operation === 'delete'){
-            const songID = req.body.songID;
+            const songName = req.body.songName;
 
-            db.query("DELETE FROM song WHERE s_id=?;",
-            songID,
+            db.query("DELETE FROM song WHERE s_name=?;",
+            songName,
             (err, result)=>{
                 if(err){
                     res.send({message: "Song doesn't exist"});

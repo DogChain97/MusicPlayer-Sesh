@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import homeCSS from './home_genre_playlist.module.css';
@@ -11,10 +11,6 @@ import SongCard from './components/songCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import song from './assets/songs/Alone.mp3';
-import useSound from 'use-sound';
-import playButton from './assets/play.png'
-import pauseButton from './assets/pause.png'
 
 function Home (){
     const navigate = useNavigate();
@@ -26,16 +22,13 @@ function Home (){
     const [genres, setGenres] = useState([])
     const [currentSongImg, setCurrentSongImg] = useState('')
     const [currentSongName, setCurrentSongName] = useState('')
+    const [currentSongArtist, setCurrentSongArtist] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
     const [isShown, setIsShown] = useState(false);
     const [isPlay, setIsPlay] = useState(false)
     const [isPause, setIsPause] = useState(true)
     const [clickedOptions, setClickedOptions] = useState(false)
-    var [play,{stop, pause, duration}] = useSound(song)
-    const [isPlaying, setIsPlaying] = useState(false)
-    var seconds = duration/1000
-    var minutes = Math.floor(seconds/60)
-    var remainingSeconds = Math.floor(seconds%60)
+    const progressBarRef = useRef();
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -60,12 +53,9 @@ function Home (){
     const songClicked = (e) => {
         setIsShown(true);
         setCurrentSongImg(e.target.src);
+        setCurrentSongName(e.target.dataset.title)
+        setCurrentSongArtist(e.target.dataset.artist)
         setCurrentSongUrl(e.target.dataset.url);
-        
-        console.log(minutes+":"+remainingSeconds)
-        setIsPlaying(true)
-        stop()
-        play()
     }
 
     const loadPage = (e)=>{
@@ -78,10 +68,6 @@ function Home (){
             setIsShown(true);
             setCurrentSongImg(images[index]);
             setCurrentSongUrl(urls[index]);
-
-            setIsPlaying(true)
-            stop()
-            play()
         }
     }
 
@@ -94,17 +80,9 @@ function Home (){
         navigate("/")
     }
 
-    const togglePlayPause = () => {
-        setIsPlay(!isPlay)
-        setIsPause(!isPause)
-        if(isPlaying) {
-            pause()
-            setIsPlaying(false)
-        }else{
-            play()
-            setIsPlaying(true)
-        }
-    }
+    const handleProgressChange = () => {
+        console.log(progressBarRef.current.value);
+      };
 
     return (
         <div className={homeCSS.main}>
@@ -156,6 +134,7 @@ function Home (){
                                     <SongCard img={images[11]} title={songs[11]} artist={artists[11]} genre={genres[11]} url={urls[11]} onClick={songClicked}/>
                                 </Col>
                             </Row>
+                            
                             <Row >
                                 <Col className={homeCSS.gridColumn}>
                                     <SongCard img={images[26]} title={songs[26]} artist={artists[26]} genre={genres[26]} url={urls[26]} onClick={songClicked}/>
@@ -180,16 +159,11 @@ function Home (){
             {isShown && 
             <div className={homeCSS.musicControls}>
                 <img className={homeCSS.currentSongImg} src={currentSongImg}/>
-                {isPlay &&
-                    <img className={homeCSS.play} onClick={togglePlayPause} src={playButton}/>
-                }
-                {isPause &&
-                    <img className={homeCSS.pause} onClick={togglePlayPause} src={pauseButton}/>
-                }
-                <div className={homeCSS.progress}>
-                    <span className={`${homeCSS.current} ${homeCSS.time}`}>00:00</span>
-                    <input type="range" />
-                    <span className={`${homeCSS.time} ${homeCSS.duration}`}>0{minutes}:{remainingSeconds}</span>
+                <span className={homeCSS.currentSongName}>{currentSongName}</span>
+                <br/>
+                <span className={homeCSS.currentSongArtist}>{currentSongArtist}</span>
+                <div className={homeCSS.audioBar}>
+                    <audio src = {currentSongUrl} autoPlay controls/>
                 </div>
             </div>  
             }       
