@@ -111,7 +111,7 @@ function UserPlaylist (){
                     {clickedOptions && 
                         <ul className={userPlaylistCSS.userOptions}>
                             <li className={userPlaylistCSS.userLogout} onClick={logout}>Logout</li>
-                        </ul>
+                        </ul> 
                     }
                     <br/>
                     <div className={userPlaylistCSS.titleDetails}>
