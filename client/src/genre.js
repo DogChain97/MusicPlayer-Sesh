@@ -10,6 +10,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SongCard from './components/songCard';
+import Playlists from './components/playlists';
+import MusicPlayer from './components/musicPlayer';
+
 
 function Genre (){
     const navigate = useNavigate();
@@ -17,6 +20,8 @@ function Genre (){
     const [images, setImages] = useState([])
     const [genres, setGenres] = useState([])
     const [clickedOptions, setClickedOptions] = useState(false)
+    const [playlists, setPlaylists] = useState([])
+    const [ids, setIds] = useState([])
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -25,6 +30,8 @@ function Genre (){
                 setUser(response.data.user[0].u_name)
                 setImages(response.data.images)
                 setGenres(response.data.genres)
+                setPlaylists(response.data.playlists)
+                setIds(response.data.ids)
             }else{
                 navigate("/")
             }
@@ -47,6 +54,8 @@ function Genre (){
                 <h2 className={genreCSS.tabName}><a href='/home'><img className={genreCSS.tabs} src={home} />Home</a></h2>
                 <h2 className={genreCSS.tabName}><a className={genreCSS.active} href='/genre'><img className={genreCSS.tabs} src={genre} />Genre</a></h2>
                 <h2 className={genreCSS.tabName}><a href='/createPlaylist'><img className={genreCSS.tabs} src={playlist} />Create Playlist</a></h2>
+                <hr/><br/>
+                <Playlists playlists={playlists} ids={ids} />
             </div>
 
             <div className={genreCSS.rightPanel}>

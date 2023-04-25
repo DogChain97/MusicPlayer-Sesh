@@ -11,6 +11,7 @@ import SongCard from './components/songCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Playlists from './components/playlists';
 import MusicPlayer from './components/musicPlayer';
 
 function Home (){
@@ -21,13 +22,13 @@ function Home (){
     const [urls, setUrls] = useState([])
     const [artists, setArtists] = useState([])
     const [genres, setGenres] = useState([])
+    const [playlists, setPlaylists] = useState([])
+    const [ids, setIds] = useState([])
     const [currentSongImg, setCurrentSongImg] = useState('')
     const [currentSongName, setCurrentSongName] = useState('')
     const [currentSongArtist, setCurrentSongArtist] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
     const [isShown, setIsShown] = useState(false);
-    const [isPlay, setIsPlay] = useState(false)
-    const [isPause, setIsPause] = useState(true)
     const [clickedOptions, setClickedOptions] = useState(false)
     const progressBarRef = useRef();
 
@@ -41,6 +42,8 @@ function Home (){
                 setUrls(response.data.urls)
                 setArtists(response.data.artists)
                 setGenres(response.data.genres)
+                setPlaylists(response.data.playlists)
+                setIds(response.data.ids)
             }else{
                 navigate("/")
             }
@@ -68,6 +71,8 @@ function Home (){
             var index = songs.indexOf(clicked)
             setIsShown(true);
             setCurrentSongImg(images[index]);
+            setCurrentSongArtist(artists[index])
+            setCurrentSongName(songs[index])
             setCurrentSongUrl(urls[index]);
         }
     }
@@ -92,6 +97,8 @@ function Home (){
                 <h2 className={homeCSS.tabName}><a className={homeCSS.active} href='/home'><img className={homeCSS.tabs} src={home} alt='home' />Home</a></h2>
                 <h2 className={homeCSS.tabName}><a href='/genre'><img className={homeCSS.tabs} src={genre} alt='genre'/>Genre</a></h2>
                 <h2 className={homeCSS.tabName}><a href='/createPlaylist'><img className={homeCSS.tabs} src={playlist} alt='create'/>Create Playlist</a></h2>
+                <hr/><br/>
+                <Playlists playlists={playlists} ids={ids} />
             </div>
 
             <div className={homeCSS.rightPanel}>
@@ -158,7 +165,7 @@ function Home (){
                 </div>
             </div>   
             {isShown && 
-              <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} url={currentSongUrl} />
+              <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
             }       
         </div>
     )

@@ -7,6 +7,8 @@ import home from './assets/home.png';
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
 import { useParams } from "react-router-dom";
+import Playlists from './components/playlists';
+import MusicPlayer from './components/musicPlayer';
 
 function GenreSongs (){
     const navigate = useNavigate();
@@ -16,10 +18,13 @@ function GenreSongs (){
     const [songs, setSongs] = useState([])
     const [urls, setUrls] = useState([])
     const [artists, setArtists] = useState([])
+    const [playlists, setPlaylists] = useState([])
+    const [ids, setIds] = useState([])
     const [genreImg, setGenreImg] = useState('')
     const [currentSongImg, setCurrentSongImg] = useState()
     const [currentSongName, setCurrentSongName] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
+    const [currentSongArtist, setCurrentSongArtist] = useState('')
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
 
@@ -34,34 +39,8 @@ function GenreSongs (){
                 setUrls(response.data.urls)
                 setArtists(response.data.artists)
                 setGenreImg(response.data.genreImg)
-
-                // var grid;
-                // var columns = [
-                //     {id: "#", name: "#", field: "no"},
-                //     {id: "song", name: "Song", field: "song"},
-                //     {id: "artist", name: "Artist", field: "artist"}
-                // ];
-
-                // var options = {
-                //     enableCellNavigation: true,
-                //     enableColumnReorder: false
-                // };
-
-                // console.log(songs)
-                // function s() {
-                //     var data = [];
-                //     for (var i = 0; i < 8; i++) {
-                //         data[i] = {
-                //             no: (i+1),
-                //             song: "song "+(i+1),
-                //             artist: "artist "+ (i+1)
-                //         };
-                //     }
-
-                //     grid = new Slick.Grid("#myGrid", data, columns, options);
-                // }
-
-                // s();
+                setPlaylists(response.data.playlists)
+                setIds(response.data.ids)
             }else{
                 navigate("/")
             }
@@ -86,7 +65,8 @@ function GenreSongs (){
         setIsShown(true);
         setCurrentSongImg(e.target.dataset.img);
         setCurrentSongName(e.target.dataset.name)
-        setCurrentSongUrl(e.target.dataset.url)
+        setCurrentSongArtist(e.target.dataset.artist)
+        setCurrentSongUrl(e.target.dataset.url);
     }
 
     const showOptions = ()=>{
@@ -105,6 +85,8 @@ function GenreSongs (){
                 <h2 className={genreSongsCSS.tabName}><a href='/home'><img className={genreSongsCSS.tabs} src={home} />Home</a></h2>
                 <h2 className={genreSongsCSS.tabName}><a href='/genre'><img className={genreSongsCSS.tabs} src={genre} />Genre</a></h2>
                 <h2 className={genreSongsCSS.tabName}><a href='/createPlaylist'><img className={genreSongsCSS.tabs} src={playlist} />Create Playlist</a></h2>
+                <hr/><br/>
+                <Playlists playlists={playlists} ids={ids} />
             </div>
 
             <div className={genreSongsCSS.rightPanel}>
@@ -135,30 +117,24 @@ function GenreSongs (){
                         </tr>
                         {data.map((val,key)=>{
                             return(
-                                <tr className={genreSongsCSS.songRow} key={key} >
+                                <tr className={genreSongsCSS.songRow} key={key} data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>
                                         <td className={genreSongsCSS.no}>{val.no}</td>
                                         <td><img className={genreSongsCSS.tableImg} src={val.img} /></td>
                                         <td>{val.song}</td>
                                         <td>{val.artist}</td>
-                                        <img className={genreSongsCSS.playSong} src={playlist} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} />     
+                                        <img className={genreSongsCSS.playSong} src={playlist} />     
                                 </tr>
                             )
                         })
                         }
                     </table>
 
-                    {/* <table width="100%">
-                        <tr>
-                            <td valign="top" width="50%">
-                                <div id="myGrid"></div>
-                            </td>
-                        </tr>
-                    </table> */}
+                    
                 </div>
             </div>  
             {isShown && 
             <div className={genreSongsCSS.musicControls}>
-                <img className={genreSongsCSS.currentSongImg} src={currentSongImg}/>
+                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
             </div>  
             }          
         </div>

@@ -301,7 +301,7 @@ function Admin(){
                             }}>
                                     {artistData.map(item=>{
                                         return(
-                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                            <option key={item.id} value={item.name}>{item.name}</option>
                                         )
                                     })}
                             </select><br/>
@@ -322,7 +322,7 @@ function Admin(){
                             }}>
                                     {artistData.map(item=>{
                                         return(
-                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                            <option key={item.id} value={item.name}>{item.name}</option>
                                         )
                                     })}
                             </select>
@@ -330,6 +330,7 @@ function Admin(){
                             <button onClick={deleteArtist}>Delete Artist</button>
                     </div>
                 </Col>
+                <h2>{artistOperationStatus}</h2>
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Show:</h2>
@@ -353,7 +354,6 @@ function Admin(){
                         </table>
                     </div>
                 </Col>
-                <h2>{artistOperationStatus}</h2>
                 <hr/>
             </Row>
             
@@ -384,7 +384,7 @@ function Admin(){
                             }}>
                                     {genreData.map(item=>{
                                         return(
-                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                            <option key={item.id} value={item.name}>{item.name}</option>
                                         )
                                     })}
                     </select><br/>
@@ -403,12 +403,13 @@ function Admin(){
                             }}>
                                     {genreData.map(item=>{
                                         return(
-                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                            <option key={item.id} value={item.name}>{item.name}</option>
                                         )
                                     })}
                             </select><br/>
                     <button onClick={deleteGenre}>Delete Genre</button>
                 </Col>
+                <h2>{genreOperationStatus}</h2>
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Show:</h2>
@@ -432,7 +433,6 @@ function Admin(){
                         </table>
                     </div>
                 </Col>
-                <h2>{genreOperationStatus}</h2>
                 <hr/>
             </Row>
 
@@ -478,7 +478,7 @@ function Admin(){
                             }}>
                             {songData.map(item=>{
                                 return(
-                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                    <option key={item.id} value={item.name}>{item.name}</option>
                                 )
                             })}
                     </select><br/>
@@ -502,12 +502,13 @@ function Admin(){
                             }}>
                             {songData.map(item=>{
                                 return(
-                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                    <option key={item.id} value={item.name}>{item.name}</option>
                                 )
                             })}
                     </select><br/>
                     <button onClick={deleteSong}>Delete Song</button>
                 </Col>
+                <h2>{songOperationStatus}</h2>
                 <Col>
                     <div className={adminCSS.operation}>
                         <h2>Show:</h2>
@@ -537,7 +538,6 @@ function Admin(){
                         </table>
                     </div>
                 </Col>
-                <h2>{songOperationStatus}</h2>
             </Row>
          </Container>
     </div>
@@ -545,3 +545,38 @@ function Admin(){
 }
 
 export default Admin;
+ // var grid;
+                // var columns = [
+                //     {id: "#", name: "#", field: "no"},
+                //     {id: "song", name: "Song", field: "song"},
+                //     {id: "artist", name: "Artist", field: "artist"}
+                // ];
+
+                // var options = {
+                //     enableCellNavigation: true,
+                //     enableColumnReorder: false
+                // };
+
+                // console.log(songs)
+                // function s() {
+                //     var data = [];
+                //     for (var i = 0; i < 8; i++) {
+                //         data[i] = {
+                //             no: (i+1),
+                //             song: "song "+(i+1),
+                //             artist: "artist "+ (i+1)
+                //         };
+                //     }
+
+                //     grid = new Slick.Grid("#myGrid", data, columns, options);
+                // }
+
+                // s();
+
+                {/* <table width="100%">
+                        <tr>
+                            <td valign="top" width="50%">
+                                <div id="myGrid"></div>
+                            </td>
+                        </tr>
+                    </table> */}

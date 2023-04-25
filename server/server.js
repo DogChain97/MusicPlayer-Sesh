@@ -165,6 +165,8 @@ app.get("/home", function(req, res){
     const artists = []
     const genres = []
     const urls = []
+    const playlists = []
+    const ids = []
 
     if(req.session.user){
         db.query("SELECT s_img,s_name,s_url,a_name,g_name FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id ORDER BY s_name;", (err,result)=>{
@@ -178,10 +180,19 @@ app.get("/home", function(req, res){
                     artists.push(result[i].a_name)
                     genres.push(result[i].g_name)
                 }
+                db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
+                    if(error){
+                        console.log(err);
+                    }else{
+                        for(let i = 0; i < result2.length; i++){
+                            playlists.push(result2[i].pl_name)
+                            ids.push(result2[i].pl_id)
+                        }
+                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres, playlists:playlists, ids:ids})
+                    }
+                })
             }
-            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres})
         })
-        
     }else{
         res.send({loggedIn: false})
     }
@@ -192,6 +203,8 @@ app.get("/genre", function(req, res){
     
     const images = []
     const genres = []
+    const playlists = []
+    const ids = []
     
     if(req.session.user){
         db.query("SELECT g_img, g_name FROM genre;", (err,result)=>{
@@ -202,8 +215,18 @@ app.get("/genre", function(req, res){
                     images.push(result[i].g_img)
                     genres.push(result[i].g_name)
                 }
+                db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
+                    if(error){
+                        console.log(err);
+                    }else{
+                        for(let i = 0; i < result2.length; i++){
+                            playlists.push(result2[i].pl_name)
+                            ids.push(result2[i].pl_id)
+                        }
+                        res.send({loggedIn: true, user: req.session.user, images: images, genres: genres, playlists:playlists, ids:ids})
+                    }
+                })
             }
-            res.send({loggedIn: true, user: req.session.user, images: images, genres: genres})
         })
     }else{
         res.send({loggedIn: false})
@@ -212,8 +235,22 @@ app.get("/genre", function(req, res){
 
 // Handling CreatePlaylist Page GET Request
 app.get("/createPlaylist", function(req, res){
+    
+    const playlists = []
+    const ids = []
+    
     if(req.session.user){
-        res.send({loggedIn: true, user: req.session.user})
+        db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
+            if(error){
+                console.log(err);
+            }else{
+                for(let i = 0; i < result2.length; i++){
+                    playlists.push(result2[i].pl_name)
+                    ids.push(result2[i].pl_id)
+                }
+                res.send({loggedIn: true, user: req.session.user, playlists:playlists, ids:ids})
+            }
+        })
     }else{
         res.send({loggedIn: false})
     }
@@ -227,6 +264,8 @@ app.get("/genre/:param", function(req, res){
     const artists = []
     const urls = []
     var genreImg = ''
+    const playlists = []
+    const ids = []
 
     const genre = req.params.param;
     if(req.session.user){
@@ -241,8 +280,18 @@ app.get("/genre/:param", function(req, res){
                     artists.push(result[i].a_name)
                 }
                 genreImg = result[0].g_img
+                db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
+                    if(error){
+                        console.log(err);
+                    }else{
+                        for(let i = 0; i < result2.length; i++){
+                            playlists.push(result2[i].pl_name)
+                            ids.push(result2[i].pl_id)
+                        }
+                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genreImg: genreImg, playlists:playlists, ids:ids})
+                    }
+                })
             }
-            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genreImg: genreImg})
         })
     }else{
         res.send({loggedIn: false})
@@ -251,29 +300,110 @@ app.get("/genre/:param", function(req, res){
 
 // Artist Songs Page GET Request
 app.get("/artist/:param", function(req, res){
+
     const images = []
     const songs = []
     const genres = []
+    const urls = []
     var artistImg = ''
+    const playlists = []
+    const ids = []
 
     const artist = req.params.param;
     if(req.session.user){
-        db.query("SELECT s_img,s_name,g_name,a_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE a_name='"+artist+"' ORDER BY s_name;", (err, result)=>{
+        db.query("SELECT s_img,s_name,s_url,g_name,a_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE a_name='"+artist+"' ORDER BY s_name;", (err, result)=>{
             if(err){
                 console.log(err);
             }else{
                 for(let i = 0; i < result.length; i++){
                     images.push(result[i].s_img)
                     songs.push(result[i].s_name)
+                    urls.push(result[i].s_url)
                     genres.push(result[i].g_name)
                 }
                 artistImg = result[0].a_img
+                db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
+                    if(error){
+                        console.log(err);
+                    }else{
+                        for(let i = 0; i < result2.length; i++){
+                            playlists.push(result2[i].pl_name)
+                            ids.push(result2[i].pl_id)
+                        }
+                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, genres: genres, artistImg: artistImg, playlists:playlists, ids:ids})
+                    }
+                })
             }
-            res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, genres: genres, artistImg: artistImg})
         })
     }else{
         res.send({loggedIn: false})
     }
+})
+
+////////////////////////////////////////////////////PLAYLIST/////////////////////////////////////////
+// Create Playlist POST Rrequest
+app.post("/createplaylist", (req, res)=>{
+    const user = req.body.user
+    const plname = req.body.plname
+
+    db.query("INSERT into playlists(user_name,pl_name) VALUES (?,?);",[user,plname],(err,result)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log("Successfully Inserted")
+        }
+    })
+
+    db.query("SELECT pl_id from playlists WHERE user_name=? AND pl_name=?;",[user,plname],(err, result)=>{
+        if(err){
+            res.send({message: "No playlist found"})
+        }else{
+            res.send({id: result[0].pl_id})
+        }
+    })
+})
+
+// UserPlaylist GET Request
+app.get("/playlist/:id",(req,res)=>{
+    
+    const images = []
+    const songs = []
+    const artists = []
+    const genres = []
+    const urls = []
+    const playlists = []
+    const ids = []
+
+    if(req.session.user){
+        db.query("SELECT s_img,s_name,s_url,a_name,g_name FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id ORDER BY s_name;", (req,res)=>{
+            if(err){
+                console.log(err)
+            }else{
+                for(let i = 0; i < result.length; i++){
+                    images.push(result[i].s_img)
+                    songs.push(result[i].s_name)
+                    urls.push(result[i].s_url)
+                    artists.push(result[i].a_name)
+                    genres.push(result[i].g_name)
+                }
+                db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
+                    if(error){
+                        console.log(err);
+                    }else{
+                        for(let i = 0; i < result2.length; i++){
+                            playlists.push(result2[i].pl_name)
+                            ids.push(result2[i].pl_id)
+                        }
+                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres, playlists:playlists, ids:ids})
+                    }
+                })
+            }
+        })
+        
+    }else{
+        res.send({loggedIn: false})
+    }
+    
 })
 
 ////////////////////////////////////////////////////LOGOUT//////////////////////////////////////////////////
@@ -338,7 +468,6 @@ app.post("/admin", function(req,res){
         }
         else if(operation === 'delete'){
             const artistName = req.body.artistName;
-
             db.query("DELETE FROM artist WHERE a_name=?;",
             artistName,
             (err, result)=>{
@@ -417,7 +546,7 @@ app.post("/admin", function(req,res){
             }
         }
         else if(operation === 'delete'){
-            const ganreName = req.body.genreName;
+            const genreName = req.body.genreName;
 
             db.query("DELETE FROM genre WHERE g_name=?;",
             genreName,

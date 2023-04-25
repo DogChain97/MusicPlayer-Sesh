@@ -7,6 +7,8 @@ import home from './assets/home.png';
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
 import { useParams } from "react-router-dom";
+import Playlists from './components/playlists';
+import MusicPlayer from './components/musicPlayer';
 
 function ArtistSongs (){
     const navigate = useNavigate();
@@ -16,10 +18,13 @@ function ArtistSongs (){
     const [songs, setSongs] = useState([])
     const [urls, setUrls] = useState([])
     const [genres, setGenres] = useState([])
+    const [playlists, setPlaylists] = useState([])
+    const [ids, setIds] = useState([])
     const [artistImg, setArtistImg] = useState('')
     const [currentSongImg, setCurrentSongImg] = useState()
     const [currentSongName, setCurrentSongName] = useState('')
     const [currentSongUrl, setCurrentSongUrl] = useState('')
+    const [currentSongArtist, setCurrentSongArtist] = useState('')
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
 
@@ -30,8 +35,12 @@ function ArtistSongs (){
                 setUser(response.data.user[0].u_name)
                 setImages(response.data.images)
                 setSongs(response.data.songs)
+                setUrls(response.data.urls)
                 setGenres(response.data.genres)
                 setArtistImg(response.data.artistImg)
+                setCurrentSongArtist(param)
+                setPlaylists(response.data.playlists)
+                setIds(response.data.ids)
             }else{
                 navigate("/")
             }
@@ -56,7 +65,7 @@ function ArtistSongs (){
         setIsShown(true);
         setCurrentSongImg(e.target.dataset.img);
         setCurrentSongName(e.target.dataset.name)
-        setCurrentSongUrl(e.target.dataset.url)
+        setCurrentSongUrl(e.target.dataset.url);
     }
 
     const showOptions = ()=>{
@@ -75,6 +84,8 @@ function ArtistSongs (){
                 <h2 className={artistSongsCSS.tabName}><a href='/home'><img className={artistSongsCSS.tabs} src={home} />Home</a></h2>
                 <h2 className={artistSongsCSS.tabName}><a href='/genre'><img className={artistSongsCSS.tabs} src={genre} />Genre</a></h2>
                 <h2 className={artistSongsCSS.tabName}><a href='/createPlaylist'><img className={artistSongsCSS.tabs} src={playlist} />Create Playlist</a></h2>
+                <hr/><br/>
+                <Playlists playlists={playlists} ids={ids} />
             </div>
 
             <div className={artistSongsCSS.rightPanel}>
@@ -104,12 +115,12 @@ function ArtistSongs (){
                         </tr>
                         {data.map((val,key)=>{
                             return(
-                                <tr className={artistSongsCSS.songRow} key={key} >
+                                <tr className={artistSongsCSS.songRow} key={key} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} >
                                         <td className={artistSongsCSS.no}>{val.no}</td>
                                         <td><img className={artistSongsCSS.tableImg} src={val.img} /></td>
                                         <td>{val.song}</td>
                                         <td>{val.genre}</td>
-                                        <img className={artistSongsCSS.playSong} src={playlist} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} />     
+                                        <img className={artistSongsCSS.playSong} src={playlist} />     
                                 </tr>
                             )
                         })
@@ -118,9 +129,7 @@ function ArtistSongs (){
                 </div>
             </div>     
             {isShown && 
-            <div className={artistSongsCSS.musicControls}>
-                <img className={artistSongsCSS.currentSongImg} src={currentSongImg}/>
-            </div>  
+                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
             }        
         </div>
     )

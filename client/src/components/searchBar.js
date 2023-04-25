@@ -50,7 +50,7 @@ function SearchBar (props){
             <ul className={searchCSS.list}>
                 {finalData.map(item=>{
                     return (
-                        <li className={searchCSS.listItem} key={item.data} onClick={props.onClick}>{item.data}</li>
+                        <li className={searchCSS.listItem} key={item.data} value={item.data} onClick={props.onClick}>{item.data}</li>
                     )
                 })}
             </ul>

@@ -6,6 +6,7 @@ import CreatePlaylist from './createPlaylist';
 import Admin from './admin';
 import GenreSongs from './genreSongs';
 import ArtistSongs from './artistSongs';
+import UserPlaylist from './userplaylist';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path='/admin' element={<Admin/>}/>
         <Route path='/genre/:param' element={<GenreSongs/>} />
         <Route path='/artist/:param' element={<ArtistSongs/>} />
+        <Route path='/playlist/:id' element={<UserPlaylist/>} />
       </Routes>
     </div>
   );
