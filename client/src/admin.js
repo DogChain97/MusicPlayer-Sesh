@@ -87,12 +87,7 @@ function Admin(){
     }
 
     const showArtist = (e) => {
-        setTable("artist")
-        setOperation("show")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation
-        }).then((response) => {
+        Axios.post('http://localhost:7000/showartist').then((response) => {
                 setAID(response.data.artistID)
                 setAName(response.data.artistName)
                 setAImg(response.data.artistImage)
@@ -150,12 +145,7 @@ function Admin(){
     }
 
     const showGenre = () => {
-        setTable("genre")
-        setOperation("show")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation
-        }).then((response) => {
+        Axios.post('http://localhost:7000/showgenre').then((response) => {
             setGID(response.data.genreID)
             setGName(response.data.genreName)
             setGImg(response.data.genreImage)
@@ -217,12 +207,7 @@ function Admin(){
     }
 
     const showSong = () => {
-        setTable("song")
-        setOperation("show")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation
-        }).then((response) => {
+        Axios.post('http://localhost:7000/showsong').then((response) => {
             setSID(response.data.songID)
             setSName(response.data.songName)
             setSImg(response.data.songImage)

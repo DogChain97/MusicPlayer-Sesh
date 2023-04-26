@@ -46,7 +46,7 @@ function CreatePlaylist (){
             plname: playlistName
         }).then((response) => {
             if(response.data.id){
-                navigate(`/playlist/${response.data.id}`)
+                navigate(`/playlist/${playlistName}/${response.data.id}`)
             }else{
                 console.log(response.data.message)
             }

@@ -520,23 +520,23 @@ app.post("/admin", function(req,res){
                 
             })
         }
-        else if(operation === 'show'){
-            const artistID = []
-            const artistName = []
-            const artistImg = []
-            db.query("SELECT * FROM artist;",(err, result)=>{
-                if(err){
-                    res.send({message: "Artist table doesn't exist"});
-                }else{
-                    for(let i=0;i<result.length;i++){
-                        artistID.push(result[i].a_id);
-                        artistName.push(result[i].a_name);
-                        artistImg.push(result[i].a_img);
-                    }
-                }
-                res.send({artistID:artistID, artistName:artistName, artistImage:artistImg})
-            })
-        }
+        // else if(operation === 'show'){
+        //     const artistID = []
+        //     const artistName = []
+        //     const artistImg = []
+        //     db.query("SELECT * FROM artist;",(err, result)=>{
+        //         if(err){
+        //             res.send({message: "Artist table doesn't exist"});
+        //         }else{
+        //             for(let i=0;i<result.length;i++){
+        //                 artistID.push(result[i].a_id);
+        //                 artistName.push(result[i].a_name);
+        //                 artistImg.push(result[i].a_img);
+        //             }
+        //         }
+        //         res.send({artistID:artistID, artistName:artistName, artistImage:artistImg})
+        //     })
+        // }
     /////////////////////////////////////GENRE///////////////////////////////////////
     }else if(table === 'genre'){
         if(operation === "add"){
@@ -600,23 +600,7 @@ app.post("/admin", function(req,res){
                 
             })
         }
-        else if(operation === 'show'){
-            const genreID = []
-            const genreName = []
-            const genreImg = []
-            db.query("SELECT * FROM genre;",(err, result)=>{
-                if(err){
-                    res.send({message: "Song table doesn't exist"});
-                }else{
-                    for(let i=0;i<result.length;i++){
-                        genreID.push(result[i].g_id);
-                        genreName.push(result[i].g_name);
-                        genreImg.push(result[i].g_img);
-                    }
-                }
-                res.send({genreID:genreID, genreName:genreName, genreImage:genreImg})
-            })
-        }
+    
     /////////////////////////////////////SONG///////////////////////////////////////
     }else if(table === 'song'){
         if(operation === "add"){
@@ -684,31 +668,68 @@ app.post("/admin", function(req,res){
                 
             })
         }
-        else if(operation === 'show'){
-            const songID = []
-            const songName = []
-            const songImg = []
-            const songUrl = []
-            const songGenreID = []
-            const songArtistID = []
-            db.query("SELECT * FROM song;",(err, result)=>{
-                if(err){
-                    res.send({message: "Song table doesn't exist"});
-                }else{
-                    for(let i=0;i<result.length;i++){
-                        songID.push(result[i].s_id);
-                        songName.push(result[i].s_name);
-                        songImg.push(result[i].s_img);
-                        songUrl.push(result[i].s_url);
-                        songGenreID.push(result[i].genre_id);
-                        songArtistID.push(result[i].artist_id);
-                    }
-                }
-                res.send({songID:songID, songName:songName, songImage:songImg, songUrl:songUrl, songGenreID:songGenreID, songArtistID:songArtistID})
-            })
-        }
     }
     
+})
+
+app.post("/showartist", (req,res)=>{
+    const artistID = []
+    const artistName = []
+    const artistImg = []
+    db.query("SELECT * FROM artist;",(err, result)=>{
+        if(err){
+             res.send({message: "Artist table doesn't exist"});
+        }else{
+            for(let i=0;i<result.length;i++){
+                 artistID.push(result[i].a_id);
+                 artistName.push(result[i].a_name);
+                 artistImg.push(result[i].a_img);
+            }
+         }
+        res.send({artistID:artistID, artistName:artistName, artistImage:artistImg})
+    })
+})
+
+app.post("/showgenre",(req,res)=>{
+    const genreID = []
+    const genreName = []
+    const genreImg = []
+    db.query("SELECT * FROM genre;",(err, result)=>{
+         if(err){
+             res.send({message: "Song table doesn't exist"});
+         }else{
+             for(let i=0;i<result.length;i++){
+                 genreID.push(result[i].g_id);
+                 genreName.push(result[i].g_name);
+                 genreImg.push(result[i].g_img);
+             }
+         }
+         res.send({genreID:genreID, genreName:genreName, genreImage:genreImg})
+     })
+})
+
+app.post("/showsong",(req,res)=>{
+    const songID = []
+    const songName = []
+    const songImg = []
+    const songUrl = []
+    const songGenreID = []
+    const songArtistID = []
+    db.query("SELECT * FROM song;",(err, result)=>{
+        if(err){
+            res.send({message: "Song table doesn't exist"});
+        }else{
+            for(let i=0;i<result.length;i++){
+                songID.push(result[i].s_id);
+                songName.push(result[i].s_name);
+                songImg.push(result[i].s_img);
+                songUrl.push(result[i].s_url);
+                songGenreID.push(result[i].genre_id);
+                 songArtistID.push(result[i].artist_id);
+            }
+         }
+        res.send({songID:songID, songName:songName, songImage:songImg, songUrl:songUrl, songGenreID:songGenreID, songArtistID:songArtistID})
+    })
 })
 
 app.get("/admin", function(req, res){

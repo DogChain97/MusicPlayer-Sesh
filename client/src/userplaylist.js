@@ -138,11 +138,11 @@ function UserPlaylist (){
                         {data.map((val,key)=>{
                             return(
                                 <tr className={userPlaylistCSS.songRow} key={key} data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>
-                                        <td className={userPlaylistCSS.no}>{val.no}</td>
-                                        <td><img className={userPlaylistCSS.tableImg} src={val.img} /></td>
-                                        <td>{val.song}</td>
-                                        <td>{val.artist}</td>
-                                        <td>{val.genre}</td>
+                                        <td className={userPlaylistCSS.no} data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.no}</td>
+                                        <td data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}><img className={userPlaylistCSS.tableImg} src={val.img} data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}/></td>
+                                        <td data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.song}</td>
+                                        <td data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.artist}</td>
+                                        <td data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.genre}</td>
                                         <img className={userPlaylistCSS.playSong} src={playlist} />     
                                 </tr>
                             )
