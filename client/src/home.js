@@ -104,7 +104,7 @@ function Home (){
             <div className={homeCSS.rightPanel}>
                 <div className={homeCSS.searchPanel}>
                     <div className={homeCSS.searchPanelConents}>
-                        <SearchBar data={searchArray} onClick={loadPage}/>
+                        <SearchBar data={searchArray} placeholder="What's on your mind? Artists/Songs" onClick={loadPage}/>
                         <button onClick={showOptions} className={homeCSS.logout}>{user.charAt(0)}</button>
                         {clickedOptions && 
                             <ul className={homeCSS.userOptions}>

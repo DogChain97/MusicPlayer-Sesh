@@ -21,7 +21,7 @@ function App() {
         <Route path='/admin' element={<Admin/>}/>
         <Route path='/genre/:param' element={<GenreSongs/>} />
         <Route path='/artist/:param' element={<ArtistSongs/>} />
-        <Route path='/playlist/:id' element={<UserPlaylist/>} />
+        <Route path='/playlist/:name/:id' element={<UserPlaylist/>} />
       </Routes>
     </div>
   );

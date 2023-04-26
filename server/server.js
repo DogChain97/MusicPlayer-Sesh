@@ -364,27 +364,27 @@ app.post("/createplaylist", (req, res)=>{
 })
 
 // UserPlaylist GET Request
-app.get("/playlist/:id",(req,res)=>{
+app.get("/playlist/:name/:id",(req,res)=>{
     
-    const images = []
     const songs = []
-    const artists = []
-    const genres = []
-    const urls = []
+    const plimages = []
+    const plsongs = []
+    const plartists = []
+    const plgenres = []
+    const plurls = []
     const playlists = []
     const ids = []
 
+    var id = req.params.id
+    var name = req.params.name
+
     if(req.session.user){
-        db.query("SELECT s_img,s_name,s_url,a_name,g_name FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id ORDER BY s_name;", (req,res)=>{
+        db.query("SELECT s_name FROM song ORDER BY s_name;", (err,result)=>{
             if(err){
                 console.log(err)
             }else{
                 for(let i = 0; i < result.length; i++){
-                    images.push(result[i].s_img)
                     songs.push(result[i].s_name)
-                    urls.push(result[i].s_url)
-                    artists.push(result[i].a_name)
-                    genres.push(result[i].g_name)
                 }
                 db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
                     if(error){
@@ -394,7 +394,20 @@ app.get("/playlist/:id",(req,res)=>{
                             playlists.push(result2[i].pl_name)
                             ids.push(result2[i].pl_id)
                         }
-                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres, playlists:playlists, ids:ids})
+                        db.query("select s_img,s_name,s_url,a_name,g_name from song JOIN artist ON a_id=artist_id JOIN genre ON g_id=genre_id JOIN userplaylist ON song_name=s_name JOIN playlists ON usp_id=pl_id WHERE song_name=s_name AND pl_id=?;",[id],(err3,result3)=>{
+                            if(err3){
+                                console.log(err3)
+                            }else{
+                                for(let i = 0; i < result3.length; i++){
+                                    plimages.push(result3[i].s_img)
+                                    plsongs.push(result3[i].s_name)
+                                    plartists.push(result3[i].a_name)
+                                    plgenres.push(result3[i].g_name)
+                                    plurls.push(result3[i].s_url)
+                                }
+                                res.send({loggedIn: true, user: req.session.user, songs: songs, plimages: plimages, plsongs: plsongs, plurls: plurls, plartists: plartists, plgenres: plgenres, playlists: playlists, ids:ids})
+                            }
+                        })
                     }
                 })
             }
@@ -404,6 +417,30 @@ app.get("/playlist/:id",(req,res)=>{
         res.send({loggedIn: false})
     }
     
+})
+
+app.post("/addsong", (req, res)=>{
+    var id = req.body.id
+    var name = req.body.song
+
+    db.query("SELECT COUNT(*) as count from userplaylist WHERE usp_id=? and song_name=?;",[id,name],(err, result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+            if((result[0].count === 0)){
+                db.query("INSERT INTO userplaylist (usp_id,song_name) VALUES (?,?);",[id,name],(err2, result2)=>{
+                    if(err2){
+                        console.log(err2)
+                    }else{
+                        res.send({message: "Song Added"})
+                    }
+                })
+            }else{
+                res.send({message: "Song Already Exists"})
+            }
+        }
+    })
 })
 
 ////////////////////////////////////////////////////LOGOUT//////////////////////////////////////////////////

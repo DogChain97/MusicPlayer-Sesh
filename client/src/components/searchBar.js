@@ -45,7 +45,7 @@ function SearchBar (props){
 
     return (
         <div className={searchCSS.searchBox}>
-            <input className = {searchCSS.searchInput} value={props.value} onChange={handleChange} type='text' placeholder="What's on your mind? Artists/Songs" />
+            <input className = {searchCSS.searchInput} value={props.value} onChange={handleChange} type='text' placeholder={props.placeholder} />
             <button className = {searchCSS.searchButton} onClick=''><img className = {searchCSS.searchImg} src={search}/></button>
             <ul className={searchCSS.list}>
                 {finalData.map(item=>{

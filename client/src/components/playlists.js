@@ -19,7 +19,8 @@ function Playlists (props) {
 
     const gotoplaylist = (e)=>{
         var id = e.target.dataset.id
-        navigate(`/playlist/${id}`)
+        var name = e.target.dataset.name
+        navigate(`/playlist/${name}/${id}`)
     }
 
     return (

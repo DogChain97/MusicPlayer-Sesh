@@ -14,12 +14,13 @@ import MusicPlayer from './components/musicPlayer';
 function UserPlaylist (){
     const navigate = useNavigate();
     const [user, setUser] = useState('')
-    const {id} = useParams();
-    const [images, setImages] = useState([])
+    const {name,id} = useParams();
     const [songs, setSongs] = useState([])
-    const [urls, setUrls] = useState([])
-    const [artists, setArtists] = useState([])
-    const [genres, setGenres] = useState([])
+    const [plimages, setplImages] = useState([])
+    const [plsongs, setplSongs] = useState([])
+    const [plurls, setplUrls] = useState([])
+    const [plartists, setplArtists] = useState([])
+    const [plgenres, setplGenres] = useState([])
     const [playlists, setPlaylists] = useState([])
     const [ids, setIds] = useState([])
     const [currentSongImg, setCurrentSongImg] = useState()
@@ -33,14 +34,15 @@ function UserPlaylist (){
     Axios.defaults.withCredentials = true
     useEffect(() => {
 
-        Axios.get(`http://localhost:7000/playlist/${id}`).then((response) => {
+        Axios.get(`http://localhost:7000/playlist/${name}/${id}`).then((response) => {
             if(response.data.loggedIn === true){
                 setUser(response.data.user[0].u_name)
-                setImages(response.data.images)
                 setSongs(response.data.songs)
-                setUrls(response.data.urls)
-                setArtists(response.data.artists)
-                setGenres(response.data.genres)
+                setplImages(response.data.plimages)
+                setplSongs(response.data.plsongs)
+                setplUrls(response.data.plurls)
+                setplArtists(response.data.plartists)
+                setplGenres(response.data.plgenres)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
             }else{
@@ -50,14 +52,14 @@ function UserPlaylist (){
     }, [])
 
     const data = [];
-    for(var i=0;i<images.length;i++){
+    for(var i=0;i<plimages.length;i++){
         data.push({
             no: (i+1),
-            img: images[i],
-            song: songs[i],
-            url: urls[i],
-            artist: artists[i],
-            genre: genres[i]
+            img: plimages[i],
+            song: plsongs[i],
+            url: plurls[i],
+            artist: plartists[i],
+            genre: plgenres[i]
         }
         )
     }
@@ -79,7 +81,7 @@ function UserPlaylist (){
     const addSong = (e)=>{
         Axios.post('http://localhost:7000/addsong',{
             id: id,
-            song: e.target.value
+            song: e.target.innerHTML
         }).then((response)=>{
             if(response.data.message){
                 setAddedStatus(response.data.message)
@@ -115,12 +117,14 @@ function UserPlaylist (){
                     }
                     <br/>
                     <div className={userPlaylistCSS.titleDetails}>
-                        <h2 className={userPlaylistCSS.heading}>{id}</h2>
+                        <h2 className={userPlaylistCSS.pltitle}>{name}</h2>
+                        <SearchBar className={userPlaylistCSS.plsearchbar} data={songs} placeholder="Search for songs" onClick={addSong}/>
+                        <label className={userPlaylistCSS.searchLabel}>Click to add song</label>
+                        <label className={userPlaylistCSS.addedstatus}>{addedStatus}</label>
                     </div>
                 </div>
 
                 <div className={userPlaylistCSS.playlistContentPanel}>
-                    <SearchBar data={songs} onClick={addSong}/>
                     <table>
                         <tr className={userPlaylistCSS.songsHeader}>
                             
@@ -128,6 +132,7 @@ function UserPlaylist (){
                             <th>Image</th>
                             <th>Song</th>
                             <th>Artist</th>
+                            <th>Genre</th>
                             <img className={userPlaylistCSS.playSong} src={playlist}/>
                         </tr>
                         {data.map((val,key)=>{

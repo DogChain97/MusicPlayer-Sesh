@@ -106,6 +106,28 @@ a:hover {
     color: white;
 }
 
+.pltitle {
+    font-size:10rem;
+    font-weight: bold;
+    color: white;
+    margin: -40px 0 -10px 30px;
+}
+
+.searchLabel {
+    position: absolute;
+    top: 220px;
+    left: 550px;
+    color: white;
+}
+
+.addedstatus {
+    color: white;
+    font-size: 2rem;
+    position: absolute;
+    left: 900px;
+    top: 205px;
+}
+
 .searchBox {
     display: inline-block;
     position: relative;
@@ -146,6 +168,7 @@ a:hover {
 
 .listItem {
     padding: 10px 15px;
+    color: black;
 }
 
 .listItem:hover {
@@ -195,6 +218,7 @@ a:hover {
     right: 326px;
     list-style: none;
     padding-left: 0;
+    z-index: 5;
 }
 
 .userLogout {
@@ -320,9 +344,9 @@ p {
     padding: 0 0 0 20px;
 }
 
-.songRow:hover .playSong{
+/* .songRow:hover .playSong{
     opacity: 100%;
-}
+} */
 
 .playSong {
     height: 60px;
