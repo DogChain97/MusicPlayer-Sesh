@@ -30,7 +30,7 @@ function Home (){
     const [currentSongUrl, setCurrentSongUrl] = useState('')
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
-    const progressBarRef = useRef();
+    const [addedStatus, setAddedStatus] = useState('')
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -86,9 +86,23 @@ function Home (){
         navigate("/")
     }
 
-    const handleProgressChange = () => {
-        console.log(progressBarRef.current.value);
-      };
+    const addToPlaylist = (e)=>{
+        var song = e.target.dataset.title
+        var id = e.target.dataset.id
+
+            Axios.post('http://localhost:7000/addsong',{
+                id: id,
+                song: song
+            }).then((response)=>{
+                if(response.data.message){
+                    setAddedStatus(response.data.message)
+                }else{
+                    console.log("failed")
+                }
+            })
+        
+    }
+
 
     return (
         <div className={homeCSS.main}>
@@ -127,37 +141,37 @@ function Home (){
                         <Container>
                             <Row >
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[0]} title={songs[0]} artist={artists[0]} genre={genres[0]} url={urls[0]} onClick={songClicked}/>
+                                    <SongCard img={images[0]} title={songs[0]} artist={artists[0]} genre={genres[0]} url={urls[0]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[9]} title={songs[9]} artist={artists[9]} genre={genres[9]} url={urls[9]} onClick={songClicked}/>
+                                    <SongCard img={images[9]} title={songs[9]} artist={artists[9]} genre={genres[9]} url={urls[9]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[16]} title={songs[16]} artist={artists[16]} genre={genres[16]} url={urls[16]} onClick={songClicked}/>
+                                    <SongCard img={images[16]} title={songs[16]} artist={artists[16]} genre={genres[16]} url={urls[16]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[7]} title={songs[7]} artist={artists[7]} genre={genres[7]} url={urls[7]} onClick={songClicked}/>
+                                    <SongCard img={images[7]} title={songs[7]} artist={artists[7]} genre={genres[7]} url={urls[7]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[11]} title={songs[11]} artist={artists[11]} genre={genres[11]} url={urls[11]} onClick={songClicked}/>
+                                    <SongCard img={images[11]} title={songs[11]} artist={artists[11]} genre={genres[11]} url={urls[11]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                             </Row>
                             
                             <Row >
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[26]} title={songs[26]} artist={artists[26]} genre={genres[26]} url={urls[26]} onClick={songClicked}/>
+                                    <SongCard img={images[26]} title={songs[26]} artist={artists[26]} genre={genres[26]} url={urls[26]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[34]} title={songs[34]} artist={artists[34]} genre={genres[34]} url={urls[34]} onClick={songClicked}/>
+                                    <SongCard img={images[34]} title={songs[34]} artist={artists[34]} genre={genres[34]} url={urls[34]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[35]} title={songs[35]} artist={artists[35]} genre={genres[35]} url={urls[35]} onClick={songClicked}/>
+                                    <SongCard img={images[35]} title={songs[35]} artist={artists[35]} genre={genres[35]} url={urls[35]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[21]} title={songs[21]} artist={artists[21]} genre={genres[21]} url={urls[21]} onClick={songClicked}/>
+                                    <SongCard img={images[21]} title={songs[21]} artist={artists[21]} genre={genres[21]} url={urls[21]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                                 <Col className={homeCSS.gridColumn}>
-                                    <SongCard img={images[19]} title={songs[19]} artist={artists[19]} genre={genres[19]} url={urls[19]} onClick={songClicked}/>
+                                    <SongCard img={images[19]} title={songs[19]} artist={artists[19]} genre={genres[19]} url={urls[19]} playlists={playlists} ids={ids} addToPlaylist={addToPlaylist} onClick={songClicked}/>
                                 </Col>
                             </Row>
                         </Container>

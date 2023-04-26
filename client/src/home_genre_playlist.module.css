@@ -164,6 +164,20 @@ a:hover {
     left: 2px;
     list-style: none;
     padding-left: 0;
+    color: black;
+}
+
+.listPlaylist {
+    background-color: white;
+    border-radius: 5px;
+    position: absolute;
+    top: 310px;
+    left: 250px;
+    width: 140px;
+    list-style: none;
+    padding-left: 0;
+    color: black;
+    z-index: 6;
 }
 
 .listItem {
@@ -307,6 +321,18 @@ a:hover {
     right: 100px;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+.songOptions {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 310px;
+    left: 220px;
+    background-color: white;
+    border-radius: 50px;
+    opacity: 1;
+    z-index: 6;
 }
 
 .card {
