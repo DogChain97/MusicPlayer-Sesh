@@ -8,8 +8,10 @@ import GenreSongs from './genreSongs';
 import ArtistSongs from './artistSongs';
 import UserPlaylist from './userplaylist';
 import {Routes, Route} from 'react-router-dom';
+import MusicPlayer from './components/musicPlayer';
 
 function App() {
+
   return (
     <div className="App">
       <Routes>

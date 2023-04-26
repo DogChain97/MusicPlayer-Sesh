@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import {Link} from 'react-router-dom';
 import musicPlayerCSS from '../home_genre_playlist.module.css';
 
 function MusicPlayer (props) {

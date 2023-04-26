@@ -11,6 +11,7 @@ import Playlists from './components/playlists';
 import MusicPlayer from './components/musicPlayer';
 
 function GenreSongs (){
+    var dataX = []
     const navigate = useNavigate();
     const [user, setUser] = useState('')
     const {param} = useParams();
@@ -27,6 +28,7 @@ function GenreSongs (){
     const [currentSongArtist, setCurrentSongArtist] = useState('')
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
+    const [data, setData] = useState([])
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -47,19 +49,35 @@ function GenreSongs (){
         })
     }, [])
 
-    const data = [];
-    for(var i=0;i<images.length;i++){
-        data.push({
-            no: (i+1),
-            img: images[i],
-            song: songs[i],
-            url: urls[i],
-            artist: artists[i],
+        for(var i=0;i<images.length;i++){
+            dataX.push({
+                no: (i+1),
+                img: images[i],
+                song: songs[i],
+                url: urls[i],
+                artist: artists[i],
+            }
+            )
         }
-        )
-    }
 
-    console.log(data)
+    
+
+    const sortS = ()=>{
+        var i=0,j
+        while(i<dataX.length){
+            j=i+1
+            while(j<dataX.length){
+                if(dataX[j].song>dataX[i].song){
+                    var temp = dataX[i]
+                    dataX[i] = dataX[j]
+                    dataX[j] = temp
+                }
+                j++
+            }
+            i++
+        }
+        setData(dataX)
+    }
 
     const songClicked = (e) => {
         setIsShown(true);
@@ -111,11 +129,11 @@ function GenreSongs (){
                             
                             <th className={genreSongsCSS.no}>#</th>
                             <th>Image</th>
-                            <th>Song</th>
+                            <th onClick={sortS}>Song</th>
                             <th>Artist</th>
                             <img className={genreSongsCSS.playSong} src={playlist}/>
                         </tr>
-                        {data.map((val,key)=>{
+                        {dataX.map((val,key)=>{
                             return(
                                 <tr className={genreSongsCSS.songRow} key={key} data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>
                                         <td className={genreSongsCSS.no}>{val.no}</td>
