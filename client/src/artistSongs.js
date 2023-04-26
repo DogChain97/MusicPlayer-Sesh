@@ -11,6 +11,8 @@ import Playlists from './components/playlists';
 import MusicPlayer from './components/musicPlayer';
 
 function ArtistSongs (){
+    var iniData = []
+    var dataX = []
     const navigate = useNavigate();
     const [user, setUser] = useState('')
     const {param} = useParams();
@@ -27,6 +29,8 @@ function ArtistSongs (){
     const [currentSongArtist, setCurrentSongArtist] = useState('')
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
+    const [data, setData] = useState([])
+    const [asc, setAsc] = useState(true)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -41,15 +45,29 @@ function ArtistSongs (){
                 setCurrentSongArtist(param)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                for(var i=0;i<response.data.images.length;i++){
+                    dataX.push({
+                        no: (i+1),
+                        img: response.data.images[i],
+                        song: response.data.songs[i],
+                        url: response.data.urls[i],
+                        genre: response.data.genres[i],
+                    }
+                    )
+                }
+                for(var i=0;i<iniData.length/2;i++){
+                    dataX[i] = iniData[i] 
+                }
+                setData(dataX)
             }else{
                 navigate("/")
             }
         })
     }, [])
 
-    const data = [];
     for(var i=0;i<images.length;i++){
-        data.push({
+        dataX.push({
             no: (i+1),
             img: images[i],
             song: songs[i],
@@ -59,7 +77,39 @@ function ArtistSongs (){
         )
     }
 
-    console.log(data)
+    const sort = ()=>{
+        var i=0,j
+        setAsc(!asc)
+
+        if(asc === true){
+            while(i<dataX.length){
+                j=i+1
+                while(j<dataX.length){
+                    if(dataX[j].song>dataX[i].song){
+                        var temp = dataX[i]
+                        dataX[i] = dataX[j]
+                        dataX[j] = temp
+                    }
+                    j++
+                }
+                i++
+            }
+        }else if(asc === false){
+            while(i<dataX.length){
+                j=i+1
+                while(j<dataX.length){
+                    if(dataX[j].song<dataX[i].song){
+                        var temp = dataX[i]
+                        dataX[i] = dataX[j]
+                        dataX[j] = temp
+                    }
+                    j++
+                }
+                i++
+            }
+        }
+        setData(dataX)
+    }
 
     const songClicked = (e) => {
         setIsShown(true);
@@ -109,7 +159,7 @@ function ArtistSongs (){
                             
                             <th className={artistSongsCSS.no}>#</th>
                             <th>Image</th>
-                            <th>Song</th>
+                            <th onClick={sort} >Song</th>
                             <th>Genre</th>
                             <img className={artistSongsCSS.playSong} src={playlist}/>
                         </tr>

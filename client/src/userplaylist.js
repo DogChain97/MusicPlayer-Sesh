@@ -12,6 +12,8 @@ import SearchBar from './components/searchBar';
 import MusicPlayer from './components/musicPlayer';
 
 function UserPlaylist (){
+    var iniData = []
+    var dataX = []
     const navigate = useNavigate();
     const [user, setUser] = useState('')
     const {name,id} = useParams();
@@ -30,6 +32,8 @@ function UserPlaylist (){
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
     const [addedStatus, setAddedStatus] = useState('')
+    const [data, setData] = useState([])
+    const [asc, setAsc] = useState(true)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -45,15 +49,32 @@ function UserPlaylist (){
                 setplGenres(response.data.plgenres)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                for(var i=0;i<response.data.plimages.length;i++){
+                    dataX.push({
+                        no: (i+1),
+                        img: response.data.plimages[i],
+                        song: response.data.plsongs[i],
+                        url: response.data.plurls[i],
+                        artist: response.data.plartists[i],
+                        genre: response.data.plgenres[i],
+                    }
+                    )
+                }
+                for(var i=0;i<iniData.length/2;i++){
+                    dataX[i] = iniData[i] 
+                }
+                setData(dataX)
+
             }else{
                 navigate("/")
             }
         })
     }, [])
 
-    const data = [];
+    
     for(var i=0;i<plimages.length;i++){
-        data.push({
+        dataX.push({
             no: (i+1),
             img: plimages[i],
             song: plsongs[i],
@@ -64,7 +85,40 @@ function UserPlaylist (){
         )
     }
 
-    console.log(data)
+    const sort = (e)=>{
+        var col = e.target.innerHTML.toLowerCase()
+        var i=0,j
+        setAsc(!asc)
+
+        if(asc === true){
+            while(i<dataX.length){
+                j=i+1
+                while(j<dataX.length){
+                    if(dataX[j][col]>dataX[i][col]){
+                        var temp = dataX[i]
+                        dataX[i] = dataX[j]
+                        dataX[j] = temp
+                    }
+                    j++
+                }
+                i++
+            }
+        }else if(asc === false){
+            while(i<dataX.length){
+                j=i+1
+                while(j<dataX.length){
+                    if(dataX[j][col]<dataX[i][col]){
+                        var temp = dataX[i]
+                        dataX[i] = dataX[j]
+                        dataX[j] = temp
+                    }
+                    j++
+                }
+                i++
+            }
+        }
+        setData(dataX)
+    }
 
     const songClicked = (e) => {
         setIsShown(true);
@@ -130,9 +184,9 @@ function UserPlaylist (){
                             
                             <th className={userPlaylistCSS.no}>#</th>
                             <th>Image</th>
-                            <th>Song</th>
-                            <th>Artist</th>
-                            <th>Genre</th>
+                            <th onClick={sort}>Song</th>
+                            <th onClick={sort}>Artist</th>
+                            <th onClick={sort}>Genre</th>
                             <img className={userPlaylistCSS.playSong} src={playlist}/>
                         </tr>
                         {data.map((val,key)=>{

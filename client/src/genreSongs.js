@@ -11,6 +11,7 @@ import Playlists from './components/playlists';
 import MusicPlayer from './components/musicPlayer';
 
 function GenreSongs (){
+    var iniData = []
     var dataX = []
     const navigate = useNavigate();
     const [user, setUser] = useState('')
@@ -29,6 +30,7 @@ function GenreSongs (){
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
     const [data, setData] = useState([])
+    const [asc, setAsc] = useState(true)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -43,6 +45,21 @@ function GenreSongs (){
                 setGenreImg(response.data.genreImg)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                for(var i=0;i<response.data.images.length;i++){
+                    iniData.push({
+                        no: (i+1),
+                        img: response.data.images[i],
+                        song: response.data.songs[i],
+                        url: response.data.urls[i],
+                        artist: response.data.artists[i],
+                    }
+                    )
+                }
+                for(var i=0;i<iniData.length/2;i++){
+                    dataX[i] = iniData[i] 
+                }
+                setData(dataX)
             }else{
                 navigate("/")
             }
@@ -64,17 +81,34 @@ function GenreSongs (){
 
     const sortS = ()=>{
         var i=0,j
-        while(i<dataX.length){
-            j=i+1
-            while(j<dataX.length){
-                if(dataX[j].song>dataX[i].song){
-                    var temp = dataX[i]
-                    dataX[i] = dataX[j]
-                    dataX[j] = temp
+        setAsc(!asc)
+
+        if(asc === true){
+            while(i<dataX.length){
+                j=i+1
+                while(j<dataX.length){
+                    if(dataX[j].song>dataX[i].song){
+                        var temp = dataX[i]
+                        dataX[i] = dataX[j]
+                        dataX[j] = temp
+                    }
+                    j++
                 }
-                j++
+                i++
             }
-            i++
+        }else if(asc === false){
+            while(i<dataX.length){
+                j=i+1
+                while(j<dataX.length){
+                    if(dataX[j].song<dataX[i].song){
+                        var temp = dataX[i]
+                        dataX[i] = dataX[j]
+                        dataX[j] = temp
+                    }
+                    j++
+                }
+                i++
+            }
         }
         setData(dataX)
     }
@@ -133,7 +167,7 @@ function GenreSongs (){
                             <th>Artist</th>
                             <img className={genreSongsCSS.playSong} src={playlist}/>
                         </tr>
-                        {dataX.map((val,key)=>{
+                        {data.map((val,key)=>{
                             return(
                                 <tr className={genreSongsCSS.songRow} key={key} data-img={val.img} data-artist={val.artist} data-name={val.song} data-url={val.url} onClick={songClicked}>
                                         <td className={genreSongsCSS.no}>{val.no}</td>
