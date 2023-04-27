@@ -269,7 +269,7 @@ app.get("/genre/:param", function(req, res){
 
     const genre = req.params.param;
     if(req.session.user){
-        db.query("SELECT s_img,s_name,s_url,a_name,g_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE g_name='"+genre+"' ORDER BY s_name;", (err, result)=>{
+        db.query("SELECT s_img,s_name,s_url,a_name,g_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE g_name=? ORDER BY s_name;",[genre], (err, result)=>{
             if(err){
                 console.log(err);
             }else{
@@ -311,7 +311,7 @@ app.get("/artist/:param", function(req, res){
 
     const artist = req.params.param;
     if(req.session.user){
-        db.query("SELECT s_img,s_name,s_url,g_name,a_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE a_name='"+artist+"' ORDER BY s_name;", (err, result)=>{
+        db.query("SELECT s_img,s_name,s_url,g_name,a_img FROM song JOIN artist ON artist_id = a_id JOIN genre ON g_id = genre_id WHERE a_name=? ORDER BY s_name;",[artist], (err, result)=>{
             if(err){
                 console.log(err);
             }else{
