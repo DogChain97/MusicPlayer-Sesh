@@ -47,7 +47,7 @@ function ArtistSongs (){
                 setIds(response.data.ids)
 
                 for(var i=0;i<response.data.images.length;i++){
-                    dataX.push({
+                    iniData.push({
                         no: (i+1),
                         img: response.data.images[i],
                         song: response.data.songs[i],

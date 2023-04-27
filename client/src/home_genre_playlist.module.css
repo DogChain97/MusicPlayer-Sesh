@@ -99,6 +99,19 @@ a:hover {
     margin: 0 auto;
 }
 
+.addedAlert {
+    display: inline-block;
+    position: absolute;
+    left: 950px;
+    top: 30px;
+    padding: 5px 10px;
+    color:#D6ACF2;
+    background-color:#1B0025;
+    border-radius: 50px;
+    text-align: center;
+
+}
+
 .heading {
     margin: 100px 0 0 30px;
     font-size:10rem;
@@ -171,13 +184,14 @@ a:hover {
     background-color: white;
     border-radius: 5px;
     position: absolute;
-    top: 310px;
-    left: 250px;
+    top: 285px;
+    left: 210px;
     width: 140px;
     list-style: none;
     padding-left: 0;
     color: black;
     z-index: 6;
+    box-shadow: 0 -10px 20px 0px rgba(0, 0, 0, 0.2), 0 15px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .listItem {
@@ -281,13 +295,13 @@ a:hover {
     right: 20px;
 }
 /*///////////////////////////////CONTENT/////////////////////////////////////////////*/
-.playlistContentPanel {
-    width: 100%;
-    height: 100%;
+.createPlaylistContentPanel {
+    width: 100%;    
     position: absolute;
     top: 350px;
     color: white;
     background-color: #5A378C;
+    padding: 0 0 140px 0;
 }
 
 .createPlaylist {
@@ -301,9 +315,20 @@ a:hover {
 .contentPanel {
     background-color: #5A378C;
     width: 100%;
+    height: 100%;
     position: absolute;
     top: 100px;
-    color: white
+    color: white;
+}
+
+.homeContentPanel {
+    background-color: #5A378C;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 100px;
+    color: white;
+    padding: 0 0 70% 0;
 }
 
 .contentTitle {
@@ -327,12 +352,19 @@ a:hover {
     width: 20px;
     height: 20px;
     position: absolute;
-    top: 310px;
-    left: 220px;
-    background-color: white;
+    top: 285px;
+    left: 185px;
+    background-color: #1B0025;
     border-radius: 50px;
     opacity: 1;
-    z-index: 6;
+    transition: 0.5s;
+}
+
+.optionHeading {
+    position: relative;
+    padding: 10px 0 10px 15px;
+    background-color: #5A378C;
+    margin: 0;
 }
 
 .card {
@@ -345,6 +377,10 @@ a:hover {
 
 .card:hover {
     background-color: #300658;
+}
+
+.card:hover .songOptions{
+    background-color:#5A378C;
 }
 
 .cardImg {
@@ -463,6 +499,12 @@ input[type="range"] {
   }
 
 /* /////////////////////////////////////////////////TABLE//////////////////////////////////////////////////////// */
+
+.usplTable {
+    position: relative;
+    top: 30px;
+}
+
 .tableImg {
     position: relative;
     top: 2px;

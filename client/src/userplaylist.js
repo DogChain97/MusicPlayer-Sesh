@@ -51,7 +51,7 @@ function UserPlaylist (){
                 setIds(response.data.ids)
 
                 for(var i=0;i<response.data.plimages.length;i++){
-                    dataX.push({
+                    iniData.push({
                         no: (i+1),
                         img: response.data.plimages[i],
                         song: response.data.plsongs[i],
@@ -172,14 +172,14 @@ function UserPlaylist (){
                     <br/>
                     <div className={userPlaylistCSS.titleDetails}>
                         <h2 className={userPlaylistCSS.pltitle}>{name}</h2>
-                        <SearchBar className={userPlaylistCSS.plsearchbar} data={songs} placeholder="Search for songs" onClick={addSong}/>
+                        <SearchBar className={userPlaylistCSS.plsearchbar} data={songs} placeholder="Search for songs to add to playlist" onClick={addSong}/>
                         <label className={userPlaylistCSS.searchLabel}>Click to add song</label>
                         <label className={userPlaylistCSS.addedstatus}>{addedStatus}</label>
                     </div>
                 </div>
 
-                <div className={userPlaylistCSS.playlistContentPanel}>
-                    <table>
+                <div className={userPlaylistCSS.createPlaylistContentPanel}>
+                    <table className={userPlaylistCSS.usplTable}>
                         <tr className={userPlaylistCSS.songsHeader}>
                             
                             <th className={userPlaylistCSS.no}>#</th>

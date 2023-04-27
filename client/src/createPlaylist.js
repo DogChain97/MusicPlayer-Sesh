@@ -76,7 +76,7 @@ function CreatePlaylist (){
                     <h1 className={generalCSS.heading}>Create Playlist</h1>
                 </div>
 
-                <div className={generalCSS.playlistContentPanel}>
+                <div className={generalCSS.createPlaylistContentPanel}>
                     <div className={generalCSS.createPlaylist}>
                         <h2>Enter Playlist Name</h2>
                         <br/>

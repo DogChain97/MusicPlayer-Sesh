@@ -31,6 +31,7 @@ function Home (){
     const [isShown, setIsShown] = useState(false);
     const [clickedOptions, setClickedOptions] = useState(false)
     const [addedStatus, setAddedStatus] = useState('')
+    const [isAlertShown, setIsAlertShown] = useState(false)
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -95,7 +96,12 @@ function Home (){
                 song: song
             }).then((response)=>{
                 if(response.data.message){
+                    setIsAlertShown(true)
                     setAddedStatus(response.data.message)
+
+                    setTimeout(()=>{
+                        setIsAlertShown(false)
+                    },3000)
                 }else{
                     console.log("failed")
                 }
@@ -119,6 +125,9 @@ function Home (){
                 <div className={homeCSS.searchPanel}>
                     <div className={homeCSS.searchPanelConents}>
                         <SearchBar data={searchArray} placeholder="What's on your mind? Artists/Songs" onClick={loadPage}/>
+                        {isAlertShown &&
+                            <div className={homeCSS.addedAlert}>{addedStatus}</div>
+                        }
                         <button onClick={showOptions} className={homeCSS.logout}>{user.charAt(0)}</button>
                         {clickedOptions && 
                             <ul className={homeCSS.userOptions}>
@@ -129,7 +138,7 @@ function Home (){
                     </div>
                 </div>
 
-                <div className={homeCSS.contentPanel}>
+                <div className={homeCSS.homeContentPanel}>
                     
                     <div className={homeCSS.welcomeText}>
                         <h1>Hello, {user}</h1>

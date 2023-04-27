@@ -30,20 +30,20 @@ function SongCard (props) {
 
     return (
         <Link to={props.to}>
+        <Card className={songCardCSS.card} onContextMenu={props.onContextMenu} style={{ width: '14rem' }}>
+
         <div className={songCardCSS.songOptions} onClick={showOptions}></div>
         {isShown &&
             <ul className={songCardCSS.listPlaylist}>
-            <span>Add to playlist</span>
-                {/* <span>Add to playlist:</span> */}
-                {playlists.map(item=>{
-                    return (
-                        <li className={songCardCSS.listItem} key={item.data} value={item.data} onClick={props.addToPlaylist} data-id = {item.id} data-title={props.title} >{item.name}</li>
-                    )
-                })}
+                <div className={songCardCSS.optionHeading}>Add to playlist</div>
+                    {playlists.map(item=>{
+                        return (
+                            <li className={songCardCSS.listItem} key={item.data} value={item.data} onClick={props.addToPlaylist} data-id = {item.id} data-title={props.title} >{item.name}</li>
+                        )
+                    })}
             </ul>
         }
-        
-        <Card className={songCardCSS.card} onContextMenu={props.onContextMenu} style={{ width: '14rem' }}>
+
             <Card.Img variant="top" src={props.img} className={songCardCSS.cardImg} onClick={props.onClick} data-title={props.title} data-artist={props.artist} data-url={props.url}/>
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
