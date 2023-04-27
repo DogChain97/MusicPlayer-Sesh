@@ -32,6 +32,17 @@ function GenreSongs (){
     const [data, setData] = useState([])
     const [asc, setAsc] = useState(true)
 
+    // Queue
+    const [songQueue, setSongQueue] = useState([])
+    const [songImageQueue, setSongImageQueue] = useState([])
+    const [songNameQueue, setSongNameQueue] = useState([])
+    const [songArtistQueue, setSongArtistQueue] = useState([])
+    
+    const [previousSong, setPreviousSong] = useState([])
+    const [previousImage, setPreviousImage] = useState([])
+    const [previousName, setPreviousName] = useState([])
+    const [previousArtist, setPreviousArtist] = useState([])
+
     Axios.defaults.withCredentials = true
     useEffect(() => {
 
@@ -45,6 +56,11 @@ function GenreSongs (){
                 setGenreImg(response.data.genreImg)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                setSongQueue(response.data.urls)
+                setSongImageQueue(response.data.images)
+                setSongNameQueue(response.data.songs)
+                setSongArtistQueue(response.data.artists)
 
                 for(var i=0;i<response.data.images.length;i++){
                     iniData.push({
@@ -76,8 +92,6 @@ function GenreSongs (){
             }
             )
         }
-
-    
 
     const sortS = ()=>{
         var i=0,j
@@ -130,6 +144,61 @@ function GenreSongs (){
         navigate("/")
     }
 
+    const addSongToQueue = (song)=>{
+        setSongQueue([song, ...songQueue]);
+        
+    }
+
+    const playNextSong = ()=>{
+        if(!songQueue.length){
+            setCurrentSongUrl(null)
+            return
+        }
+        const [nextSong, ...restOfQueue] = songQueue
+        const [nextImage, ...restOfImage] = songImageQueue
+        const [nextName, ...restOfName] = songNameQueue
+        const [nextArtist, ...restOfArtist] = songArtistQueue
+        setSongQueue(restOfQueue)
+        setSongImageQueue(restOfImage)
+        setSongNameQueue(restOfName)
+        setSongArtistQueue(restOfArtist)
+
+        setPreviousSong([...previousSong, currentSongUrl])
+        setPreviousImage([...previousImage, currentSongImg])
+        setPreviousName([...previousName, currentSongName])
+        setPreviousArtist([...previousArtist, currentSongArtist])
+
+        setCurrentSongUrl(nextSong)
+        setCurrentSongImg(nextImage)
+        setCurrentSongName(nextName)
+        setCurrentSongArtist(nextArtist)
+    }
+
+    const playPreviousSong = ()=>{
+        if(!previousSong.length){
+            return
+        }
+        const [lastSong, ...restOfPlayed] = previousSong.reverse()
+        const [lastImage, ...restOfImage] = previousImage.reverse()
+        const [lastName, ...restOfName] = previousName.reverse()
+        const [lastArtist, ...restOfArtist] = previousArtist.reverse()
+
+        setPreviousSong(restOfPlayed.reverse())
+        setPreviousImage(restOfImage.reverse())
+        setPreviousName(restOfName.reverse())
+        setPreviousArtist(restOfArtist.reverse())
+
+        setSongQueue([lastSong, ...songQueue])
+        setSongImageQueue([lastImage, ...songImageQueue])
+        setSongNameQueue([lastName, ...songNameQueue])
+        setSongArtistQueue([lastArtist, ...songArtistQueue])
+
+        setCurrentSongUrl(lastSong)
+        setCurrentSongImg(lastImage)
+        setCurrentSongName(lastName)
+        setCurrentSongArtist(lastArtist)
+    }
+
     return (
         <div className={genreSongsCSS.main}>
             <div className={genreSongsCSS.leftPanel}>
@@ -156,7 +225,7 @@ function GenreSongs (){
                     </div>
                 </div>
 
-                <div className={genreSongsCSS.playlistContentPanel}>
+                <div className={genreSongsCSS.createPlaylistContentPanel}>
 
                     <table>
                         <tr className={genreSongsCSS.songsHeader}>
@@ -185,9 +254,8 @@ function GenreSongs (){
                 </div>
             </div>  
             {isShown && 
-            <div className={genreSongsCSS.musicControls}>
-                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
-            </div>  
+                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} onEnded={playNextSong} playNext={playNextSong} playPrevious={playPreviousSong}/>
+           
             }          
         </div>
     )

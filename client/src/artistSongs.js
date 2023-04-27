@@ -32,6 +32,17 @@ function ArtistSongs (){
     const [data, setData] = useState([])
     const [asc, setAsc] = useState(true)
 
+    // Queue
+    const [songQueue, setSongQueue] = useState([])
+    const [songImageQueue, setSongImageQueue] = useState([])
+    const [songNameQueue, setSongNameQueue] = useState([])
+    const [songArtistQueue, setSongArtistQueue] = useState([])
+    
+    const [previousSong, setPreviousSong] = useState([])
+    const [previousImage, setPreviousImage] = useState([])
+    const [previousName, setPreviousName] = useState([])
+    const [previousArtist, setPreviousArtist] = useState([])
+
     Axios.defaults.withCredentials = true
     useEffect(() => {
         Axios.get(`http://localhost:7000/artist/${param}`).then((response) => {
@@ -45,6 +56,11 @@ function ArtistSongs (){
                 setCurrentSongArtist(param)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                setSongQueue(response.data.urls)
+                setSongImageQueue(response.data.images)
+                setSongNameQueue(response.data.songs)
+                setSongArtistQueue([{param}])
 
                 for(var i=0;i<response.data.images.length;i++){
                     iniData.push({
@@ -127,6 +143,53 @@ function ArtistSongs (){
         navigate("/")
     }
 
+    const addSongToQueue = (song)=>{
+        setSongQueue([song, ...songQueue]);
+        
+    }
+
+    const playNextSong = ()=>{
+        if(!songQueue.length){
+            setCurrentSongUrl(null)
+            return
+        }
+        const [nextSong, ...restOfQueue] = songQueue
+        const [nextImage, ...restOfImage] = songImageQueue
+        const [nextName, ...restOfName] = songNameQueue
+        setSongQueue(restOfQueue)
+        setSongImageQueue(restOfImage)
+        setSongNameQueue(restOfName)
+
+        setPreviousSong([...previousSong, currentSongUrl])
+        setPreviousImage([...previousImage, currentSongImg])
+        setPreviousName([...previousName, currentSongName])
+
+        setCurrentSongUrl(nextSong)
+        setCurrentSongImg(nextImage)
+        setCurrentSongName(nextName)
+    }
+
+    const playPreviousSong = ()=>{
+        if(!previousSong.length){
+            return
+        }
+        const [lastSong, ...restOfPlayed] = previousSong.reverse()
+        const [lastImage, ...restOfImage] = previousImage.reverse()
+        const [lastName, ...restOfName] = previousName.reverse()
+
+        setPreviousSong(restOfPlayed.reverse())
+        setPreviousImage(restOfImage.reverse())
+        setPreviousName(restOfName.reverse())
+
+        setSongQueue([lastSong, ...songQueue])
+        setSongImageQueue([lastImage, ...songImageQueue])
+        setSongNameQueue([lastName, ...songNameQueue])
+
+        setCurrentSongUrl(lastSong)
+        setCurrentSongImg(lastImage)
+        setCurrentSongName(lastName)
+    }
+
     return (
         <div className={artistSongsCSS.main}>
             <div className={artistSongsCSS.leftPanel}>
@@ -153,7 +216,7 @@ function ArtistSongs (){
                     </div>
                 </div>
 
-                <div className={artistSongsCSS.playlistContentPanel}>
+                <div className={artistSongsCSS.createPlaylistContentPanel}>
                 <table>
                         <tr className={artistSongsCSS.songsHeader}>
                             
@@ -166,10 +229,10 @@ function ArtistSongs (){
                         {data.map((val,key)=>{
                             return(
                                 <tr className={artistSongsCSS.songRow} key={key} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} >
-                                        <td className={artistSongsCSS.no}>{val.no}</td>
-                                        <td><img className={artistSongsCSS.tableImg} src={val.img} /></td>
-                                        <td>{val.song}</td>
-                                        <td>{val.genre}</td>
+                                        <td className={artistSongsCSS.no} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.no}</td>
+                                        <td data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}><img className={artistSongsCSS.tableImg} src={val.img} /></td>
+                                        <td data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.song}</td>
+                                        <td data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.genre}</td>
                                         <img className={artistSongsCSS.playSong} src={playlist} />     
                                 </tr>
                             )
@@ -179,7 +242,7 @@ function ArtistSongs (){
                 </div>
             </div>     
             {isShown && 
-                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
+                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} onEnded={playNextSong} playNext={playNextSong} playPrevious={playPreviousSong}/>
             }        
         </div>
     )

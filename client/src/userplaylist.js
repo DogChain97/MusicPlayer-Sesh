@@ -35,6 +35,17 @@ function UserPlaylist (){
     const [data, setData] = useState([])
     const [asc, setAsc] = useState(true)
 
+    // Queue
+    const [songQueue, setSongQueue] = useState([])
+    const [songImageQueue, setSongImageQueue] = useState([])
+    const [songNameQueue, setSongNameQueue] = useState([])
+    const [songArtistQueue, setSongArtistQueue] = useState([])
+    
+    const [previousSong, setPreviousSong] = useState([])
+    const [previousImage, setPreviousImage] = useState([])
+    const [previousName, setPreviousName] = useState([])
+    const [previousArtist, setPreviousArtist] = useState([])
+
     Axios.defaults.withCredentials = true
     useEffect(() => {
 
@@ -49,6 +60,11 @@ function UserPlaylist (){
                 setplGenres(response.data.plgenres)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                setSongQueue(response.data.plurls)
+                setSongImageQueue(response.data.plimages)
+                setSongNameQueue(response.data.plsongs)
+                setSongArtistQueue(response.data.plartists)
 
                 for(var i=0;i<response.data.plimages.length;i++){
                     iniData.push({
@@ -150,6 +166,62 @@ function UserPlaylist (){
         navigate("/")
     }
 
+    const addSongToQueue = (song)=>{
+        setSongQueue([song, ...songQueue]);
+        
+    }
+
+    const playNextSong = ()=>{
+        console.log(songQueue)
+        if(!songQueue.length){
+            setCurrentSongUrl(null)
+            return
+        }
+        const [nextSong, ...restOfQueue] = songQueue
+        const [nextImage, ...restOfImage] = songImageQueue
+        const [nextName, ...restOfName] = songNameQueue
+        const [nextArtist, ...restOfArtist] = songArtistQueue
+        setSongQueue(restOfQueue)
+        setSongImageQueue(restOfImage)
+        setSongNameQueue(restOfName)
+        setSongArtistQueue(restOfArtist)
+
+        setPreviousSong([...previousSong, currentSongUrl])
+        setPreviousImage([...previousImage, currentSongImg])
+        setPreviousName([...previousName, currentSongName])
+        setPreviousArtist([...previousArtist, currentSongArtist])
+
+        setCurrentSongUrl(nextSong)
+        setCurrentSongImg(nextImage)
+        setCurrentSongName(nextName)
+        setCurrentSongArtist(nextArtist)
+    }
+
+    const playPreviousSong = ()=>{
+        if(!previousSong.length){
+            return
+        }
+        const [lastSong, ...restOfPlayed] = previousSong.reverse()
+        const [lastImage, ...restOfImage] = previousImage.reverse()
+        const [lastName, ...restOfName] = previousName.reverse()
+        const [lastArtist, ...restOfArtist] = previousArtist.reverse()
+
+        setPreviousSong(restOfPlayed.reverse())
+        setPreviousImage(restOfImage.reverse())
+        setPreviousName(restOfName.reverse())
+        setPreviousArtist(restOfArtist.reverse())
+
+        setSongQueue([lastSong, ...songQueue])
+        setSongImageQueue([lastImage, ...songImageQueue])
+        setSongNameQueue([lastName, ...songNameQueue])
+        setSongArtistQueue([lastArtist, ...songArtistQueue])
+
+        setCurrentSongUrl(lastSong)
+        setCurrentSongImg(lastImage)
+        setCurrentSongName(lastName)
+        setCurrentSongArtist(lastArtist)
+    }
+
     return (
         <div className={userPlaylistCSS.main}>
             <div className={userPlaylistCSS.leftPanel}>
@@ -209,9 +281,8 @@ function UserPlaylist (){
                 </div>
             </div>  
             {isShown && 
-            <div className={userPlaylistCSS.musicControls}>
-                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
-            </div>  
+                <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} onEnded={playNextSong} playNext={playNextSong} playPrevious={playPreviousSong}/>
+            
             }          
         </div>
     )
