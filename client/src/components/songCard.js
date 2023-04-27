@@ -32,7 +32,7 @@ function SongCard (props) {
         <Link to={props.to}>
         <Card className={songCardCSS.card} onContextMenu={props.onContextMenu} style={{ width: '14rem' }}>
 
-        <div className={songCardCSS.songOptions} onClick={showOptions}></div>
+        <div className={songCardCSS.songOptions} onClick={showOptions}><div class={songCardCSS.threeDots}></div></div>
         {isShown &&
             <ul className={songCardCSS.listPlaylist}>
                 <div className={songCardCSS.optionHeading}>Add to playlist</div>

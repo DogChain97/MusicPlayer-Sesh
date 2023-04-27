@@ -32,6 +32,17 @@ function Home (){
     const [clickedOptions, setClickedOptions] = useState(false)
     const [addedStatus, setAddedStatus] = useState('')
     const [isAlertShown, setIsAlertShown] = useState(false)
+    
+    // Queue
+    const [songQueue, setSongQueue] = useState([])
+    const [songImageQueue, setSongImageQueue] = useState([])
+    const [songNameQueue, setSongNameQueue] = useState([])
+    const [songArtistQueue, setSongArtistQueue] = useState([])
+    
+    const [previousSong, setPreviousSong] = useState([])
+    const [previousImage, setPreviousImage] = useState([])
+    const [previousName, setPreviousName] = useState([])
+    const [previousArtist, setPreviousArtist] = useState([])
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -45,6 +56,11 @@ function Home (){
                 setGenres(response.data.genres)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
+
+                setSongQueue(response.data.urls)
+                setSongImageQueue(response.data.images)
+                setSongNameQueue(response.data.songs)
+                setSongArtistQueue(response.data.artists)
             }else{
                 navigate("/")
             }
@@ -106,14 +122,68 @@ function Home (){
                     console.log("failed")
                 }
             })
+    }
+
+    const addSongToQueue = (song)=>{
+        setSongQueue([song, ...songQueue]);
         
+    }
+
+    const playNextSong = ()=>{
+        if(!songQueue.length){
+            setCurrentSongUrl(null)
+            return
+        }
+        const [nextSong, ...restOfQueue] = songQueue
+        const [nextImage, ...restOfImage] = songImageQueue
+        const [nextName, ...restOfName] = songNameQueue
+        const [nextArtist, ...restOfArtist] = songArtistQueue
+        setSongQueue(restOfQueue)
+        setSongImageQueue(restOfImage)
+        setSongNameQueue(restOfName)
+        setSongArtistQueue(restOfArtist)
+
+        setPreviousSong([...previousSong, currentSongUrl])
+        setPreviousImage([...previousImage, currentSongImg])
+        setPreviousName([...previousName, currentSongName])
+        setPreviousArtist([...previousArtist, currentSongArtist])
+
+        setCurrentSongUrl(nextSong)
+        setCurrentSongImg(nextImage)
+        setCurrentSongName(nextName)
+        setCurrentSongArtist(nextArtist)
+    }
+
+    const playPreviousSong = ()=>{
+        if(!previousSong.length){
+            return
+        }
+        const [lastSong, ...restOfPlayed] = previousSong.reverse()
+        const [lastImage, ...restOfImage] = previousImage.reverse()
+        const [lastName, ...restOfName] = previousName.reverse()
+        const [lastArtist, ...restOfArtist] = previousArtist.reverse()
+
+        setPreviousSong(restOfPlayed.reverse())
+        setPreviousImage(restOfImage.reverse())
+        setPreviousName(restOfName.reverse())
+        setPreviousArtist(restOfArtist.reverse())
+
+        setSongQueue([lastSong, ...songQueue])
+        setSongImageQueue([lastImage, ...songImageQueue])
+        setSongNameQueue([lastName, ...songNameQueue])
+        setSongArtistQueue([lastArtist, ...songArtistQueue])
+
+        setCurrentSongUrl(lastSong)
+        setCurrentSongImg(lastImage)
+        setCurrentSongName(lastName)
+        setCurrentSongArtist(lastArtist)
     }
 
 
     return (
         <div className={homeCSS.main}>
             <div className={homeCSS.leftPanel}>
-                <h1 className={homeCSS.brand}><img src={logo} alt='logo'/>SESH</h1>
+                <h1 className={homeCSS.brand}><img onClick={playNextSong} src={logo} alt='logo'/>SESH</h1>
                 <h2 className={homeCSS.tabName}><a className={homeCSS.active} href='/home'><img className={homeCSS.tabs} src={home} alt='home' />Home</a></h2>
                 <h2 className={homeCSS.tabName}><a href='/genre'><img className={homeCSS.tabs} src={genre} alt='genre'/>Genre</a></h2>
                 <h2 className={homeCSS.tabName}><a href='/createPlaylist'><img className={homeCSS.tabs} src={playlist} alt='create'/>Create Playlist</a></h2>
@@ -141,7 +211,7 @@ function Home (){
                 <div className={homeCSS.homeContentPanel}>
                     
                     <div className={homeCSS.welcomeText}>
-                        <h1>Hello, {user}</h1>
+                        <h1 onClick={playPreviousSong}>Hello, {user}</h1>
                         <p>Hope you have a good sesh!</p>
                     </div>
                 
@@ -188,7 +258,7 @@ function Home (){
                 </div>
             </div>   
             {isShown && 
-              <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} />
+              <MusicPlayer image={currentSongImg} name={currentSongName} artist={currentSongArtist} src={currentSongUrl} onEnded={playNextSong} playNext={playNextSong} playPrevious={playPreviousSong}/>
             }       
         </div>
     )

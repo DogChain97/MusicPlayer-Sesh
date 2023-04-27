@@ -360,6 +360,18 @@ a:hover {
     transition: 0.5s;
 }
 
+.threeDots:after {
+    position: relative;
+    bottom: 2px;
+    left: 2px;
+    cursor: pointer;
+    color: #1B0025;
+    content: '\2807';
+    font-size: 15px;
+    padding: 0 5px;
+    transition: 0.5s;
+  }
+
 .optionHeading {
     position: relative;
     padding: 10px 0 10px 15px;
@@ -381,6 +393,10 @@ a:hover {
 
 .card:hover .songOptions{
     background-color:#5A378C;
+}
+
+.card:hover .threeDots:after{
+    color: #D6ACF2;
 }
 
 .cardImg {
@@ -419,14 +435,26 @@ p {
     opacity: 0;
 }
 /* //////////////////////////////////////////////MUSIC CONTROLS//////////////////////////////////////////////// */
-.musicControls {
-    color: white;
-    background-color: #7604A3;
-    height: 80px;
-    width: 100%;
+
+.audioBar {
     position: fixed;
     bottom: 0;
+    width: 100%;
+    margin: auto;
     z-index: 5;
+    color: white;
+    background-color: #7604A3;
+}
+
+.audio {
+    display: inline-block;
+    position: absolute;
+    left: 620px;
+    top: 15px;
+}
+
+.musicControls {
+    display: inline-block;
 }
 
 .currentSongImg {
@@ -439,13 +467,6 @@ p {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 10px 15px 0 rgba(0, 0, 0, 0.19);
 }
 
-.audioBar {
-    width: 300px;
-    margin: auto;
-    position: relative;
-    bottom: 70px;
-}
-
 .currentSongName {
     position: relative;
     top: 5px;
@@ -456,6 +477,20 @@ p {
     left: 80px;
     bottom: 20px;
     font-size: x-small;
+}
+
+.playNext {
+    height: 40px;
+    position: absolute;
+    left: 1000px;
+    top: 20px;
+}
+
+.playPrevious {
+    height: 40px;
+    position: absolute;
+    left: 950px;
+    top: 20px;
 }
 
 input[type="range"] {
@@ -541,3 +576,4 @@ tr {
 tr:hover {
     background-color: #7604A3;
 }
+

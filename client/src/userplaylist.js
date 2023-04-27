@@ -179,6 +179,7 @@ function UserPlaylist (){
                 </div>
 
                 <div className={userPlaylistCSS.createPlaylistContentPanel}>
+
                     <table className={userPlaylistCSS.usplTable}>
                         <tr className={userPlaylistCSS.songsHeader}>
                             

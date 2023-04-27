@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import musicPlayerCSS from '../home_genre_playlist.module.css';
+import MusicControls from './musicControls';
 
 function MusicPlayer (props) {
 
     return (
-        <div className={musicPlayerCSS.musicControls}>
-                <img className={musicPlayerCSS.currentSongImg} src={props.image}/>
-                <span className={musicPlayerCSS.currentSongName}>{props.name}</span>
-                <br/>
-                <span className={musicPlayerCSS.currentSongArtist}>{props.artist}</span>
+        
                 <div className={musicPlayerCSS.audioBar}>
-                    <audio src = {props.src} autoPlay controls/>
+                    <MusicControls image={props.image} name={props.name} artist={props.artist} playNext={props.playNext} playPrevious={props.playPrevious}/>
+                    <div className={musicPlayerCSS.audio}>
+                        <audio src = {props.src} onEnded={props.onEnded} autoPlay controls/>
+                    </div>
                 </div>
-            </div>
+           
     )
 }
 
