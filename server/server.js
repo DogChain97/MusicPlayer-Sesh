@@ -104,7 +104,7 @@ app.post("/login", function(req,res){
         adm = true;
     }else{
 
-        db.query("SELECT * FROM user WHERE u_name = ?;",
+        db.query("SELECT u_name,email,password FROM user WHERE u_name = ?;",
         username,
         (err, result)=>{
             if(err){
