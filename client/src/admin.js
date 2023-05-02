@@ -55,6 +55,8 @@ function Admin(){
         artistImage: artistImage
         }).then((response) => {
             setArtistOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
