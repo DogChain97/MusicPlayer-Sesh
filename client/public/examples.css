@@ -187,7 +187,7 @@ input[type='range'].editor-percentcomplete-slider {
   background: beige;
   padding: 20px 8px;
 
-  width: 100%;
+  /* width: 100%; */
   height: 98px;
   border: 1px solid gray;
   border-left: 0;
