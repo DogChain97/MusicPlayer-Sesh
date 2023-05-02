@@ -20,6 +20,6 @@ function GenreCard (props) {
         </Card>
     </Link>
     )
-} 
+}
 
 export default GenreCard;
