@@ -36,13 +36,12 @@ var adm = false;
 // Email Validation
 function ValidateEmail(mail) 
 {
-    var x = mail.indexOf("@");
-    var y = mail.lastIndexOf(".");
+    let x = mail.indexOf("@");
+    let y = mail.lastIndexOf(".");
     if(x<1||y<x+2||y+2>=mail.length){
         return false;
-    }else{
-        return true;
     }
+    return true;
 }
 
 // Password Validation
@@ -50,31 +49,28 @@ function ValidatePassword(pass){
     const passRegexp = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[*])");
     if(pass.length == 8 && passRegexp.test(pass)){
             return true;
-    }else{
-        return false;
     }
+    return false;
 }
 
 // Image Filetype Validation
 function ValidateImage(image) {
-    var len = image.length;
-    var ext = image.substring(len-4)
+    let len = image.length;
+    let ext = image.substring(len-4)
     if(len>4 && (ext == ".jpg" || ext == ".png")){
         return true;
-    }else{
-        return false;
     }
+        return false;
 }
 
 // Audio Filetype Validation
 function ValidateAudio(audio) {
-    var len = audio.length;
-    var ext = audio.substring(len-4)
+    let len = audio.length;
+    let ext = audio.substring(len-4)
     if(len>4 && (ext == ".mp3" || ext == ".wav")){
         return true;
-    }else{
-        return false;
     }
+        return false;
 }
 
 const db = mysql.createConnection({

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState} from 'react';
 import Axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import homeCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/homeActive.png';
@@ -85,7 +85,7 @@ function Home (){
         if(artists.includes(clicked)){
             navigate(`/artist/${clicked}`)
         }else if(songs.includes(clicked)){
-            var index = songs.indexOf(clicked)
+            let index = songs.indexOf(clicked)
             setIsShown(true);
             setCurrentSongImg(images[index]);
             setCurrentSongArtist(artists[index])
@@ -104,8 +104,8 @@ function Home (){
     }
 
     const addToPlaylist = (e)=>{
-        var song = e.target.dataset.title
-        var id = e.target.dataset.id
+        let song = e.target.dataset.title
+        let id = e.target.dataset.id
 
             Axios.post('http://localhost:7000/addsong',{
                 id: id,
@@ -122,11 +122,6 @@ function Home (){
                     console.log("failed")
                 }
             })
-    }
-
-    const addSongToQueue = (song)=>{
-        setSongQueue([song, ...songQueue]);
-        
     }
 
     const playNextSong = ()=>{
