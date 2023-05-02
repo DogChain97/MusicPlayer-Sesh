@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import userPlaylistCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
-import { useParams } from "react-router-dom";
 import Playlists from './components/playlists';
 import SearchBar from './components/searchBar';
 import MusicPlayer from './components/musicPlayer';
