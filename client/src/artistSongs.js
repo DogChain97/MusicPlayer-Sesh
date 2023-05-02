@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import artistSongsCSS from './home_genre_playlist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
-import { useParams } from "react-router-dom";
 import Playlists from './components/playlists';
 import MusicPlayer from './components/musicPlayer';
 
 function ArtistSongs (){
-    var iniData = []
-    var dataX = []
+    let iniData = []
+    let dataX = []
     const navigate = useNavigate();
     const [user, setUser] = useState('')
     const {param} = useParams();
@@ -62,7 +61,7 @@ function ArtistSongs (){
                 setSongNameQueue(response.data.songs)
                 setSongArtistQueue([{param}])
 
-                for(var i=0;i<response.data.images.length;i++){
+                for(let i=0;i<response.data.images.length;i++){
                     iniData.push({
                         no: (i+1),
                         img: response.data.images[i],
@@ -72,8 +71,8 @@ function ArtistSongs (){
                     }
                     )
                 }
-                for(var i=0;i<iniData.length/2;i++){
-                    dataX[i] = iniData[i] 
+                for(let j=0;j<iniData.length/2;j++){
+                    dataX[j] = iniData[j] 
                 }
                 setData(dataX)
             }else{
@@ -82,7 +81,7 @@ function ArtistSongs (){
         })
     }, [])
 
-    for(var i=0;i<images.length;i++){
+    for(let i=0;i<images.length;i++){
         dataX.push({
             no: (i+1),
             img: images[i],
@@ -102,7 +101,7 @@ function ArtistSongs (){
                 j=i+1
                 while(j<dataX.length){
                     if(dataX[j].song>dataX[i].song){
-                        var temp = dataX[i]
+                        let temp = dataX[i]
                         dataX[i] = dataX[j]
                         dataX[j] = temp
                     }
@@ -115,7 +114,7 @@ function ArtistSongs (){
                 j=i+1
                 while(j<dataX.length){
                     if(dataX[j].song<dataX[i].song){
-                        var temp = dataX[i]
+                        let temp = dataX[i]
                         dataX[i] = dataX[j]
                         dataX[j] = temp
                     }
@@ -141,11 +140,6 @@ function ArtistSongs (){
     const logout = () => {
         Axios.post('http://localhost:7000/logout')
         navigate("/")
-    }
-
-    const addSongToQueue = (song)=>{
-        setSongQueue([song, ...songQueue]);
-        
     }
 
     const playNextSong = ()=>{
@@ -226,9 +220,9 @@ function ArtistSongs (){
                             <th>Genre</th>
                             <img className={artistSongsCSS.playSong} src={playlist}/>
                         </tr>
-                        {data.map((val,key)=>{
+                        {data.map((val)=>{
                             return(
-                                <tr className={artistSongsCSS.songRow} key={key} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} >
+                                <tr className={artistSongsCSS.songRow} key={val.img} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked} >
                                         <td className={artistSongsCSS.no} data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.no}</td>
                                         <td data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}><img className={artistSongsCSS.tableImg} src={val.img} /></td>
                                         <td data-img={val.img} data-name={val.song} data-url={val.url} onClick={songClicked}>{val.song}</td>

@@ -12,7 +12,6 @@ function Admin(){
     const [operation, setOperation] = useState('')
     const [loginStatus, setLoginStatus] = useState('');
 
-    const [artistID, setArtistID] = useState('')
     const [artistName, setArtistName] = useState('');
     const [artistImage, setArtistImage] = useState(''); 
     const [artistOperationStatus, setArtistOperationStatus] = useState('')
@@ -23,14 +22,12 @@ function Admin(){
 
     const [genreName, setGenreName] = useState('');
     const [genreImage, setGenreImage] = useState('');
-    const [genreID, setGenreID] = useState('')
     const [genreOperationStatus, setGenreOperationStatus] = useState('')
     // For Show
     const [gID, setGID] = useState('')
     const [gName, setGName] = useState('')
     const [gImg, setGImg] = useState('')
 
-    const [songID, setSongID] = useState('')
     const [songName, setSongName] = useState('');
     const [songImage, setSongImage] = useState('');
     const [songUrl, setSongUrl] = useState('');
@@ -96,7 +93,7 @@ function Admin(){
     }
 
     const artistData = [];
-    for(var i=0;i<aID.length;i++){
+    for(let i=0;i<aID.length;i++){
         artistData.push({
             id: aID[i],
             name: aName[i],
@@ -154,11 +151,11 @@ function Admin(){
     }
 
     const genreData = [];
-    for(var i=0;i<gID.length;i++){
+    for(let j=0;j<gID.length;j++){
         genreData.push({
-            id: gID[i],
-            name: gName[i],
-            image: gImg[i],
+            id: gID[j],
+            name: gName[j],
+            image: gImg[j],
         }
         )
     }
@@ -219,14 +216,14 @@ function Admin(){
     }
 
     const songData = [];
-    for(var i=0;i<sID.length;i++){
+    for(let k=0;k<sID.length;k++){
         songData.push({
-            id: sID[i],
-            name: sName[i],
-            image: sImg[i],
-            url: sUrl[i],
-            genreid: sGenreID[i],
-            artistid: sArtistID[i]
+            id: sID[k],
+            name: sName[k],
+            image: sImg[k],
+            url: sUrl[k],
+            genreid: sGenreID[k],
+            artistid: sArtistID[k]
         }
         )
     }
@@ -326,9 +323,9 @@ function Admin(){
                                 <th>Name</th>
                                 <th>Image</th>
                             </tr>
-                            {artistData.map((val,key)=>{
+                            {artistData.map((val)=>{
                                 return(
-                                    <tr key={key}>
+                                    <tr key={val.id}>
                                         <td>{val.id}</td>
                                         <td>{val.name}</td>
                                         <td>{val.image}</td>
@@ -405,9 +402,9 @@ function Admin(){
                                 <th>Name</th>
                                 <th>Image</th>
                             </tr>
-                            {genreData.map((val,key)=>{
+                            {genreData.map((val)=>{
                                 return(
-                                    <tr key={key}>
+                                    <tr key={val.id}>
                                         <td>{val.id}</td>
                                         <td>{val.name}</td>
                                         <td>{val.image}</td>
@@ -507,9 +504,9 @@ function Admin(){
                                 <th>Genre ID</th>
                                 <th>Artist ID</th>
                             </tr>
-                            {songData.map((val,key)=>{
+                            {songData.map((val)=>{
                                 return(
-                                    <tr key={key}>
+                                    <tr key={val.id}>
                                         <td>{val.id}</td>
                                         <td>{val.name}</td>
                                         <td>{val.image}</td>
@@ -530,38 +527,3 @@ function Admin(){
 }
 
 export default Admin;
- // var grid;
-                // var columns = [
-                //     {id: "#", name: "#", field: "no"},
-                //     {id: "song", name: "Song", field: "song"},
-                //     {id: "artist", name: "Artist", field: "artist"}
-                // ];
-
-                // var options = {
-                //     enableCellNavigation: true,
-                //     enableColumnReorder: false
-                // };
-
-                // console.log(songs)
-                // function s() {
-                //     var data = [];
-                //     for (var i = 0; i < 8; i++) {
-                //         data[i] = {
-                //             no: (i+1),
-                //             song: "song "+(i+1),
-                //             artist: "artist "+ (i+1)
-                //         };
-                //     }
-
-                //     grid = new Slick.Grid("#myGrid", data, columns, options);
-                // }
-
-                // s();
-
-                {/* <table width="100%">
-                        <tr>
-                            <td valign="top" width="50%">
-                                <div id="myGrid"></div>
-                            </td>
-                        </tr>
-                    </table> */}
