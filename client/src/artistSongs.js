@@ -90,7 +90,7 @@ function ArtistSongs (){
     }
 
     const sort = ()=>{
-        var i=0,j
+        let i=0,j
         setAsc(!asc)
 
         if(asc === true){

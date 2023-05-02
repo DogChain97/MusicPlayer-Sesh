@@ -31,7 +31,7 @@ app.use(session({
     }
 }))
 
-var adm = false;
+let adm = false;
 
 // Email Validation
 function ValidateEmail(mail) 
@@ -259,7 +259,7 @@ app.get("/genre/:param", function(req, res){
     const songs = []
     const artists = []
     const urls = []
-    var genreImg = ''
+    let genreImg = ''
     const playlists = []
     const ids = []
 
@@ -301,7 +301,7 @@ app.get("/artist/:param", function(req, res){
     const songs = []
     const genres = []
     const urls = []
-    var artistImg = ''
+    let artistImg = ''
     const playlists = []
     const ids = []
 
@@ -371,8 +371,7 @@ app.get("/playlist/:name/:id",(req,res)=>{
     const playlists = []
     const ids = []
 
-    var id = req.params.id
-    var name = req.params.name
+    let id = req.params.id
 
     if(req.session.user){
         db.query("SELECT s_name FROM song ORDER BY s_name;", (err,result)=>{
@@ -416,8 +415,8 @@ app.get("/playlist/:name/:id",(req,res)=>{
 })
 
 app.post("/addsong", (req, res)=>{
-    var id = req.body.id
-    var name = req.body.song
+    let id = req.body.id
+    let name = req.body.song
 
     db.query("SELECT COUNT(*) as count from userplaylist WHERE usp_id=? and song_name=?;",[id,name],(err, result)=>{
         if(err){

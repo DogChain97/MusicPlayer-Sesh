@@ -29,7 +29,7 @@ function SearchBar (props){
             if(e.target.value == ''){
                 setFinalData([])
             }else if(match.length > 10){
-                for(var j = 0;j<10;j++){
+                for(let j = 0;j<10;j++){
                     searchData.push({data:match[j]})
                     setFinalData(searchData)
                 }
