@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import generalCSS from './home_genre_playlist.module.css'
-import createPlaylistCSS from './createPlaylist.module.css';
 import logo from './assets/sesh_white.png';
 import home from './assets/home.png';
 import genre from './assets/menu.png';
 import playlist from './assets/playlistActive.png';
 import Playlists from './components/playlists';
-import MusicPlayer from './components/musicPlayer';
 
 function CreatePlaylist (){
     const navigate = useNavigate();

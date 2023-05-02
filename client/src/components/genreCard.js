@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import songCardCSS from '../home_genre_playlist.module.css';
 import Card from 'react-bootstrap/Card';

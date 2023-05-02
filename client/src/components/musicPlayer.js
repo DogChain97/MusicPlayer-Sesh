@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import musicPlayerCSS from '../home_genre_playlist.module.css';
 import MusicControls from './musicControls';
 

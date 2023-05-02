@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import songCardCSS from '../home_genre_playlist.module.css';
 import Card from 'react-bootstrap/Card';
@@ -7,14 +7,14 @@ function SongCard (props) {
     const [playlists, setPlaylists] = useState([])
     const [isShown, setIsShown] = useState(false);
 
-    var data = props.playlists
-    var ids = props.ids
+    let data = props.playlists
+    let ids = props.ids
 
-    var finalData = []
+    let finalData = []
     const showOptions = ()=>{
         setIsShown(!isShown)
         if(data.length>0){
-            for(var i=0;i<data.length;i++){
+            for(let i=0;i<data.length;i++){
                 finalData.push({
                     name: data[i],
                     id: ids[i]

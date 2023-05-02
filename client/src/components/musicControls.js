@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import musicControlsCSS from '../home_genre_playlist.module.css';
 import nextTrack from '../assets/nextTrack.png'
 import previousTrack from '../assets/previousTrack.png'

@@ -11,8 +11,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GenreCard from './components/genreCard';
 import Playlists from './components/playlists';
-import MusicPlayer from './components/musicPlayer';
-
 
 function Genre (){
     const navigate = useNavigate();

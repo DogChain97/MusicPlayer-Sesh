@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import searchCSS from '../home_genre_playlist.module.css';
 import search from '../assets/search.png';
 
 function SearchBar (props){
-    var [finalData, setFinalData] = useState([])
+    let [finalData, setFinalData] = useState([])
 
     const data = props.data
     const lowerSearchArray = []
-    for(var i=0;i<data.length;i++){
+    for(let i=0;i<data.length;i++){
         lowerSearchArray.push(data[i].toLowerCase())
     }
 
-    var searchData = []
+    let searchData = []
     const handleChange = (e)=>{
         searchData = []
-        var match = []
-        var input = e.target.value.toLowerCase()
+        let match = []
+        let input = e.target.value.toLowerCase()
 
-        for(var i=0;i<lowerSearchArray.length;i++){
+        for(let i=0;i<lowerSearchArray.length;i++){
             if(lowerSearchArray[i].includes(input)){
                 match.push(data[i])
             }
@@ -34,8 +34,8 @@ function SearchBar (props){
                     setFinalData(searchData)
                 }
             }else{
-                for(var j = 0;j<match.length;j++){
-                    searchData.push({data:match[j]})
+                for(let k = 0;k<match.length;k++){
+                    searchData.push({data:match[k]})
                     setFinalData(searchData)
                 }
             }

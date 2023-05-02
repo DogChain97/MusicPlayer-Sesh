@@ -35,12 +35,10 @@ function ArtistSongs (){
     const [songQueue, setSongQueue] = useState([])
     const [songImageQueue, setSongImageQueue] = useState([])
     const [songNameQueue, setSongNameQueue] = useState([])
-    const [songArtistQueue, setSongArtistQueue] = useState([])
     
     const [previousSong, setPreviousSong] = useState([])
     const [previousImage, setPreviousImage] = useState([])
     const [previousName, setPreviousName] = useState([])
-    const [previousArtist, setPreviousArtist] = useState([])
 
     Axios.defaults.withCredentials = true
     useEffect(() => {
@@ -59,7 +57,6 @@ function ArtistSongs (){
                 setSongQueue(response.data.urls)
                 setSongImageQueue(response.data.images)
                 setSongNameQueue(response.data.songs)
-                setSongArtistQueue([{param}])
 
                 for(let i=0;i<response.data.images.length;i++){
                     iniData.push({
