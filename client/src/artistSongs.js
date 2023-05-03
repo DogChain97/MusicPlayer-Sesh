@@ -157,13 +157,19 @@ function ArtistSongs (){
         if(!previousSong.length){
             return
         }
-        const [lastSong, ...restOfPlayed] = previousSong.reverse()
-        const [lastImage, ...restOfImage] = previousImage.reverse()
-        const [lastName, ...restOfName] = previousName.reverse()
+        const [lastSong, ...restOfPlayed] = [...previousSong].reverse()
+        previousSong.reverse()
+        const [lastImage, ...restOfImage] = [...previousImage].reverse()
+        previousImage.reverse()
+        const [lastName, ...restOfName] = [...previousName].reverse()
+        previousName.reverse()
 
-        setPreviousSong(restOfPlayed.reverse())
-        setPreviousImage(restOfImage.reverse())
-        setPreviousName(restOfName.reverse())
+        setPreviousSong([...restOfPlayed].reverse())
+        restOfPlayed.reverse()
+        setPreviousImage([...restOfImage].reverse())
+        restOfImage.reverse()
+        setPreviousName([...restOfName].reverse())
+        restOfName.reverse()
 
         setSongQueue([lastSong, ...songQueue])
         setSongImageQueue([lastImage, ...songImageQueue])
