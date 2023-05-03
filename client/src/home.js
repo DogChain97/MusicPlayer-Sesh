@@ -47,7 +47,7 @@ function Home (){
     Axios.defaults.withCredentials = true
     useEffect(() => {
         Axios.get('http://localhost:7000/home').then((response) => {
-            if(response.data.loggedIn === true){
+            if(response.data.loggedIn === "yes"){
                 setUser(response.data.user[0].u_name)
                 setImages(response.data.images)
                 setSongs(response.data.songs)

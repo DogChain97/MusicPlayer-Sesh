@@ -193,7 +193,7 @@ function Admin(){
 
     // Logout Function
     const logout = () => {
-        setLoginStatus(false)
+        setLoginStatus("no")
         Axios.post('http://localhost:7000/admin', {
             admin: loginStatus
         })
@@ -202,7 +202,7 @@ function Admin(){
 
     useEffect(() => {
         Axios.get('http://localhost:7000/admin').then((response) => {
-            if(response.data.admin === true){
+            if(response.data.admin === "yes"){
                 console.log("Admin")
             }else{
                 navigate("/")

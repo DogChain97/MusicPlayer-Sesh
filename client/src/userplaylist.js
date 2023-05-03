@@ -49,7 +49,7 @@ function UserPlaylist (){
     useEffect(() => {
 
         Axios.get(`http://localhost:7000/playlist/${name}/${id}`).then((response) => {
-            if(response.data.loggedIn === true){
+            if(response.data.loggedIn === "yes"){
                 setUser(response.data.user[0].u_name)
                 setSongs(response.data.songs)
                 setplImages(response.data.plimages)

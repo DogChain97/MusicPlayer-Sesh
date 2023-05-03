@@ -34,8 +34,8 @@ function SearchBar (props){
                     setFinalData(searchData)
                 }
             }else{
-                for(let k = 0;k<match.length;k++){
-                    searchData.push({data:match[k]})
+                for(let value of match){
+                    searchData.push({data:value})
                     setFinalData(searchData)
                 }
             }

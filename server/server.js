@@ -84,9 +84,9 @@ const db = mysql.createConnection({
 // Handling User Login GET Request
 app.get("/login", function(req,res){
     if(req.session.user){
-        res.send({loggedIn: true, user: req.session.user})
+        res.send({loggedIn: "yes", user: req.session.user})
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
 })
 
@@ -96,10 +96,9 @@ app.post("/login", function(req,res){
     const password = req.body.password;
 
     if(username === 'Admin' && password === '123*adm'){
-        res.send({admin: true})
+        res.send({admin: "yes"})
         adm = true;
-    }else{
-
+    }
         db.query("SELECT u_name,email,password FROM user WHERE u_name = ?;",
         username,
         (err, result)=>{
@@ -121,7 +120,6 @@ app.post("/login", function(req,res){
             
         })
 
-    }
 })
 
 // Handling User Registration
@@ -169,28 +167,28 @@ app.get("/home", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                for(let i = 0; i < result.length; i++){
-                    images.push(result[i].s_img)
-                    songs.push(result[i].s_name)
-                    urls.push(result[i].s_url)
-                    artists.push(result[i].a_name)
-                    genres.push(result[i].g_name)
+                for(let value of result){
+                    images.push(value.s_img)
+                    songs.push(value.s_name)
+                    urls.push(value.s_url)
+                    artists.push(value.a_name)
+                    genres.push(value.g_name)
                 }
                 db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
                     if(error){
-                        console.log(err);
+                        console.log(error);
                     }else{
-                        for(let i = 0; i < result2.length; i++){
-                            playlists.push(result2[i].pl_name)
-                            ids.push(result2[i].pl_id)
+                        for(let val of result2){
+                            playlists.push(val.pl_name)
+                            ids.push(val.pl_id)
                         }
-                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres, playlists:playlists, ids:ids})
+                        res.send({loggedIn: "yes", user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genres: genres, playlists:playlists, ids:ids})
                     }
                 })
             }
         })
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
 })
 
@@ -207,25 +205,25 @@ app.get("/genre", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                for(let i = 0; i < result.length; i++){
-                    images.push(result[i].g_img)
-                    genres.push(result[i].g_name)
+                for(let value of result){
+                    images.push(value.g_img)
+                    genres.push(value.g_name)
                 }
                 db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
                     if(error){
                         console.log(err);
                     }else{
-                        for(let i = 0; i < result2.length; i++){
-                            playlists.push(result2[i].pl_name)
-                            ids.push(result2[i].pl_id)
+                        for(let val of result2){
+                            playlists.push(val.pl_name)
+                            ids.push(val.pl_id)
                         }
-                        res.send({loggedIn: true, user: req.session.user, images: images, genres: genres, playlists:playlists, ids:ids})
+                        res.send({loggedIn: "yes", user: req.session.user, images: images, genres: genres, playlists:playlists, ids:ids})
                     }
                 })
             }
         })
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
 })
 
@@ -240,15 +238,15 @@ app.get("/createPlaylist", function(req, res){
             if(error){
                 console.log(err);
             }else{
-                for(let i = 0; i < result2.length; i++){
-                    playlists.push(result2[i].pl_name)
-                    ids.push(result2[i].pl_id)
+                for(let val in result2){
+                    playlists.push(val.pl_name)
+                    ids.push(val.pl_id)
                 }
-                res.send({loggedIn: true, user: req.session.user, playlists:playlists, ids:ids})
+                res.send({loggedIn: "yes", user: req.session.user, playlists:playlists, ids:ids})
             }
         })
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
 })
 
@@ -269,28 +267,28 @@ app.get("/genre/:param", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                for(let i = 0; i < result.length; i++){
-                    images.push(result[i].s_img)
-                    songs.push(result[i].s_name)
-                    urls.push(result[i].s_url)
-                    artists.push(result[i].a_name)
+                for(let value of result){
+                    images.push(value.s_img)
+                    songs.push(value.s_name)
+                    urls.push(value.s_url)
+                    artists.push(value.a_name)
                 }
                 genreImg = result[0].g_img
                 db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
                     if(error){
                         console.log(err);
                     }else{
-                        for(let i = 0; i < result2.length; i++){
-                            playlists.push(result2[i].pl_name)
-                            ids.push(result2[i].pl_id)
+                        for(let val of result2){
+                            playlists.push(val.pl_name)
+                            ids.push(val.pl_id)
                         }
-                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genreImg: genreImg, playlists:playlists, ids:ids})
+                        res.send({loggedIn: "yes", user: req.session.user, images: images, songs: songs, urls:urls, artists: artists, genreImg: genreImg, playlists:playlists, ids:ids})
                     }
                 })
             }
         })
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
 })
 
@@ -311,28 +309,28 @@ app.get("/artist/:param", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                for(let i = 0; i < result.length; i++){
-                    images.push(result[i].s_img)
-                    songs.push(result[i].s_name)
-                    urls.push(result[i].s_url)
-                    genres.push(result[i].g_name)
+                for(let value of result){
+                    images.push(value.s_img)
+                    songs.push(value.s_name)
+                    urls.push(value.s_url)
+                    genres.push(value.g_name)
                 }
                 artistImg = result[0].a_img
                 db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
                     if(error){
                         console.log(err);
                     }else{
-                        for(let i = 0; i < result2.length; i++){
-                            playlists.push(result2[i].pl_name)
-                            ids.push(result2[i].pl_id)
+                        for(let val of result2){
+                            playlists.push(val.pl_name)
+                            ids.push(val.pl_id)
                         }
-                        res.send({loggedIn: true, user: req.session.user, images: images, songs: songs, urls:urls, genres: genres, artistImg: artistImg, playlists:playlists, ids:ids})
+                        res.send({loggedIn: "yes", user: req.session.user, images: images, songs: songs, urls:urls, genres: genres, artistImg: artistImg, playlists:playlists, ids:ids})
                     }
                 })
             }
         })
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
 })
 
@@ -378,29 +376,29 @@ app.get("/playlist/:name/:id",(req,res)=>{
             if(err){
                 console.log(err)
             }else{
-                for(let i = 0; i < result.length; i++){
-                    songs.push(result[i].s_name)
+                for(let value of result){
+                    songs.push(value.s_name)
                 }
                 db.query("SELECT pl_id,pl_name from playlists where user_name=?;",[req.session.user[0].u_name],(error, result2)=>{
                     if(error){
                         console.log(err);
                     }else{
-                        for(let i = 0; i < result2.length; i++){
-                            playlists.push(result2[i].pl_name)
-                            ids.push(result2[i].pl_id)
+                        for(let val of result2){
+                            playlists.push(val.pl_name)
+                            ids.push(val.pl_id)
                         }
                         db.query("select s_img,s_name,s_url,a_name,g_name from song JOIN artist ON a_id=artist_id JOIN genre ON g_id=genre_id JOIN userplaylist ON song_name=s_name JOIN playlists ON usp_id=pl_id WHERE song_name=s_name AND pl_id=?;",[id],(err3,result3)=>{
                             if(err3){
                                 console.log(err3)
                             }else{
-                                for(let i = 0; i < result3.length; i++){
-                                    plimages.push(result3[i].s_img)
-                                    plsongs.push(result3[i].s_name)
-                                    plartists.push(result3[i].a_name)
-                                    plgenres.push(result3[i].g_name)
-                                    plurls.push(result3[i].s_url)
+                                for(let v of result3){
+                                    plimages.push(v.s_img)
+                                    plsongs.push(v.s_name)
+                                    plartists.push(v.a_name)
+                                    plgenres.push(v.g_name)
+                                    plurls.push(v.s_url)
                                 }
-                                res.send({loggedIn: true, user: req.session.user, songs: songs, plimages: plimages, plsongs: plsongs, plurls: plurls, plartists: plartists, plgenres: plgenres, playlists: playlists, ids:ids})
+                                res.send({loggedIn: "yes", user: req.session.user, songs: songs, plimages: plimages, plsongs: plsongs, plurls: plurls, plartists: plartists, plgenres: plgenres, playlists: playlists, ids:ids})
                             }
                         })
                     }
@@ -409,7 +407,7 @@ app.get("/playlist/:name/:id",(req,res)=>{
         })
         
     }else{
-        res.send({loggedIn: false})
+        res.send({loggedIn: "no"})
     }
     
 })
@@ -518,10 +516,10 @@ app.post("/showartist", (req,res)=>{
         if(err){
              res.send({message: "Artist table doesn't exist"});
         }else{
-            for(let i=0;i<result.length;i++){
-                 artistID.push(result[i].a_id);
-                 artistName.push(result[i].a_name);
-                 artistImg.push(result[i].a_img);
+            for(let value of result){
+                 artistID.push(value.a_id);
+                 artistName.push(value.a_name);
+                 artistImg.push(value.a_img);
             }
          }
         res.send({artistID:artistID, artistName:artistName, artistImage:artistImg})
@@ -601,10 +599,10 @@ app.post("/showgenre",(req,res)=>{
          if(err){
              res.send({message: "Song table doesn't exist"});
          }else{
-             for(let i=0;i<result.length;i++){
-                 genreID.push(result[i].g_id);
-                 genreName.push(result[i].g_name);
-                 genreImg.push(result[i].g_img);
+             for(let value of result){
+                 genreID.push(value.g_id);
+                 genreName.push(value.g_name);
+                 genreImg.push(value.g_img);
              }
          }
          res.send({genreID:genreID, genreName:genreName, genreImage:genreImg})
@@ -690,13 +688,13 @@ app.post("/showsong",(req,res)=>{
         if(err){
             res.send({message: "Song table doesn't exist"});
         }else{
-            for(let i=0;i<result.length;i++){
-                songID.push(result[i].s_id);
-                songName.push(result[i].s_name);
-                songImg.push(result[i].s_img);
-                songUrl.push(result[i].s_url);
-                songGenreID.push(result[i].genre_id);
-                 songArtistID.push(result[i].artist_id);
+            for(let value of result){
+                songID.push(value.s_id);
+                songName.push(value.s_name);
+                songImg.push(value.s_img);
+                songUrl.push(value.s_url);
+                songGenreID.push(value.genre_id);
+                 songArtistID.push(value.artist_id);
             }
          }
         res.send({songID:songID, songName:songName, songImage:songImg, songUrl:songUrl, songGenreID:songGenreID, songArtistID:songArtistID})
@@ -705,16 +703,16 @@ app.post("/showsong",(req,res)=>{
 
 app.post("/admin", function(req,res){
     const login = req.body.admin;
-    if(login == false){
+    if(login == "no"){
         adm = false
     }
 })
 
 app.get("/admin", function(req, res){
     if(adm){
-        res.send({admin: true, user: req.session.user})
+        res.send({admin: "yes", user: req.session.user})
     }else{
-        res.send({admin: false})
+        res.send({admin: "no"})
     }
 })
 

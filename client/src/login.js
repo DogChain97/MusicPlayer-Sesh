@@ -44,7 +44,7 @@ function Login(){
 
     useEffect(() => {
         Axios.get('http://localhost:7000/login').then((response) => {
-            if(response.data.loggedIn == true){
+            if(response.data.loggedIn == "yes"){
                 setLoginStatus(response.data.user[0].u_name)
             }
         })

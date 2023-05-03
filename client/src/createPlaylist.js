@@ -19,7 +19,7 @@ function CreatePlaylist (){
     Axios.defaults.withCredentials = true
     useEffect(() => {
         Axios.get('http://localhost:7000/createPlaylist').then((response) => {
-            if(response.data.loggedIn === true){
+            if(response.data.loggedIn === "yes"){
                 setUser(response.data.user[0].u_name)
                 setPlaylists(response.data.playlists)
                 setIds(response.data.ids)
