@@ -29,6 +29,8 @@ function Login(){
                     setLoginStatus("Welcome "+response.data[0].u_name);
                 }
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -47,6 +49,8 @@ function Login(){
             if(response.data.loggedIn == "yes"){
                 setLoginStatus(response.data.user[0].u_name)
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }, [])
 

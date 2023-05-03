@@ -33,6 +33,8 @@ function Genre (){
             }else{
                 navigate("/")
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }, [])
 
@@ -41,7 +43,9 @@ function Genre (){
     }
 
     const logout = () => {
-        Axios.post('http://localhost:7000/logout')
+        Axios.post('http://localhost:7000/logout').catch(err =>{
+            console.log(err)
+        })
         navigate("/")
     }
 

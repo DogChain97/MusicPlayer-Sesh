@@ -59,6 +59,8 @@ function Admin(){
         artistImage: artistImage
         }).then((response) => {
             setArtistOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -67,6 +69,8 @@ function Admin(){
         artistName: artistName
         }).then((response) => {
             setArtistOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -76,6 +80,8 @@ function Admin(){
                 setAName(response.data.artistName)
                 setAImg(response.data.artistImage)
             setArtistOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -96,6 +102,8 @@ function Admin(){
         genreImage: genreImage
         }).then((response) => {
             setGenreOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -105,6 +113,8 @@ function Admin(){
         genreImage: genreImage
         }).then((response) => {
             setGenreOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -113,6 +123,8 @@ function Admin(){
         genreName: genreName
         }).then((response) => {
             setGenreOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -122,6 +134,8 @@ function Admin(){
             setGName(response.data.genreName)
             setGImg(response.data.genreImage)
             setGenreOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -145,6 +159,8 @@ function Admin(){
         songArtistID: songArtistID
         }).then((response) => {
             setSongOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -155,6 +171,8 @@ function Admin(){
         songUrl: songUrl
         }).then((response) => {
             setSongOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -163,6 +181,8 @@ function Admin(){
         songName: songName
         }).then((response) => {
             setSongOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -175,6 +195,8 @@ function Admin(){
             setSGenreID(response.data.songGenreID)
             setSArtistID(response.data.songArtistID)
             setSongOperationStatus(response.data.message)
+        }).catch(err =>{
+            console.log(err)
         })
     }
 
@@ -196,6 +218,8 @@ function Admin(){
         setLoginStatus("no")
         Axios.post('http://localhost:7000/admin', {
             admin: loginStatus
+        }).catch(err =>{
+            console.log(err)
         })
         navigate("/")
     }

@@ -25,6 +25,8 @@ const register = () => {
         }else{
             setRegisterStatus("Account Create Successfully! Proceed to LOGIN");
         }
+    }).catch(err =>{
+        console.log(err)
     })
 }
 

@@ -26,6 +26,8 @@ function CreatePlaylist (){
             }else{
                 navigate("/")
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }, [])
 
@@ -34,7 +36,9 @@ function CreatePlaylist (){
     }
 
     const logout = () => {
-        Axios.post('http://localhost:7000/logout')
+        Axios.post('http://localhost:7000/logout').catch(err =>{
+            console.log(err)
+        })
         navigate("/")
     }
 
@@ -48,6 +52,8 @@ function CreatePlaylist (){
             }else{
                 console.log(response.data.message)
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }
 

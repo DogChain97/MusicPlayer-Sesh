@@ -64,6 +64,8 @@ function Home (){
             }else{
                 navigate("/")
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }, [])
 
@@ -99,7 +101,9 @@ function Home (){
     }
 
     const logout = () => {
-        Axios.post('http://localhost:7000/logout')
+        Axios.post('http://localhost:7000/logout').catch(err =>{
+            console.log(err)
+        })
         navigate("/")
     }
 
@@ -121,6 +125,8 @@ function Home (){
                 }else{
                     console.log("failed")
                 }
+            }).catch(err =>{
+                console.log(err)
             })
     }
 
