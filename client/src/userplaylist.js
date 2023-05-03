@@ -188,15 +188,23 @@ function UserPlaylist (){
         if(!previousSong.length){
             return
         }
-        const [lastSong, ...restOfPlayed] = previousSong.reverse()
-        const [lastImage, ...restOfImage] = previousImage.reverse()
-        const [lastName, ...restOfName] = previousName.reverse()
-        const [lastArtist, ...restOfArtist] = previousArtist.reverse()
+        const [lastSong, ...restOfPlayed] = [...previousSong].reverse()
+        previousSong.reverse()
+        const [lastImage, ...restOfImage] = [...previousImage].reverse()
+        previousImage.reverse()
+        const [lastName, ...restOfName] = [...previousName].reverse()
+        previousName.reverse()
+        const [lastArtist, ...restOfArtist] = [...previousArtist].reverse()
+        previousArtist.reverse()
 
-        setPreviousSong(restOfPlayed.reverse())
-        setPreviousImage(restOfImage.reverse())
-        setPreviousName(restOfName.reverse())
-        setPreviousArtist(restOfArtist.reverse())
+        setPreviousSong([...restOfPlayed].reverse())
+        restOfPlayed.reverse()
+        setPreviousImage([...restOfImage].reverse())
+        restOfImage.reverse()
+        setPreviousName([...restOfName].reverse())
+        restOfName.reverse()
+        setPreviousArtist([...restOfArtist].reverse())
+        restOfArtist.reverse()
 
         setSongQueue([lastSong, ...songQueue])
         setSongImageQueue([lastImage, ...songImageQueue])
