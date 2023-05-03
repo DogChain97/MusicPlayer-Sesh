@@ -231,6 +231,8 @@ function Admin(){
             }else{
                 navigate("/")
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }, [])
 

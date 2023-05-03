@@ -75,6 +75,8 @@ function ArtistSongs (){
             }else{
                 navigate("/")
             }
+        }).catch(err =>{
+            console.log(err)
         })
     }, [])
 
@@ -128,7 +130,9 @@ function ArtistSongs (){
     }
 
     const logout = () => {
-        Axios.post('http://localhost:7000/logout')
+        Axios.post('http://localhost:7000/logout').catch(err =>{
+            console.log(err)
+        })
         navigate("/")
     }
 
