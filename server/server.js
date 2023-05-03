@@ -445,62 +445,56 @@ app.post("/logout", function(req, res){
 
 // ///////////////////////////////////////////////////ADMIN///////////////////////////////////////////////
 // Handling Admin POST Request
-app.post("/admin", function(req,res){
-    const operation = req.body.operation;
-    const table = req.body.table;
-    const login = req.body.admin;
-    if(login == false){
-        adm = false
-    }
-    /////////////////////////////////////ARTIST///////////////////////////////////////
-    if(table === 'artist'){
-        if(operation === "add"){
-            const artistName = req.body.artistName;
-            const artistImage = req.body.artistImage;
-    
-            if(ValidateImage(artistImage)){
-                db.query("INSERT into artist (a_name,a_img) values(?,?);",
-                [artistName, artistImage],
-                (err, result)=>{
-                    if(err){
-                        res.send({message: "Artist already exists"});
-                    }else{
-                        console.log(result)
-                        res.send({message: "Artist added"});
-                    }
-                    
-                })
+
+/////////////////////////////////////ARTIST///////////////////////////////////////
+app.post("/addartist", (req,res)=>{
+    const artistName = req.body.artistName;
+    const artistImage = req.body.artistImage;
+
+    if(ValidateImage(artistImage)){
+        db.query("INSERT into artist (a_name,a_img) values(?,?);",
+        [artistName, artistImage],
+        (err, result)=>{
+            if(err){
+                res.send({message: "Artist already exists"});
             }else{
-                res.send({message: "Invalid image"})
-            }
-        }
-        else if(operation === "update"){
-            const artistName = req.body.artistName;
-            const artistImage = req.body.artistImage;
-    
-            if(ValidateImage(artistImage)){
-                db.query("UPDATE artist SET a_img=? WHERE a_name=?;",
-                [artistImage,artistName],
-                (err, result)=>{
-                    if(err){
-                        res.send({message: "Artist doesn't exist"});
-                    }else{
-                        if(result.affectedRows == 0){
-                            res.send({message: "Artist doesn't exist"});
-                        }else{
-                            res.send({message: "Artist Updated"});
-                        }
-                    }
-                    
-                })
-            }else{
-                res.send({message: "Invalid image"})
+                console.log(result)
+                res.send({message: "Artist added"});
             }
             
-        }
-        else if(operation === 'delete'){
-            const artistName = req.body.artistName;
-            db.query("DELETE FROM artist WHERE a_name=?;",
+        })
+    }else{
+        res.send({message: "Invalid image"})
+    }
+})
+
+app.post("/updateartist",(req,res)=>{
+    const artistName = req.body.artistName;
+    const artistImage = req.body.artistImage;
+     if(ValidateImage(artistImage)){
+         db.query("UPDATE artist SET a_img=? WHERE a_name=?;",
+         [artistImage,artistName],
+         (err, result)=>{
+             if(err){
+                 res.send({message: "Artist doesn't exist"});
+             }else{
+                 if(result.affectedRows == 0){
+                     res.send({message: "Artist doesn't exist"});
+                 }else{
+                     res.send({message: "Artist Updated"});
+                 }
+             }
+             
+         })
+     }else{
+         res.send({message: "Invalid image"})
+     }
+})
+
+app.post("/deleteartist", (req,res)=>{
+    const artistName = req.body.artistName;
+
+    db.query("DELETE FROM artist WHERE a_name=?;",
             artistName,
             (err, result)=>{
                 if(err){
@@ -513,158 +507,7 @@ app.post("/admin", function(req,res){
                     }
                 }
                 
-            })
-        }
-        // else if(operation === 'show'){
-        //     const artistID = []
-        //     const artistName = []
-        //     const artistImg = []
-        //     db.query("SELECT * FROM artist;",(err, result)=>{
-        //         if(err){
-        //             res.send({message: "Artist table doesn't exist"});
-        //         }else{
-        //             for(let i=0;i<result.length;i++){
-        //                 artistID.push(result[i].a_id);
-        //                 artistName.push(result[i].a_name);
-        //                 artistImg.push(result[i].a_img);
-        //             }
-        //         }
-        //         res.send({artistID:artistID, artistName:artistName, artistImage:artistImg})
-        //     })
-        // }
-    /////////////////////////////////////GENRE///////////////////////////////////////
-    }else if(table === 'genre'){
-        if(operation === "add"){
-            const genreName = req.body.genreName;
-            const genreImage = req.body.genreImage;
-    
-            if(ValidateImage(genreImage)){
-                db.query("INSERT into genre (g_name,g_img) values(?,?);",
-                [genreName, genreImage],
-                (err, result)=>{
-                    if(err){
-                        res.send({message: "Genre already exists"});
-                    }else{
-                        console.log(result)
-                        res.send({message: "Genre added"});
-                    }
-                    
-                })
-            }else{
-                res.send({message: "Invalid image"})
-            }
-        }
-        else if(operation === "update"){
-            const genreName = req.body.genreName;
-            const genreImage = req.body.genreImage;
-    
-            if(ValidateImage(genreImage)){
-                db.query("UPDATE genre SET g_img=? WHERE g_name=?;",
-                [genreImage,genreName],
-                (err, result)=>{
-                    if(err){
-                        res.send({message: "Genre doesn't exist"});
-                    }else{
-                        if(result.affectedRows == 0){
-                            res.send({message: "Genre doesn't exist"});
-                        }else{
-                            res.send({message: "Genre Updated"});
-                        }
-                    }
-                    
-                })
-            }else{
-                res.send({message: "Invalid image"})
-            }
-        }
-        else if(operation === 'delete'){
-            const genreName = req.body.genreName;
-
-            db.query("DELETE FROM genre WHERE g_name=?;",
-            genreName,
-            (err, result)=>{
-                if(err){
-                    res.send({message: "Genre doesn't exist"});
-                }else{
-                    if(result.affectedRows == 0){
-                        res.send({message: "Genre doesn't exist"});
-                    }else{
-                        res.send({message: "Genre Deleted"});
-                    }
-                }
-                
-            })
-        }
-    
-    /////////////////////////////////////SONG///////////////////////////////////////
-    }else if(table === 'song'){
-        if(operation === "add"){
-            const songName = req.body.songName;
-            const songImage = req.body.songImage;
-            const songUrl = req.body.songUrl;
-            const songGenreID = req.body.songGenreID;
-            const songArtistID = req.body.songArtistID;
-    
-            if(ValidateImage(songImage) && ValidateAudio(songUrl)){
-                db.query("INSERT into song (s_name,s_img,s_url,genre_id,artist_id) values(?,?,?,?,?);",
-                [songName, songImage, songUrl, songGenreID, songArtistID],
-                (err, result)=>{
-                    if(err){
-                        res.send({message: "Genre ID or Artist ID doesnt exist"});
-                    }else{
-                        console.log(result)
-                        res.send({message: "Song added"});
-                    }
-                    
-                })
-            }else{
-                res.send({message: "Invalid image or song"})
-            }
-        }
-        else if(operation === "update"){
-            const songName = req.body.songName;
-            const songImage = req.body.songImage;
-            const songUrl = req.body.songUrl;
-    
-            if(ValidateImage(songImage) && ValidateAudio(songUrl)){
-                db.query("UPDATE song SET s_img=?,s_url=? WHERE s_name=?;",
-                [songImage,songUrl,songName],
-                (err, result)=>{
-                    if(err){
-                        res.send({message: "Song doesn't exist"});
-                    }else{
-                        if(result.affectedRows == 0){
-                            res.send({message: "Song doesn't exist"});
-                        }else{
-                            res.send({message: "Song Updated"});
-                        }
-                    }
-                    
-                })
-            }else{
-                res.send({message: "Invalid image or song"})
-            }
-        }
-        else if(operation === 'delete'){
-            const songName = req.body.songName;
-
-            db.query("DELETE FROM song WHERE s_name=?;",
-            songName,
-            (err, result)=>{
-                if(err){
-                    res.send({message: "Song doesn't exist"});
-                }else{
-                    if(result.affectedRows == 0){
-                        res.send({message: "Song doesn't exist"});
-                    }else{
-                        res.send({message: "Song Deleted"});
-                    }
-                }
-                
-            })
-        }
-    }
-    
+            })    
 })
 
 app.post("/showartist", (req,res)=>{
@@ -685,6 +528,71 @@ app.post("/showartist", (req,res)=>{
     })
 })
 
+/////////////////////////////////////GENRE///////////////////////////////////////
+app.post("/addgenre",(req,res)=>{
+    const genreName = req.body.genreName;
+    const genreImage = req.body.genreImage;
+
+    if(ValidateImage(genreImage)){
+        db.query("INSERT into genre (g_name,g_img) values(?,?);",
+        [genreName, genreImage],
+        (err, result)=>{
+            if(err){
+                res.send({message: "Genre already exists"});
+            }else{
+                console.log(result)
+                res.send({message: "Genre added"});
+            }
+            
+        })
+    }else{
+        res.send({message: "Invalid image"})
+    }
+})
+
+app.post("/updategenre",(req,res)=>{
+    const genreName = req.body.genreName;
+    const genreImage = req.body.genreImage;
+
+    if(ValidateImage(genreImage)){
+        db.query("UPDATE genre SET g_img=? WHERE g_name=?;",
+        [genreImage,genreName],
+        (err, result)=>{
+            if(err){
+                res.send({message: "Genre doesn't exist"});
+            }else{
+                if(result.affectedRows == 0){
+                    res.send({message: "Genre doesn't exist"});
+                }else{
+                    res.send({message: "Genre Updated"});
+                }
+            }
+            
+        })
+    }else{
+        res.send({message: "Invalid image"})
+    }
+})
+
+app.post("/deletegenre",(req,res)=>{
+    const genreName = req.body.genreName;
+
+    db.query("DELETE FROM genre WHERE g_name=?;",
+    genreName,
+    (err, result)=>{
+        if(err){
+            res.send({message: "Genre doesn't exist"});
+        }else{
+            if(result.affectedRows == 0){
+                res.send({message: "Genre doesn't exist"});
+            }else{
+                res.send({message: "Genre Deleted"});
+            }
+        }
+        
+    })
+})
+
 app.post("/showgenre",(req,res)=>{
     const genreID = []
     const genreName = []
@@ -701,6 +609,74 @@ app.post("/showgenre",(req,res)=>{
          }
          res.send({genreID:genreID, genreName:genreName, genreImage:genreImg})
      })
+})
+/////////////////////////////////////SONG///////////////////////////////////////
+app.post("/addsong",(req,res)=>{
+    const songName = req.body.songName;
+    const songImage = req.body.songImage;
+    const songUrl = req.body.songUrl;
+    const songGenreID = req.body.songGenreID;
+    const songArtistID = req.body.songArtistID;
+
+    if(ValidateImage(songImage) && ValidateAudio(songUrl)){
+        db.query("INSERT into song (s_name,s_img,s_url,genre_id,artist_id) values(?,?,?,?,?);",
+        [songName, songImage, songUrl, songGenreID, songArtistID],
+        (err, result)=>{
+            if(err){
+                res.send({message: "Genre ID or Artist ID doesnt exist"});
+            }else{
+                console.log(result)
+                res.send({message: "Song added"});
+            }
+            
+        })
+    }else{
+        res.send({message: "Invalid image or song"})
+    }
+})
+
+app.post("/updatesong",(req,res)=>{
+    const songName = req.body.songName;
+    const songImage = req.body.songImage;
+    const songUrl = req.body.songUrl;
+
+    if(ValidateImage(songImage) && ValidateAudio(songUrl)){
+        db.query("UPDATE song SET s_img=?,s_url=? WHERE s_name=?;",
+        [songImage,songUrl,songName],
+        (err, result)=>{
+            if(err){
+                res.send({message: "Song doesn't exist"});
+            }else{
+                if(result.affectedRows == 0){
+                    res.send({message: "Song doesn't exist"});
+                }else{
+                    res.send({message: "Song Updated"});
+                }
+            }
+            
+        })
+    }else{
+        res.send({message: "Invalid image or song"})
+    }
+})
+
+app.post("/deletesong",(req,res)=>{
+    const songName = req.body.songName;
+
+    db.query("DELETE FROM song WHERE s_name=?;",
+            songName,
+            (err, result)=>{
+                if(err){
+                    res.send({message: "Song doesn't exist"});
+                }else{
+                    if(result.affectedRows == 0){
+                        res.send({message: "Song doesn't exist"});
+                    }else{
+                        res.send({message: "Song Deleted"});
+                    }
+                }
+                
+            })
 })
 
 app.post("/showsong",(req,res)=>{
@@ -725,6 +701,13 @@ app.post("/showsong",(req,res)=>{
          }
         res.send({songID:songID, songName:songName, songImage:songImg, songUrl:songUrl, songGenreID:songGenreID, songArtistID:songArtistID})
     })
+})
+
+app.post("/admin", function(req,res){
+    const login = req.body.admin;
+    if(login == false){
+        adm = false
+    }
 })
 
 app.get("/admin", function(req, res){

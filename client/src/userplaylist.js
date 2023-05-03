@@ -102,36 +102,29 @@ function UserPlaylist (){
 
     const sort = (e)=>{
         let col = e.target.innerHTML.toLowerCase()
-        let i=0,j
+        let i=0,j,temp
         setAsc(!asc)
 
-        if(asc === true){
             while(i<dataX.length){
                 j=i+1
                 while(j<dataX.length){
-                    if(dataX[j][col]>dataX[i][col]){
-                        let temp = dataX[i]
-                        dataX[i] = dataX[j]
-                        dataX[j] = temp
+                    if(asc === true){
+                        if(dataX[j][col]>dataX[i][col]){
+                            temp = dataX[i]
+                            dataX[i] = dataX[j]
+                            dataX[j] = temp
+                        }
+                    }else if(asc === false){
+                        if(dataX[j][col]<dataX[i][col]){
+                            temp = dataX[i]
+                            dataX[i] = dataX[j]
+                            dataX[j] = temp
+                        }
                     }
                     j++
                 }
                 i++
             }
-        }else if(asc === false){
-            while(i<dataX.length){
-                j=i+1
-                while(j<dataX.length){
-                    if(dataX[j][col]<dataX[i][col]){
-                        let temp = dataX[i]
-                        dataX[i] = dataX[j]
-                        dataX[j] = temp
-                    }
-                    j++
-                }
-                i++
-            }
-        }
         setData(dataX)
     }
 

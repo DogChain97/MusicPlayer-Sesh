@@ -7,9 +7,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 function Admin(){
-    const [table, setTable] = useState('');
-    
-    const [operation, setOperation] = useState('')
     const [loginStatus, setLoginStatus] = useState('');
 
     const [artistName, setArtistName] = useState('');
@@ -46,11 +43,7 @@ function Admin(){
     Axios.defaults.withCredentials = true
     // ARTIST FUNCTIONS
     const addArtist = () => {
-        setTable("artist")
-        setOperation("add")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/addartist', {
         artistName: artistName, 
         artistImage: artistImage
         }).then((response) => {
@@ -61,11 +54,7 @@ function Admin(){
     }
 
     const updateArtist = () => {
-        setTable("artist")
-        setOperation("update")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/updateartist', {
         artistName: artistName, 
         artistImage: artistImage
         }).then((response) => {
@@ -74,11 +63,7 @@ function Admin(){
     }
 
     const deleteArtist = () => {
-        setTable("artist")
-        setOperation("delete")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/deleteartist', {
         artistName: artistName
         }).then((response) => {
             setArtistOperationStatus(response.data.message)
@@ -106,11 +91,7 @@ function Admin(){
 
     // GENRE FUNCTIONS
     const addGenre = () => {
-        setTable("genre")
-        setOperation("add")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/addgenre', {
         genreName: genreName, 
         genreImage: genreImage
         }).then((response) => {
@@ -119,11 +100,7 @@ function Admin(){
     }
 
     const updateGenre = () => {
-        setTable("genre")
-        setOperation("update")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/updategenre', {
         genreName: genreName, 
         genreImage: genreImage
         }).then((response) => {
@@ -132,11 +109,7 @@ function Admin(){
     }
 
     const deleteGenre = () => {
-        setTable("genre")
-        setOperation("delete")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/deletegenre', {
         genreName: genreName
         }).then((response) => {
             setGenreOperationStatus(response.data.message)
@@ -164,11 +137,7 @@ function Admin(){
 
     // SONG FUNCTIONS
     const addSong = () => {
-        setTable("song")
-        setOperation("add")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/addsong', {
         songName: songName, 
         songImage: songImage,
         songUrl: songUrl,
@@ -180,11 +149,7 @@ function Admin(){
     }
 
     const updateSong = () => {
-        setTable("song")
-        setOperation("update")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/updatesong', {
         songName: songName, 
         songImage: songImage,
         songUrl: songUrl
@@ -194,11 +159,7 @@ function Admin(){
     }
 
     const deleteSong = () => {
-        setTable("song")
-        setOperation("delete")
-        Axios.post('http://localhost:7000/admin', {
-        table: table,
-        operation: operation,
+        Axios.post('http://localhost:7000/deletesong', {
         songName: songName
         }).then((response) => {
             setSongOperationStatus(response.data.message)
